@@ -1,0 +1,7 @@
+-Wall
+-I/home/home/android-ndk-r23c/toolchains/llvm/prebuilt/linux-x86_64/include
+-I./
+-I../
+-I../../benchmark/
+--target=aarch64-none-linux-android23
+-mfloat-abi=hard

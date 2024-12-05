@@ -1,0 +1,8 @@
+#ifndef A027C2A0_39D2_45C4_A2AA_098B8EB820A1
+#define A027C2A0_39D2_45C4_A2AA_098B8EB820A1
+
+#include "benchmark.hpp"
+
+extern int rand_index[128];
+
+#endif /* A027C2A0_39D2_45C4_A2AA_098B8EB820A1 */
