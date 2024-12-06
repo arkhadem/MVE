@@ -19,6 +19,7 @@ int fir_sparse_init(size_t cache_size,
     fir_sparse_config->sample_count = 65536;
     fir_sparse_config->coeff_count = 32;
     fir_sparse_config->sparsity = 0.8;
+    fir_sparse_config->input_count = fir_sparse_config->sample_count + fir_sparse_config->coeff_count - 1;
     fir_sparse_config->effective_coeff_count = (int)(float(fir_sparse_config->coeff_count) * (1.00 - fir_sparse_config->sparsity));
     int count = cache_size / ((fir_sparse_config->input_count + fir_sparse_config->effective_coeff_count * 2 + fir_sparse_config->sample_count) * sizeof(int32_t)) + 1;
 
@@ -32,10 +33,9 @@ int fir_sparse_init(size_t cache_size,
         init_1D<fir_sparse_output_t>(1, fir_sparse_output[i]);
 
         random_init_1D<int32_t>(fir_sparse_config->effective_coeff_count, fir_sparse_input[i]->delay);
-        for (int i = 0; i < fir_sparse_config->effective_coeff_count; i++) {
-            fir_sparse_input[i]->delay[i] %= fir_sparse_config->coeff_count;
+        for (int j = 0; j < fir_sparse_config->effective_coeff_count; j++) {
+            fir_sparse_input[i]->delay[j] %= fir_sparse_config->coeff_count;
         }
-        fir_sparse_config->input_count = fir_sparse_config->sample_count + fir_sparse_config->coeff_count - 1;
         random_init_1D<int32_t>(fir_sparse_config->input_count, fir_sparse_input[i]->src);
         random_init_1D<int32_t>(fir_sparse_config->coeff_count, fir_sparse_input[i]->coeff);
         random_init_1D<int32_t>(fir_sparse_config->sample_count, fir_sparse_output[i]->dst);
