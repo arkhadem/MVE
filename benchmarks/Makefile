@@ -52,7 +52,7 @@ FAKE_FUNCSIM_INC_PARAM = -I$(FAKEFUNC_DIR)
 
 CFLAGS = ""
 
-BASE_CFLAGS = $(INC_PARAMS) $(CFLAGS) -O2 -fno-tree-vectorize -fno-vectorize -Wall -Wno-unused-variable -Wno-error=unused-command-line-argument -DLOG_USE_COLOR -g3
+BASE_CFLAGS = $(INC_PARAMS) $(CFLAGS) -O2 -fno-tree-vectorize -fno-vectorize -Wall -Wno-unused-variable -Wno-error=unused-command-line-argument -DLOG_USE_COLOR -g3 -std=c++17
 LOCAL_CFLAGS := $(FUNCSIM_INC_PARAM) $(BASE_CFLAGS)
 
 ifeq ($(UNAME_P),aarch64)

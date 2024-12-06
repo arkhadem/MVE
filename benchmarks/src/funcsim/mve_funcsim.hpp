@@ -42,7 +42,7 @@ public:
 #endif
     static std::vector<operation> operations;
     static std::ofstream graph_f;
-    static int SA_num;
+    static int LANE_NUM;
     static __dim_var dims[4];
     static bool *mask;
     static int dim_count;
@@ -66,7 +66,7 @@ public:
 
     static int *stride_evaluator(__vidx_var rstride, bool load);
     static __mdv_var get_value(int id);
-    static void initializer(char *exp_name, int SA_num);
+    static void initializer(char *exp_name, int LANE_NUM);
     static void init_dims();
     static void set_mask();
     static void finisher();

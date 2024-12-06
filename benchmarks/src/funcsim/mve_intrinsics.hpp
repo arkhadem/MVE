@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-void mve_initializer(char *exp_name, int SA_num);
+void mve_initializer(char *exp_name, int LANE_NUM);
 void mve_init_dims();
 void mve_finisher();
 void mve_flusher();

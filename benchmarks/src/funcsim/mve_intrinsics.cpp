@@ -10,7 +10,7 @@ int idx_cvt(__dim_var dims[4], int dim3, int dim2, int dim1, int dim0) {
     return idx;
 }
 
-void mve_initializer(char *exp_name, int SA_num) { mve::initializer(exp_name, SA_num); }
+void mve_initializer(char *exp_name, int LANE_NUM) { mve::initializer(exp_name, LANE_NUM); }
 
 void mve_init_dims() { mve::init_dims(); }
 

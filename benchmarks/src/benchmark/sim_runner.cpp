@@ -9,7 +9,7 @@
 
 void register_kernels();
 
-void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int LANE_NUM) {
+void benchmark_runner(const char *library, const char *kernel, int rounds, bool execute, int LANE_NUM) {
     register_inits();
     register_kernels();
     assert(rounds == -1);
@@ -29,11 +29,10 @@ void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int
     config_s *config = nullptr;
     input_s **input = nullptr;
     output_s **output = nullptr;
-    init_func(0, 32, config, input, output);
+    init_func(0, LANE_NUM, config, input, output);
     char graph_name[100];
-
-    sprintf(graph_name, "%s_%s_%dSA", library, kernel, 32);
-    mve_initializer(graph_name, 32);
+    sprintf(graph_name, "%s_%s_%d", library, kernel, LANE_NUM);
+    mve_initializer(graph_name, LANE_NUM);
     mve_func(LANE_NUM, config, input[0], output[0]);
     mve_finisher();
 }

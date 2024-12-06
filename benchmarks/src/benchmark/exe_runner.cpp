@@ -7,7 +7,7 @@
 
 void register_kernels();
 
-void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int LANE_NUM) {
+void benchmark_runner(const char *library, const char *kernel, int rounds, bool execute, int LANE_NUM) {
     register_inits();
     register_kernels();
     std::string lib_str = std::string(library);
@@ -57,6 +57,8 @@ void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int
         rounds--;
         idx %= count;
     }
-
-    printf("Finished in Total(%lf useconds and %d iterations) Individual(%lf useconds)\n", time_spent, iterations, time_spent / (double)iterations);
+    printf("Successfully finished run in experiment mode!\n");
+    printf("iterations: %d (number of processing whole domain input)\n", iterations);
+    printf("total_time: %lf usec (total execution time of all iterations)\n", time_spent);
+    printf("iteration_time: %lf usec (execution time of one iterations)\n", time_spent / (double)iterations);
 }

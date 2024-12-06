@@ -7,7 +7,7 @@
 
 #define CACHE_SIZE 2097152
 
-void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int LANE_NUM);
+void benchmark_runner(const char *library, const char *kernel, int rounds, bool execute, int LANE_NUM);
 long *pollute_cache(size_t size);
 
 typedef struct config_s {

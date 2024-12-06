@@ -15,7 +15,7 @@ std::vector<operation> mve::operations;
 int mve::float_output_id = 0;
 bool mve::analysis_enabled = false;
 int mve::flushed_registers = 0;
-int mve::SA_num = 0;
+int mve::LANE_NUM = 0;
 __dim_var mve::dims[4];
 int mve::dim_count = 4;
 bool *mve::mask = NULL;
@@ -246,31 +246,31 @@ void mve::init_dims() {
         mve::dims[dim].store_stride = -1;
     }
     mve::set_mask();
-    mve::dims[0].length = SA_num * 256;
+    mve::dims[0].length = LANE_NUM;
     delete[] mve::dims[0].mask;
-    mve::dims[0].mask = new bool[SA_num * 256];
-    for (int element = 0; element < SA_num * 256; element++) {
+    mve::dims[0].mask = new bool[LANE_NUM];
+    for (int element = 0; element < LANE_NUM; element++) {
         mve::dims[0].mask[element] = true;
     }
     mve::dim_count = 4;
 }
 
-void mve::initializer(char *exp_name, int SA_num) {
+void mve::initializer(char *exp_name, int LANE_NUM) {
     string graph_name;
     string full_name;
     graph_name = (string)exp_name + (string) "_mve";
-    full_name = graph_name + "_graph.txt";
+    full_name = graph_name + ".dfg";
     if (file_exists(full_name)) {
         int dup_num;
         for (dup_num = 1; dup_num != -1; dup_num++) {
-            full_name = graph_name + "_(" + to_string(dup_num) + ")_graph.txt";
+            full_name = graph_name + "_(" + to_string(dup_num) + ").dfg";
             if (file_exists(full_name)) {
                 continue;
             }
             break;
         }
     }
-    mve::SA_num = SA_num;
+    mve::LANE_NUM = LANE_NUM;
     init_dims();
     mve::flushed_registers += mve::registers_size;
 #ifdef MVE_COMPARE
@@ -287,8 +287,8 @@ void mve::set_mask() {
         delete[] mve::mask;
         mve::mask = NULL;
     }
-    mve::mask = new bool[mve::SA_num * 256];
-    for (int i = 0; i < SA_num * 256; i++) {
+    mve::mask = new bool[mve::LANE_NUM];
+    for (int i = 0; i < LANE_NUM; i++) {
         mve::mask[i] = true;
     }
 }
