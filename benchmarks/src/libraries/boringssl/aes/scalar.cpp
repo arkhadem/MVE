@@ -79,10 +79,6 @@ void aes_scalar(int LANE_NUM,
             break;
         }
 
-        // printf("\n%d %d %d %d\n", state[0], state[1], state[2], state[3]);
-        // printf("%d %d %d %d\n", state[4], state[5], state[6], state[7]);
-        // printf("%d %d %d %d\n", state[8], state[9], state[10], state[11]);
-        // printf("%d %d %d %d\n\n", state[12], state[13], state[14], state[15]);
         // MixColumns(num_blocks, state);
         unsigned char Tmp, Tm, t;
         my_state = state;
@@ -91,34 +87,21 @@ void aes_scalar(int LANE_NUM,
                 t = my_state[i + 0];
                 Tmp = my_state[i + 0] ^ my_state[i + 1] ^ my_state[i + 2] ^ my_state[i + 3];
                 Tm = my_state[i + 0] ^ my_state[i + 1];
-                // printf("Tm = %d\n", Tm);
                 Tm = xtime(Tm);
-                // printf("xtime(Tm) = %d\n", Tm);
                 my_state[i + 0] ^= Tm ^ Tmp;
                 Tm = my_state[i + 1] ^ my_state[i + 2];
-                // printf("Tm = %d\n", Tm);
                 Tm = xtime(Tm);
-                // printf("xtime(Tm) = %d\n", Tm);
                 my_state[i + 1] ^= Tm ^ Tmp;
                 Tm = my_state[i + 2] ^ my_state[i + 3];
-                // printf("Tm = %d\n", Tm);
                 Tm = xtime(Tm);
-                // printf("xtime(Tm) = %d\n", Tm);
                 my_state[i + 2] ^= Tm ^ Tmp;
                 Tm = my_state[i + 3] ^ t;
-                // printf("Tm = %d\n", Tm);
                 Tm = xtime(Tm);
-                // printf("xtime(Tm) = %d\n", Tm);
                 my_state[i + 3] ^= Tm ^ Tmp;
-                // printf("%d %d %d %d\n", my_state[i + 0], my_state[i + 1], my_state[i + 2], my_state[i + 3]);
             }
             my_state += 16;
         }
 
-        // printf("\n%d %d %d %d\n", state[0], state[1], state[2], state[3]);
-        // printf("%d %d %d %d\n", state[4], state[5], state[6], state[7]);
-        // printf("%d %d %d %d\n", state[8], state[9], state[10], state[11]);
-        // printf("%d %d %d %d\n\n", state[12], state[13], state[14], state[15]);
         // AddRoundKey(num_blocks, round, state, RoundKey);
         const unsigned char *RoundKey_addr = RoundKey + (round * 16);
         my_state = state;

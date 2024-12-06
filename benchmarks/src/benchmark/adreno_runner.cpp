@@ -12,12 +12,20 @@ void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int
     register_kernels();
     std::string lib_str = std::string(library);
     std::string ker_str = std::string(kernel);
+    if (init_functions.find(lib_str) == init_functions.end()) {
+        printf("Error: library \"%s\" does not exist in inits!\n", library);
+        exit(-1);
+    }
+    if (init_functions[lib_str].find(ker_str) == init_functions[lib_str].end()) {
+        printf("Error: kernel \"%s\" does not exist in inits!\n", kernel);
+        exit(-1);
+    }
     if (adreno_kernel_functions.find(lib_str) == adreno_kernel_functions.end()) {
-        printf("Error: library \"%s\" does not exist!\n", library);
+        printf("Error: library \"%s\" does not exist in kernels!\n", library);
         exit(-1);
     }
     if (adreno_kernel_functions[lib_str].find(ker_str) == adreno_kernel_functions[lib_str].end()) {
-        printf("Error: kernel \"%s\" does not exist!\n", kernel);
+        printf("Error: kernel \"%s\" does not exist in kernels!\n", kernel);
         exit(-1);
     }
     initfunc init_func = init_functions[lib_str][ker_str];
@@ -57,6 +65,16 @@ void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int
         rounds--;
         idx %= count;
     }
+    printf("Successfully finished run in experiment mode!\n");
+    printf("iterations: %d (number of processing whole domain input)\n", iterations);
+    printf("total_time: %lf usec (total execution time of all iterations)\n",
+           timing.create_buffer + timing.map_buffer + timing.memcpy + timing.kernel_launch + timing.kernel_execute);
     CLOCK_DIV(timing, iterations)
-    printf("iterations: %d \ncreate_buffer: %lf \n map_buffer: %lf\n mem_cpy: %lf \n kernel_execute: %lf\n", iterations, timing.create_buffer, timing.map_buffer, timing.memcpy, timing.kernel_execute);
+    printf("iteration_time: %lf usec (execution time of one iterations)\n",
+           timing.create_buffer + timing.map_buffer + timing.memcpy + timing.kernel_launch + timing.kernel_execute);
+    printf("create_buffer_time: %lf usec (execution time of clCreateBuffer APIs)\n", timing.create_buffer);
+    printf("map_buffer_time: %lf usec (execution time of clEnqueueMapBuffer and clEnqueueUnmapMemObject APIs)\n", timing.map_buffer);
+    printf("memcpy_time: %lf usec (execution time of memcpy APIs)\n", timing.memcpy);
+    printf("kernel_launch_time: %lf usec (execution time of clEnqueueNDRangeKernel APIs)\n", timing.kernel_launch);
+    printf("kernel_execute_time: %lf usec (kernel time)\n", timing.kernel_execute);
 }

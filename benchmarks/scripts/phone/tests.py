@@ -67,16 +67,20 @@ tests_bench["cmsisdsp"] = cmsisdsp_test
 tests_bench["kvazaar"] = kvazaar_test
 tests_bench["linpack"] = linpack_test
 
-library_list = ["libjpeg",
-                "libpng",
-                "libwebp",
-                "boringssl",
-                "zlib",
-                "skia",
-                "webaudio",
-                "optroutines",
-                "cmsisdsp",
-                "kvazaar",
-                "linpack"]
+all_library_list = ["libjpeg",
+                    "libpng",
+                    "libwebp",
+                    "boringssl",
+                    "zlib",
+                    "skia",
+                    "webaudio",
+                    "optroutines",
+                    "cmsisdsp",
+                    "kvazaar",
+                    "linpack"]
 
-platform_list = ["scalar", "neon"]
+selected_library_list = ["cmsisdsp",
+                        "kvazaar",
+                        "linpack"]
+
+platform_list = ["scalar", "neon", "adreno"]
