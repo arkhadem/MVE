@@ -27,8 +27,8 @@ int fir_init(size_t cache_size,
 
     // initializing individual versions
     for (int i = 0; i < count; i++) {
-        init_1D<fir_input_t>(count, fir_input[i]);
-        init_1D<fir_output_t>(count, fir_output[i]);
+        init_1D<fir_input_t>(1, fir_input[i]);
+        init_1D<fir_output_t>(1, fir_output[i]);
 
         random_init_1D<int32_t>(input_count, fir_input[i]->src);
         random_init_1D<int32_t>(fir_config->coeff_count, fir_input[i]->coeff);

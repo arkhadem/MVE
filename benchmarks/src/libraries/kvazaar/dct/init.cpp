@@ -31,8 +31,8 @@ int dct_init(size_t cache_size,
 
     // initializing individual versions
     for (int i = 0; i < count; i++) {
-        init_1D<dct_input_t>(count, dct_input[i]);
-        init_1D<dct_output_t>(count, dct_output[i]);
+        init_1D<dct_input_t>(1, dct_input[i]);
+        init_1D<dct_output_t>(1, dct_output[i]);
 
         random_init_1D<int16_t>(dct_config->count * 8 * 8, dct_input[i]->input);
         random_init_1D<int16_t>(dct_config->count * 8 * 8, dct_output[i]->output);

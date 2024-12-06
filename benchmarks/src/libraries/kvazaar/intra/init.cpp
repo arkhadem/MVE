@@ -37,8 +37,8 @@ int intra_init(size_t cache_size,
 
     // initializing individual versions
     for (int i = 0; i < count; i++) {
-        init_1D<intra_input_t>(count, intra_input[i]);
-        init_1D<intra_output_t>(count, intra_output[i]);
+        init_1D<intra_input_t>(1, intra_input[i]);
+        init_1D<intra_output_t>(1, intra_output[i]);
 
         random_init_1D<kvz_pixel>(input_count, intra_input[i]->ref_top);
         random_init_1D<kvz_pixel>(input_count, intra_input[i]->ref_left);

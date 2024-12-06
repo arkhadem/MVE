@@ -27,8 +27,8 @@ int lpack_init(size_t cache_size,
 
     // initializing individual versions
     for (int i = 0; i < count; i++) {
-        init_1D<lpack_input_t>(count, lpack_input[i]);
-        init_1D<lpack_output_t>(count, lpack_output[i]);
+        init_1D<lpack_input_t>(1, lpack_input[i]);
+        init_1D<lpack_output_t>(1, lpack_output[i]);
 
         random_init_1D<int32_t>(1, lpack_input[i]->da);
         random_init_1D<int32_t>(lpack_config->n * 64, lpack_input[i]->dx);

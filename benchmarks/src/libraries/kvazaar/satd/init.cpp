@@ -27,8 +27,8 @@ int satd_init(size_t cache_size,
 
     // initializing individual versions
     for (int i = 0; i < count; i++) {
-        init_1D<satd_input_t>(count, satd_input[i]);
-        init_1D<satd_output_t>(count, satd_output[i]);
+        init_1D<satd_input_t>(1, satd_input[i]);
+        init_1D<satd_output_t>(1, satd_output[i]);
 
         random_init_1D<uint8_t>(satd_config->count * 64, satd_input[i]->piOrg);
         random_init_1D<uint8_t>(satd_config->count * 64, satd_input[i]->piCur);

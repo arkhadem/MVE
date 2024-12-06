@@ -48,9 +48,9 @@ void register_inits() {
     init_functions["optroutines"]["memset"] = memset_init;
     init_functions["optroutines"]["strlen"] = strlen_init;
 
-    init_functions["cmsis"]["fir"] = fir_init;
-    init_functions["cmsis"]["fir_lattice"] = fir_lattice_init;
-    init_functions["cmsis"]["fir_sparse"] = fir_sparse_init;
+    init_functions["cmsisdsp"]["fir"] = fir_init;
+    init_functions["cmsisdsp"]["fir_lattice"] = fir_lattice_init;
+    init_functions["cmsisdsp"]["fir_sparse"] = fir_sparse_init;
 
     init_functions["kvazaar"]["dct"] = dct_init;
     init_functions["kvazaar"]["idct"] = idct_init;

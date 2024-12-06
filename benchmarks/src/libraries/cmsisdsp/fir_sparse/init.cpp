@@ -28,8 +28,8 @@ int fir_sparse_init(size_t cache_size,
 
     // initializing individual versions
     for (int i = 0; i < count; i++) {
-        init_1D<fir_sparse_input_t>(count, fir_sparse_input[i]);
-        init_1D<fir_sparse_output_t>(count, fir_sparse_output[i]);
+        init_1D<fir_sparse_input_t>(1, fir_sparse_input[i]);
+        init_1D<fir_sparse_output_t>(1, fir_sparse_output[i]);
 
         random_init_1D<int32_t>(fir_sparse_config->effective_coeff_count, fir_sparse_input[i]->delay);
         for (int i = 0; i < fir_sparse_config->effective_coeff_count; i++) {

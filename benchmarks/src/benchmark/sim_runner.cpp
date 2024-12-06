@@ -16,12 +16,20 @@ void benchmark_runner(const char *library, const char *kernel, int rounds, bool 
     assert(execute == true);
     std::string lib_str = std::string(library);
     std::string ker_str = std::string(kernel);
+    if (init_functions.find(lib_str) == init_functions.end()) {
+        printf("Error: library \"%s\" does not exist in inits!\n", library);
+        exit(-1);
+    }
+    if (init_functions[lib_str].find(ker_str) == init_functions[lib_str].end()) {
+        printf("Error: kernel \"%s\" does not exist in inits!\n", kernel);
+        exit(-1);
+    }
     if (kernel_functions.find(lib_str) == kernel_functions.end()) {
-        printf("Error: library \"%s\" does not exist!\n", library);
+        printf("Error: library \"%s\" does not exist in kernels!\n", library);
         exit(-1);
     }
     if (kernel_functions[lib_str].find(ker_str) == kernel_functions[lib_str].end()) {
-        printf("Error: kernel \"%s\" does not exist!\n", kernel);
+        printf("Error: kernel \"%s\" does not exist in kernels!\n", kernel);
         exit(-1);
     }
     initfunc init_func = init_functions[lib_str][ker_str];

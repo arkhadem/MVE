@@ -5,8 +5,8 @@
 #include <cstdint>
 #include <cstdio>
 
-#define SHIFT_P1 7  // shift_1st
-#define SHIFT_P2 12 // shift_2nd
+#define SHIFT_P1 7 // shift_1st
+#define SHIFT_P2 8 // shift_2nd
 
 void idct_8x8_neon(const int16_t *input, int16_t *output);
 
