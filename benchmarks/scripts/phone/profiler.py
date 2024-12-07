@@ -34,7 +34,7 @@ def main():
 	parser.add_argument("--measurement", help="type of the measurement", choices=["power", "performance"], required=True)
 	parser.add_argument("--output", help="output CSV file", required=True)
 	parser.add_argument("--platform", help="experiment platfrom (default: scalar)", default="scalar", choices=tests.platform_list)
-	parser.add_argument("--library", help="experiment library (default: all)", default="all", choices=["all"] + tests.library_list)
+	parser.add_argument("--library", help="experiment library (default: all)", default="all", choices=["all"] + tests.all_library_list)
 	parser.add_argument("--kernel", help="experiment kernel; choose specific kernel only when a specific library is selected (default: all)", default="all")
 	parser.add_argument("--directory", help="expetiment directory path on phone (default: /data/local/tmp/MVE)", default="/data/local/tmp/MVE")
 	parser.add_argument("--device", help="target device serial number OR IP:PORT; use when multiple devices are connected (default: first online device)", default=None)
@@ -52,7 +52,7 @@ def main():
 			assert args.library in libraries, f"library \"{args.library}\" is not supported for platform \"{platform}\"!"
 			libraries = [args.library]
 	else:
-		libraries = tests.library_list
+		libraries = tests.all_library_list
 		if args.library != "all":
 			libraries = [args.library]
 	kernels = tests.tests_bench
