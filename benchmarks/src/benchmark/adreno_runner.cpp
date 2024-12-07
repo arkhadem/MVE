@@ -7,7 +7,7 @@
 
 void register_kernels();
 
-void benchmark_runner(char *library, char *kernel, int rounds, bool execute, int LANE_NUM) {
+void benchmark_runner(const char *library, const char *kernel, int rounds, bool execute, int LANE_NUM) {
     register_inits();
     register_kernels();
     std::string lib_str = std::string(library);
