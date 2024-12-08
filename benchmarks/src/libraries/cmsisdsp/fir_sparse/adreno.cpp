@@ -19,7 +19,7 @@ cl_command_queue fir_sparse_queue;    // command fir_sparse_queue
 cl_program fir_sparse_program;        // fir_sparse_program
 cl_kernel fir_sparse_kernel;          // fir_sparse_kernel
 
-void fir_sparse_InitGPU() {
+void fir_sparse_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
@@ -68,7 +68,7 @@ void fir_sparse_InitGPU() {
     printErrorString(9, err);
 }
 
-void fir_sparse_DestroyGPU() {
+void fir_sparse_DestroyGPU(config_t *config) {
     clReleaseProgram(fir_sparse_program);
     clReleaseKernel(fir_sparse_kernel);
     clReleaseCommandQueue(fir_sparse_queue);
@@ -95,8 +95,6 @@ timing_t fir_sparse_adreno(config_t *config,
     int32_t *coeff = fir_sparse_input->coeff;
     int32_t *delay = fir_sparse_input->delay;
     int32_t *dst = fir_sparse_output->dst;
-
-    fir_sparse_InitGPU();
 
     cl_int err;
     clock_t start, end;
@@ -158,6 +156,13 @@ timing_t fir_sparse_adreno(config_t *config,
     // CLOCK_FINISH(timing.kernel_execute)
     PROF_FINISH(fir_sparse_queue)
 
+    CLOCK_START()
+    clEnqueueUnmapMemObject(fir_sparse_queue, d_src, h_src, 0, NULL, NULL);
+    clEnqueueUnmapMemObject(fir_sparse_queue, d_coeff, h_coeff, 0, NULL, NULL);
+    clEnqueueUnmapMemObject(fir_sparse_queue, d_delay, h_coeff, 0, NULL, NULL);
+    clEnqueueUnmapMemObject(fir_sparse_queue, d_dst, h_dst, 0, NULL, NULL);
+    CLOCK_FINISH(timing.map_buffer)
+
     // Read the results from the device
     CLOCK_START()
     memcpy(dst, h_dst, dst_size);
@@ -168,8 +173,6 @@ timing_t fir_sparse_adreno(config_t *config,
     clReleaseMemObject(d_coeff);
     clReleaseMemObject(d_delay);
     clReleaseMemObject(d_dst);
-
-    fir_sparse_DestroyGPU();
 
     return timing;
 }

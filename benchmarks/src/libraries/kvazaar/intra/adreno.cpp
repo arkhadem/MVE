@@ -19,13 +19,13 @@ cl_command_queue intra_queue;    // command intra_queue
 cl_program intra_program;        // intra_program
 cl_kernel intra_kernel;          // intra_kernel
 
-void intra_InitGPU() {
+void intra_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
 
     // Reading intra_kernel
-    fp = fopen("intra_adreno.cl", "r");
+    fp = fopen("intra.cl", "r");
 
     if (!fp) {
         fprintf(stderr, "Failed to load intra_kernel.\n");
@@ -78,7 +78,7 @@ void intra_InitGPU() {
     printErrorString(9, err);
 }
 
-void intra_DestroyGPU() {
+void intra_DestroyGPU(config_t *config) {
     clReleaseProgram(intra_program);
     clReleaseKernel(intra_kernel);
     clReleaseCommandQueue(intra_queue);
@@ -98,8 +98,6 @@ timing_t intra_adreno(config_t *config,
     kvz_pixel *ref_top = intra_input->ref_top;
     kvz_pixel *ref_left = intra_input->ref_left;
     kvz_pixel *dst = intra_output->dst;
-
-    intra_InitGPU();
 
     cl_int err;
     clock_t start, end;
@@ -161,8 +159,6 @@ timing_t intra_adreno(config_t *config,
     clReleaseMemObject(d_ref_top);
     clReleaseMemObject(d_ref_left);
     clReleaseMemObject(d_dst);
-
-    intra_DestroyGPU();
 
     return timing;
 }

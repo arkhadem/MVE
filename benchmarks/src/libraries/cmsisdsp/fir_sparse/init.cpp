@@ -45,5 +45,7 @@ int fir_sparse_init(size_t cache_size,
     input = (input_t **)fir_sparse_input;
     output = (output_t **)fir_sparse_output;
 
+    printf("initialized %d versions\n", count);
+
     return count;
 }

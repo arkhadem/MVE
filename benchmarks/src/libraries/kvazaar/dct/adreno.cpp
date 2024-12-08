@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <string>
+#include <thread>
 #include <vector>
 
 #define MAX_SOURCE_SIZE (0x100000)
@@ -19,7 +20,7 @@ cl_command_queue dct_queue;    // command dct_queue
 cl_program dct_program;        // dct_program
 cl_kernel dct_kernel;          // dct_kernel
 
-void dct_InitGPU() {
+void dct_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
@@ -78,7 +79,7 @@ void dct_InitGPU() {
     printErrorString(9, err);
 }
 
-void dct_DestroyGPU() {
+void dct_DestroyGPU(config_t *config) {
     clReleaseProgram(dct_program);
     clReleaseKernel(dct_kernel);
     clReleaseCommandQueue(dct_queue);
@@ -88,6 +89,7 @@ void dct_DestroyGPU() {
 timing_t dct_adreno(config_t *config,
                     input_t *input,
                     output_t *output) {
+
     const int16_t coeff[64] = {
         64, 64, 64, 64, 64, 64, 64, 64,
         89, 75, 50, 18, -18, -50, -75, -89,
@@ -111,7 +113,6 @@ timing_t dct_adreno(config_t *config,
     clock_t start, end;
     timing_t timing;
     cl_event event;
-    dct_InitGPU();
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -127,16 +128,16 @@ timing_t dct_adreno(config_t *config,
 
     CLOCK_START()
     // Create the input and output arrays in device memory for our calculation
-    cl_mem d_input = clCreateBuffer(dct_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, inout_size, NULL, NULL);
-    cl_mem d_output = clCreateBuffer(dct_context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, inout_size, NULL, NULL);
+    cl_mem d_in = clCreateBuffer(dct_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, inout_size, NULL, NULL);
+    cl_mem d_out = clCreateBuffer(dct_context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, inout_size, NULL, NULL);
     cl_mem d_bitdepth = clCreateBuffer(dct_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, bitdepth_size, NULL, NULL);
     cl_mem d_coeff = clCreateBuffer(dct_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, coeff_size, NULL, NULL);
     CLOCK_FINISH(timing.create_buffer)
 
     // Write our data set into the input array in device memory
     CLOCK_START()
-    int16_t *h_input = (int16_t *)clEnqueueMapBuffer(dct_queue, d_input, CL_FALSE, CL_MAP_READ, 0, inout_size, 0, NULL, NULL, &err);
-    int16_t *h_output = (int16_t *)clEnqueueMapBuffer(dct_queue, d_output, CL_FALSE, CL_MAP_WRITE, 0, inout_size, 0, NULL, NULL, &err);
+    int16_t *h_in = (int16_t *)clEnqueueMapBuffer(dct_queue, d_in, CL_FALSE, CL_MAP_READ, 0, inout_size, 0, NULL, NULL, &err);
+    int16_t *h_out = (int16_t *)clEnqueueMapBuffer(dct_queue, d_out, CL_FALSE, CL_MAP_WRITE, 0, inout_size, 0, NULL, NULL, &err);
     int8_t *h_bitdepth = (int8_t *)clEnqueueMapBuffer(dct_queue, d_bitdepth, CL_FALSE, CL_MAP_READ, 0, bitdepth_size, 0, NULL, NULL, &err);
     int16_t *h_coeff = (int16_t *)clEnqueueMapBuffer(dct_queue, d_coeff, CL_FALSE, CL_MAP_READ, 0, coeff_size, 0, NULL, NULL, &err);
     clFinish(dct_queue);
@@ -147,18 +148,19 @@ timing_t dct_adreno(config_t *config,
     err = clSetKernelArg(dct_kernel, 0, sizeof(int), &count);
     err |= clSetKernelArg(dct_kernel, 1, sizeof(cl_mem), &d_bitdepth);
     err |= clSetKernelArg(dct_kernel, 2, sizeof(cl_mem), &d_coeff);
-    err |= clSetKernelArg(dct_kernel, 3, sizeof(cl_mem), &d_input);
-    err |= clSetKernelArg(dct_kernel, 4, sizeof(cl_mem), &d_output);
+    err |= clSetKernelArg(dct_kernel, 3, sizeof(cl_mem), &d_in);
+    err |= clSetKernelArg(dct_kernel, 4, sizeof(cl_mem), &d_out);
     printErrorString(0, err);
 
     // Copy from host memory to pinned host memory which copies to the card automatically
     CLOCK_START()
-    memcpy(h_input, input, inout_size);
+    memcpy(h_in, in, inout_size);
     memcpy(h_bitdepth, bitdepth, bitdepth_size);
     memcpy(h_coeff, coeff, coeff_size);
     CLOCK_FINISH(timing.memcpy)
 
     err = clEnqueueNDRangeKernel(dct_queue, dct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    printErrorString(3, err);
     clFinish(dct_queue);
 
     // Execute the dct_kernel over the entire range of the data set
@@ -169,16 +171,14 @@ timing_t dct_adreno(config_t *config,
     PROF_FINISH(dct_queue)
 
     CLOCK_START()
-    memcpy(output, h_output, inout_size);
+    memcpy(out, h_out, inout_size);
     CLOCK_FINISH(timing.memcpy)
 
     // release OpenCL resources
-    clReleaseMemObject(d_input);
+    clReleaseMemObject(d_in);
     clReleaseMemObject(d_bitdepth);
     clReleaseMemObject(d_coeff);
-    clReleaseMemObject(d_output);
-
-    dct_DestroyGPU();
+    clReleaseMemObject(d_out);
 
     return timing;
 }

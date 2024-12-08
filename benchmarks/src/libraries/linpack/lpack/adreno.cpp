@@ -19,7 +19,7 @@ cl_command_queue lpack_queue;    // command lpack_queue
 cl_program lpack_program;        // lpack_program
 cl_kernel lpack_kernel;          // lpack_kernel
 
-void lpack_InitGPU() {
+void lpack_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
@@ -50,7 +50,7 @@ void lpack_InitGPU() {
     printErrorString(5, err);
 
     // Create a command lpack_queue
-    lpack_queue = clCreateCommandQueue(lpack_context, lpack_device_id, 0, &err);
+    lpack_queue = clCreateCommandQueue(lpack_context, lpack_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
     printErrorString(6, err);
 
     // Create the compute lpack_program from the source buffer
@@ -68,7 +68,7 @@ void lpack_InitGPU() {
     printErrorString(9, err);
 }
 
-void lpack_DestroyGPU() {
+void lpack_DestroyGPU(config_t *config) {
     clReleaseProgram(lpack_program);
     clReleaseKernel(lpack_kernel);
     clReleaseCommandQueue(lpack_queue);
@@ -87,8 +87,6 @@ timing_t lpack_adreno(config_t *config,
     int32_t *dx = lpack_input->dx;
     int32_t *dyin = lpack_input->dyin;
     int32_t *dyout = lpack_output->dyout;
-
-    lpack_InitGPU();
 
     cl_int err;
     clock_t start, end;
@@ -146,8 +144,6 @@ timing_t lpack_adreno(config_t *config,
     clReleaseMemObject(d_dx);
     clReleaseMemObject(d_dyin);
     clReleaseMemObject(d_dyout);
-
-    lpack_DestroyGPU();
 
     return timing;
 }

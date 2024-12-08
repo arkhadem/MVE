@@ -19,7 +19,7 @@ cl_command_queue satd_queue;    // command satd_queue
 cl_program satd_program;        // satd_program
 cl_kernel satd_kernel;          // satd_kernel
 
-void satd_InitGPU() {
+void satd_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
@@ -78,7 +78,7 @@ void satd_InitGPU() {
     printErrorString(9, err);
 }
 
-void satd_DestroyGPU() {
+void satd_DestroyGPU(config_t *config) {
     clReleaseProgram(satd_program);
     clReleaseKernel(satd_kernel);
     clReleaseCommandQueue(satd_queue);
@@ -96,8 +96,6 @@ timing_t satd_adreno(config_t *config,
     uint8_t *piOrg = satd_input->piOrg;
     uint8_t *piCur = satd_input->piCur;
     int32_t *result = satd_output->result;
-
-    satd_InitGPU();
 
     cl_int err;
     clock_t start, end;
@@ -174,8 +172,6 @@ timing_t satd_adreno(config_t *config,
     clReleaseMemObject(d_piCur);
     clReleaseMemObject(d_coeff);
     clReleaseMemObject(d_result);
-
-    satd_DestroyGPU();
 
     return timing;
 }

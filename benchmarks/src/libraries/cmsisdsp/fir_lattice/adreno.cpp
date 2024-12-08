@@ -19,10 +19,10 @@ cl_command_queue fir_lattice_queue;    // command fir_lattice_queue
 cl_program fir_lattice_program;        // fir_lattice_program
 cl_kernel *fir_lattice_kernels;        // kernel
 
-void fir_lattice_InitGPU(int sample_count) {
+void fir_lattice_InitGPU(config_t *config) {
     cl_int err;
 
-    int iteration = (int)(std::ceil(sample_count / (float)BLOCK_SIZE));
+    int iteration = (int)(std::ceil(((fir_lattice_config_t *)config)->sample_count / (float)BLOCK_SIZE));
 
     fir_lattice_kernels = (cl_kernel *)malloc(iteration * sizeof(cl_kernel)); // kernel
 
@@ -84,8 +84,8 @@ void fir_lattice_InitGPU(int sample_count) {
     printErrorString(9, err);
 }
 
-void fir_lattice_DestroyGPU(int sample_count) {
-    int iteration = (int)(std::ceil(sample_count / (float)BLOCK_SIZE));
+void fir_lattice_DestroyGPU(config_t *config) {
+    int iteration = (int)(std::ceil(((fir_lattice_config_t *)config)->sample_count / (float)BLOCK_SIZE));
     for (int i = 0; i < iteration; i++) {
         clReleaseKernel(fir_lattice_kernels[i]);
     }
@@ -111,8 +111,6 @@ timing_t fir_lattice_adreno(config_t *config,
     int32_t *src = fir_lattice_input->src;
     int32_t *coeff = fir_lattice_input->coeff;
     int32_t *dst = fir_lattice_output->dst;
-
-    fir_lattice_InitGPU(sample_count);
 
     cl_int err;
     clock_t start, end;
@@ -225,6 +223,14 @@ timing_t fir_lattice_adreno(config_t *config,
     clFinish(fir_lattice_queue);
     CLOCK_FINISH(timing.kernel_execute)
 
+    CLOCK_START()
+    for (int itr = 0; itr < iteration; itr++) {
+        clEnqueueUnmapMemObject(fir_lattice_queue, d_src[itr], h_src, 0, NULL, NULL);
+        clEnqueueUnmapMemObject(fir_lattice_queue, d_dst[itr], h_dst, 0, NULL, NULL);
+    }
+    clEnqueueUnmapMemObject(fir_lattice_queue, d_coeff, h_coeff, 0, NULL, NULL);
+    CLOCK_FINISH(timing.map_buffer)
+
     // Read the results from the device
     CLOCK_START()
     for (int itr = 0; itr < iteration - 1; itr++) {
@@ -241,8 +247,6 @@ timing_t fir_lattice_adreno(config_t *config,
     clReleaseMemObject(d_coeff);
     clReleaseMemObject(d_initial_g[0]);
     clReleaseMemObject(d_initial_g[1]);
-
-    fir_lattice_DestroyGPU(sample_count);
 
     return timing;
 }

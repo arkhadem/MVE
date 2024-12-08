@@ -34,7 +34,7 @@ void benchmark_runner(const char *library, const char *kernel, int rounds, bool 
     input_s **input = nullptr;
     output_s **output = nullptr;
 
-    int count = init_func(sizeof(long) * CACHE_SIZE, 32, config, input, output);
+    int count = init_func(sizeof(long) * CACHE_SIZE, LANE_NUM, config, input, output);
 
     long *tmp = pollute_cache(sizeof(long) * CACHE_SIZE);
 

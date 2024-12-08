@@ -1,13 +1,13 @@
 
-#define MIN(X, Y)  ((X) < (Y) ? (X) : (Y))
-#define MAX(X, Y)  ((X) < (Y) ? (Y) : (X))
+#define MIN(X, Y) ((X) < (Y) ? (X) : (Y))
+#define MAX(X, Y) ((X) < (Y) ? (Y) : (X))
 
 void partial_butterfly_adreno(
     int l0_id,
     __local short *smem,
     __constant short *coeff,
     char shift) {
-    
+
     int e_0, e_1, e_2, e_3;
     int o_0, o_1, o_2, o_3;
     int ee_0, ee_1;
@@ -48,7 +48,7 @@ void partial_butterfly_adreno(
     my_dst[30] = (short)((coeff[24] * o_0 + coeff[25] * o_1 + coeff[26] * o_2 + coeff[27] * o_3 + add) >> shift);
     my_dst[50] = (short)((coeff[40] * o_0 + coeff[41] * o_1 + coeff[42] * o_2 + coeff[43] * o_3 + add) >> shift);
     my_dst[70] = (short)((coeff[56] * o_0 + coeff[57] * o_1 + coeff[58] * o_2 + coeff[59] * o_3 + add) >> shift);
-    
+
     barrier(CLK_LOCAL_MEM_FENCE);
 }
 
@@ -68,17 +68,16 @@ __kernel void dct_adreno_kernel(
     int l1_id = get_local_id(1);
     int l2_id = get_global_id(2);
 
-    int block_global_id_start = l2_id * 8;          // 8 inputs is for this thread block
-    int global_id = block_global_id_start + l1_id;  // ID of the input for the current thread
+    int block_global_id_start = l2_id * 8;         // 8 inputs is for this thread block
+    int global_id = block_global_id_start + l1_id; // ID of the input for the current thread
 
-    __global const short* my_input = input + block_global_id_start * 64 + l1_id * 8 + l0_id;
-    __local short* my_smem = smem + l1_id * 10 + l0_id;
+    __global const short *my_input = input + block_global_id_start * 64 + l1_id * 8 + l0_id;
+    __local short *my_smem = smem + l1_id * 10 + l0_id;
     for (int curr_global_id = 0; (curr_global_id < 8) && (curr_global_id + block_global_id_start < count); curr_global_id += 1) {
         *my_smem = *my_input;
         my_input += 64;
         my_smem += 80;
     }
-
 
     barrier(CLK_LOCAL_MEM_FENCE);
 
@@ -87,9 +86,9 @@ __kernel void dct_adreno_kernel(
 
     my_smem = smem + l1_id * 80;
     partial_butterfly_adreno(l0_id, my_smem, coeff, 9);
-    
+
     // storing outputs coalescly to smem
-    __global short* my_output = output + block_global_id_start * 64 + l1_id * 8 + l0_id;
+    __global short *my_output = output + block_global_id_start * 64 + l1_id * 8 + l0_id;
     my_smem = smem + l1_id * 10 + l0_id;
     for (int curr_global_id = 0; (curr_global_id < 8) && (curr_global_id + block_global_id_start < count); curr_global_id += 1) {
         *my_output = *my_smem;

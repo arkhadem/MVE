@@ -18,7 +18,7 @@ cl_command_queue fir_queue;    // command fir_queue
 cl_program fir_program;        // fir_program
 cl_kernel fir_kernel;          // fir_kernel
 
-void fir_InitGPU() {
+void fir_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
@@ -49,7 +49,7 @@ void fir_InitGPU() {
     printErrorString(5, err);
 
     // Create a command fir_queue
-    fir_queue = clCreateCommandQueue(fir_context, fir_device_id, 0, &err);
+    fir_queue = clCreateCommandQueue(fir_context, fir_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
     printErrorString(6, err);
 
     // Create the compute fir_program from the source buffer
@@ -67,7 +67,7 @@ void fir_InitGPU() {
     printErrorString(9, err);
 }
 
-void fir_DestroyGPU() {
+void fir_DestroyGPU(config_t *config) {
     clReleaseProgram(fir_program);
     clReleaseKernel(fir_kernel);
     clReleaseCommandQueue(fir_queue);
@@ -96,7 +96,6 @@ timing_t fir_adreno(config_t *config,
     clock_t start, end;
     timing_t timing;
     cl_event event;
-    fir_InitGPU();
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -156,7 +155,6 @@ timing_t fir_adreno(config_t *config,
     PROF_FINISH(fir_queue)
 
     CLOCK_START()
-    // clEnqueueMapBuffer(fir_queue, d_dst, CL_TRUE, CL_MAP_READ | CL_MAP_WRITE, 0, dst_size, 0, NULL, NULL, &err);
     clEnqueueUnmapMemObject(fir_queue, d_src, h_src, 0, NULL, NULL);
     clEnqueueUnmapMemObject(fir_queue, d_coeff, h_coeff, 0, NULL, NULL);
     clEnqueueUnmapMemObject(fir_queue, d_dst, h_dst, 0, NULL, NULL);
@@ -172,8 +170,6 @@ timing_t fir_adreno(config_t *config,
     clReleaseMemObject(d_coeff);
     clReleaseMemObject(d_dst);
     // CLOCK_FINISH(timing.create_buffer)
-
-    fir_DestroyGPU();
 
     return timing;
 }

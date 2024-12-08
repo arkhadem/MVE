@@ -39,5 +39,7 @@ int fir_init(size_t cache_size,
     input = (input_t **)fir_input;
     output = (output_t **)fir_output;
 
+    printf("initialized %d versions\n", count);
+
     return count;
 }

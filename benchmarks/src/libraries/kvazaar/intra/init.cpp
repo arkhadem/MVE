@@ -25,7 +25,7 @@ int intra_init(size_t cache_size,
     if (input_count % 16) {
         input_count += (16 - (input_count % 16));
     }
-    int output_count = intra_config->count;
+    int output_count = intra_config->count * 64;
     if (output_count % 16) {
         output_count += (16 - (output_count % 16));
     }
