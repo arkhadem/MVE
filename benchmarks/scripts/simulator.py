@@ -96,13 +96,13 @@ def main():
 	general.VERBOSE = args.verbose
 	general.run_command(f"mkdir {directory}/")
 	if action == "benchmark":
-		run_dynamorio(directory, scheme, isa, libraries, kernels):
+		run_dynamorio(directory, scheme, isa, libraries, kernels)
 	elif action == "compile":
-		run_compiler(directory, scheme, isa, libraries, kernels):
+		run_compiler(directory, scheme, isa, libraries, kernels)
 	elif action == "simulate":
-		run_simulator(directory, scheme, isa, libraries, kernels):
+		run_simulator(directory, scheme, isa, libraries, kernels)
 	elif action == "parse":
-		parse_simulation(directory, scheme, isa, libraries, kernels):
+		parse_simulation(directory, scheme, isa, libraries, kernels)
 	else:
 		print(f"Error: action \"{action}\" is not supported!")
 		exit(-1)
