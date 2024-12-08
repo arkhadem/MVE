@@ -31,6 +31,8 @@
 
 cmake_minimum_required(VERSION 3.7)
 
+include(CheckIncludeFile)
+
 if ("${CMAKE_BUILD_TYPE}" MATCHES "Debug")
   set(DEBUG ON)
 endif ("${CMAKE_BUILD_TYPE}" MATCHES "Debug")

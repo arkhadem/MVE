@@ -22,7 +22,7 @@ def run_dynamorio(directory, scheme, isa, libraries, kernels):
             time.sleep(1)
             trace_function = f"{kernel}_{isa}"
             command = f"{DYNAMORIO_ROOT}/bin64/drrun "
-            command += f"-c {DYNAMORIO_ROOT}/bin64/bin/libinstrace.so "
+            command += f"-c {DYNAMORIO_ROOT}/samples/build/bin/libinstrace.so "
             command += f"-trace_function {trace_function} "
             command += f"-- ./browser_bench_local_lime -l {library} -k {kernel} -n {LANE_NUM}"
             general.run_command(command)
