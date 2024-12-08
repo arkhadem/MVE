@@ -80,10 +80,15 @@ def main():
         directory = directory[:-1]
     scheme = args.scheme
     isa = args.isa
-    libraries = tests.selected_library_list
-    if args.library != "all":
-        assert args.library in libraries, f"library \"{args.library}\" is not supported for simulation!"
-        libraries = [args.library]
+    if scheme != "bs" or isa != "mve":
+		libraries = tests.selected_library_list
+		if args.library != "all":
+			assert args.library in libraries, f"library \"{args.library}\" is not supported for isa \"{isa}\" and scheme \"{scheme}\"!"
+			libraries = [args.library]
+	else:
+		libraries = tests.all_library_list
+		if args.library != "all":
+			libraries = [args.library]
 	kernels = tests.tests_bench
 	if args.kernel != "all":
 		assert args.library != "all", "please also specify the library name of your specific kernel"
