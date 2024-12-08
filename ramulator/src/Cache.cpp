@@ -279,12 +279,12 @@ void Cache::intrinsic_computer(Request req) {
     hint("%s set for compute in %ld clock cycles\n", req.c_str(), compute_delay + access_delay);
     MVE_compute_queue[req.CB_id].push_back(make_pair(compute_delay + access_delay, req));
     hint("Compute queue [%d] added size: %d\n", req.CB_id, (int)MVE_compute_queue[req.CB_id].size());
-    MVE_compute_total_energy += ((float)compute_delay * 15.4 + (float)access_delay * 8.6);
-    MVE_compute_comp_total_energy += ((float)compute_delay * 15.4);
-    MVE_compute_rdwr_total_energy += ((float)access_delay * 8.6);
-    MVE_compute_energy[req.CB_id] += ((float)compute_delay * 15.4 + (float)access_delay * 8.6);
-    MVE_compute_comp_energy[req.CB_id] += ((float)compute_delay * 15.4);
-    MVE_compute_rdwr_energy[req.CB_id] += ((float)access_delay * 8.6);
+    MVE_compute_total_energy += ((float)compute_delay * 34.53 + (float)access_delay * 19.28);
+    MVE_compute_comp_total_energy += ((float)compute_delay * 34.53);
+    MVE_compute_rdwr_total_energy += ((float)access_delay * 19.28);
+    MVE_compute_energy[req.CB_id] += ((float)compute_delay * 34.53 + (float)access_delay * 19.28);
+    MVE_compute_comp_energy[req.CB_id] += ((float)compute_delay * 34.53);
+    MVE_compute_rdwr_energy[req.CB_id] += ((float)access_delay * 19.28);
 }
 
 void Cache::instrinsic_decoder(Request req) {

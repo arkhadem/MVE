@@ -44,7 +44,7 @@ int ramulator::l3_size = 1 << 22;
 int ramulator::l3_assoc = 1 << 8;
 int ramulator::l3_blocksz = 1 << 6;
 int ramulator::mshr_per_bank = 64;
-float ramulator::l3_access_energy = 167.581634688;
+float ramulator::l3_access_energy = 117.20;
 int ramulator::l3_MVE_SA_num = 32;
 
 void declare_configuration(const Config &configs) {
@@ -52,31 +52,31 @@ void declare_configuration(const Config &configs) {
     ramulator::core_configs[core_type_t::SILVER].l1_cache_config.assoc = 1 << 2;
     ramulator::core_configs[core_type_t::SILVER].l1_cache_config.blocksz = 1 << 6;
     ramulator::core_configs[core_type_t::SILVER].l1_cache_config.mshr_num = 12;
-    ramulator::core_configs[core_type_t::SILVER].l1_cache_config.access_energy = 9.006323047;
+    ramulator::core_configs[core_type_t::SILVER].l1_cache_config.access_energy = 5.00;
 
     ramulator::core_configs[core_type_t::GOLD].l1_cache_config.size = 1 << 16;
     ramulator::core_configs[core_type_t::GOLD].l1_cache_config.assoc = 1 << 2;
     ramulator::core_configs[core_type_t::GOLD].l1_cache_config.blocksz = 1 << 6;
     ramulator::core_configs[core_type_t::GOLD].l1_cache_config.mshr_num = 12;
-    ramulator::core_configs[core_type_t::GOLD].l1_cache_config.access_energy = 9.006323047;
+    ramulator::core_configs[core_type_t::GOLD].l1_cache_config.access_energy = 5.00;
 
     ramulator::core_configs[core_type_t::PRIME].l1_cache_config.size = 1 << 16;
     ramulator::core_configs[core_type_t::PRIME].l1_cache_config.assoc = 1 << 2;
     ramulator::core_configs[core_type_t::PRIME].l1_cache_config.blocksz = 1 << 6;
     ramulator::core_configs[core_type_t::PRIME].l1_cache_config.mshr_num = 12;
-    ramulator::core_configs[core_type_t::PRIME].l1_cache_config.access_energy = 9.006323047;
+    ramulator::core_configs[core_type_t::PRIME].l1_cache_config.access_energy = 5.00;
 
     ramulator::core_configs[core_type_t::SILVER].l2_cache_config.size = 1 << 16;
     ramulator::core_configs[core_type_t::SILVER].l2_cache_config.assoc = 1 << 2;
     ramulator::core_configs[core_type_t::SILVER].l2_cache_config.blocksz = 1 << 6;
     ramulator::core_configs[core_type_t::SILVER].l2_cache_config.mshr_num = 46;
-    ramulator::core_configs[core_type_t::SILVER].l2_cache_config.access_energy = 20.655976172;
+    ramulator::core_configs[core_type_t::SILVER].l2_cache_config.access_energy = 29.70 * 2.00;
 
     ramulator::core_configs[core_type_t::GOLD].l2_cache_config.size = 1 << 17;
     ramulator::core_configs[core_type_t::GOLD].l2_cache_config.assoc = 1 << 2;
     ramulator::core_configs[core_type_t::GOLD].l2_cache_config.blocksz = 1 << 6;
     ramulator::core_configs[core_type_t::GOLD].l2_cache_config.mshr_num = 46;
-    ramulator::core_configs[core_type_t::GOLD].l2_cache_config.access_energy = 20.655976172;
+    ramulator::core_configs[core_type_t::GOLD].l2_cache_config.access_energy = 29.70 * 2.00;
 
     ramulator::core_configs[core_type_t::PRIME].l2_cache_config.size = 1 << 19;
     // ramulator::core_configs[core_type_t::PRIME].l2_cache_config.size = 1 << 19;
@@ -84,7 +84,7 @@ void declare_configuration(const Config &configs) {
     // ramulator::core_configs[core_type_t::PRIME].l2_cache_config.assoc = 1 << 3;
     ramulator::core_configs[core_type_t::PRIME].l2_cache_config.blocksz = 1 << 6;
     ramulator::core_configs[core_type_t::PRIME].l2_cache_config.mshr_num = 46;
-    ramulator::core_configs[core_type_t::PRIME].l2_cache_config.access_energy = 20.655976172;
+    ramulator::core_configs[core_type_t::PRIME].l2_cache_config.access_energy = 29.70 * 2.00;
 
     ramulator::core_configs[core_type_t::SILVER].ipc = 1;
     ramulator::core_configs[core_type_t::GOLD].ipc = 3;

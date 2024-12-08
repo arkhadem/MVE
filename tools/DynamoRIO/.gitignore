@@ -1,0 +1,8 @@
+bin64
+lib64
+samples/lib64
+samples/bin64
+tools/lib64
+tools/bin64
+ext/lib64
+ext/bin64
