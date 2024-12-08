@@ -25,7 +25,10 @@ def run_dynamorio(directory, scheme, isa, libraries, kernels):
 			command += f"-c {DYNAMORIO_ROOT}/samples/build/bin/libinstrace.so "
 			command += f"-trace_function {trace_function} "
 			command += f"-- ./benchmark_local_{isa} -l {library} -k {kernel} -n {LANE_NUM}"
-			general.run_command(command)
+			log = general.run_command(command)
+            if "Finishing MVE computation" not in log:
+                print(f"Error: benchmark_local_{isa} did not finish correctly!\nLOG:{log}")
+                exit(-1)
 			general.run_command(f"mv {library}_{kernel}_{LANE_NUM}.dfg {dfg_file}")
 			general.run_command(f"mv *.log {asm_file}")
 
