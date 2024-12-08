@@ -17,7 +17,7 @@ def run_dynamorio(directory, scheme, isa, libraries, kernels):
 			dfg_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.dfg"
 			asm_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.asm"
 			general.run_command(f"mkdir -p {directory}/{scheme}/{isa}/{library}/{kernel}/")
-			general.run_command(f"rm {library}_{kernel}_{LANE_NUM}.dfg")
+			general.run_command(f"rm *.dfg")
 			general.run_command(f"rm *.log")
 			time.sleep(1)
 			trace_function = f"{kernel}_{isa}"
