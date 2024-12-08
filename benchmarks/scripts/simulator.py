@@ -16,7 +16,7 @@ def run_dynamorio(directory, scheme, isa, libraries, kernels):
 		for kernel in kernels[library]:
 			dfg_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.dfg"
 			asm_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.asm"
-			general.run_command(f"mkdir -p {directory}/{scheme}/{isa}/{library}/{kernel}/")
+			general.run_command(f"mkdir -p {directory}/{scheme}/{isa}/{library}/")
 			general.run_command(f"rm *.dfg")
 			general.run_command(f"rm *.log")
 			time.sleep(1)

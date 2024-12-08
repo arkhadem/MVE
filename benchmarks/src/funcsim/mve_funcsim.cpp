@@ -258,7 +258,7 @@ void mve::init_dims() {
 void mve::initializer(char *exp_name, int LANE_NUM) {
     string graph_name;
     string full_name;
-    graph_name = (string)exp_name + (string) "_mve";
+    graph_name = (string)exp_name;
     full_name = graph_name + ".dfg";
     if (file_exists(full_name)) {
         int dup_num;
