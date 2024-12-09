@@ -11,6 +11,7 @@
 #include <vector>
 
 #define MAX_SOURCE_SIZE (0x100000)
+#define BLOCK_SIZE 1024
 
 cl_platform_id csum_cpPlatform; // OpenCL platform
 cl_device_id csum_device_id;    // device ID
