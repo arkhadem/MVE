@@ -4,6 +4,19 @@ library_list = []
 
 platform_list = ["scalar", "neon", "adreno"]
 
+all_library_list = ["libjpeg",
+                    "libpng",
+                    "libwebp",
+                    "boringssl",
+                    "zlib",
+                    "skia",
+                    "webaudio",
+                    "optroutines",
+                    "cmsisdsp",
+                    "kvazaar",
+                    "linpack",
+                    "xnnpack"]
+
 def init_all_tests():
     global tests_bench
     global library_list
