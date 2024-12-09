@@ -43,6 +43,7 @@ void memchr_scalar(int, config_t *, input_t *, output_t *);
 void memcmp_scalar(int, config_t *, input_t *, output_t *);
 void memset_scalar(int, config_t *, input_t *, output_t *);
 void strlen_scalar(int, config_t *, input_t *, output_t *);
+void csum_scalar(int, config_t *, input_t *, output_t *);
 
 void fir_scalar(int, config_t *, input_t *, output_t *);
 void fir_lattice_scalar(int, config_t *, input_t *, output_t *);
@@ -54,5 +55,8 @@ void intra_scalar(int, config_t *, input_t *, output_t *);
 void satd_scalar(int, config_t *, input_t *, output_t *);
 
 void lpack_scalar(int, config_t *, input_t *, output_t *);
+
+void gemm_scalar(int, config_t *, input_t *, output_t *);
+void spmm_scalar(int, config_t *, input_t *, output_t *);
 
 #endif /* FC597AA3_5A1C_4BCC_B0A0_18F269E78F27 */

@@ -16,6 +16,11 @@ timing_t satd_adreno(config_t *, input_t *, output_t *);
 
 timing_t lpack_adreno(config_t *, input_t *, output_t *);
 
+timing_t csum_adreno(config_t *, input_t *, output_t *);
+
+timing_t gemm_adreno(config_t *, input_t *, output_t *);
+timing_t spmm_adreno(config_t *, input_t *, output_t *);
+
 void fir_InitGPU(config_t *);
 void fir_lattice_InitGPU(config_t *);
 void fir_sparse_InitGPU(config_t *);
@@ -24,6 +29,9 @@ void idct_InitGPU(config_t *);
 void intra_InitGPU(config_t *);
 void satd_InitGPU(config_t *);
 void lpack_InitGPU(config_t *);
+void csum_InitGPU(config_t *);
+void gemm_InitGPU(config_t *);
+void spmm_InitGPU(config_t *);
 
 void fir_DestroyGPU(config_t *);
 void fir_lattice_DestroyGPU(config_t *);
@@ -33,5 +41,8 @@ void idct_DestroyGPU(config_t *);
 void intra_DestroyGPU(config_t *);
 void satd_DestroyGPU(config_t *);
 void lpack_DestroyGPU(config_t *);
+void csum_DestroyGPU(config_t *);
+void gemm_DestroyGPU(config_t *);
+void spmm_DestroyGPU(config_t *);
 
 #endif /* __ADRENO_KERNELS_HPP__ */

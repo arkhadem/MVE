@@ -49,6 +49,7 @@ void register_kernels() {
     kernel_functions["optroutines"]["memcmp"] = memcmp_mve;
     kernel_functions["optroutines"]["memset"] = memset_mve;
     kernel_functions["optroutines"]["strlen"] = strlen_mve;
+    kernel_functions["optroutines"]["csum"] = csum_mve;
 
     kernel_functions["cmsisdsp"]["fir"] = fir_mve;
     kernel_functions["cmsisdsp"]["fir_lattice"] = fir_lattice_mve;
@@ -60,4 +61,7 @@ void register_kernels() {
     kernel_functions["kvazaar"]["satd"] = satd_mve;
 
     kernel_functions["linpack"]["lpack"] = lpack_mve;
+
+    kernel_functions["xnnpack"]["gemm"] = gemm_mve;
+    kernel_functions["xnnpack"]["spmm"] = spmm_mve;
 }

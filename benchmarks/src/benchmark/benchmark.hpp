@@ -29,4 +29,8 @@ typedef int (*initfunc)(size_t, int, config_t *&, input_t **&, output_t **&);
 typedef void (*initGPUfunc)(config_t *);
 typedef void (*destroyGPUfunc)(config_t *);
 
+extern int XNNPACK_M;
+extern int XNNPACK_N;
+extern int XNNPACK_K;
+
 #endif /* EB6E52BD_79AF_40E4_9EF0_FE0FBEAE172F */

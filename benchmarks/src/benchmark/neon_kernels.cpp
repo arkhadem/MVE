@@ -49,6 +49,7 @@ void register_kernels() {
     kernel_functions["optroutines"]["memcmp"] = memcmp_neon;
     kernel_functions["optroutines"]["memset"] = memset_neon;
     kernel_functions["optroutines"]["strlen"] = strlen_neon;
+    kernel_functions["optroutines"]["csum"] = csum_neon;
 
     kernel_functions["cmsisdsp"]["fir"] = fir_neon;
     kernel_functions["cmsisdsp"]["fir_lattice"] = fir_lattice_neon;
@@ -60,4 +61,7 @@ void register_kernels() {
     kernel_functions["kvazaar"]["satd"] = satd_neon;
 
     kernel_functions["linpack"]["lpack"] = lpack_neon;
+
+    kernel_functions["xnnpack"]["gemm"] = gemm_neon;
+    kernel_functions["xnnpack"]["spmm"] = spmm_neon;
 }

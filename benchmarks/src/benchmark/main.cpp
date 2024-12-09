@@ -10,6 +10,10 @@
 #include <string.h>
 #include <string_view>
 
+int XNNPACK_M;
+int XNNPACK_N;
+int XNNPACK_K;
+
 long *pollute_cache(size_t size) {
     const size_t bigger_than_cachesize = size / sizeof(long);
     long *p = (long *)malloc(size);
@@ -47,6 +51,24 @@ int main(int argc, char *argv[]) {
         .default_value(true)
         .implicit_value(true);
 
+    program.add_argument("-xm", "--xnnpack_m")
+        .help("M dimension for the XNNPACK's GEMM and SPMM kernel")
+        .default_value(-1)
+        .scan<'i', int>()
+        .metavar("XM");
+
+    program.add_argument("-xn", "--xnnpack_n")
+        .help("N dimension for the XNNPACK's GEMM and SPMM kernel")
+        .default_value(-1)
+        .scan<'i', int>()
+        .metavar("XN");
+
+    program.add_argument("-xk", "--xnnpack_k")
+        .help("K dimension for the XNNPACK's GEMM and SPMM kernel")
+        .default_value(-1)
+        .scan<'i', int>()
+        .metavar("XK");
+
     try {
         program.parse_args(argc, argv);
     } catch (const std::runtime_error &err) {
@@ -67,6 +89,21 @@ int main(int argc, char *argv[]) {
     int lane_num = program.get<int>("--lane_num");
     int rounds = program.get<int>("--rounds");
     bool execute = (program["--execute"] == true);
+
+    XNNPACK_M = program.get<int>("--xnnpack_m");
+    XNNPACK_N = program.get<int>("--xnnpack_n");
+    XNNPACK_K = program.get<int>("--xnnpack_k");
+    if (library == "xnnpack") {
+        if (XNNPACK_M == -1 || XNNPACK_N == -1 || XNNPACK_K == -1) {
+            printf("Error: M, N, and K must be provided for XNNPACK!\n");
+            exit(-1);
+        }
+    } else {
+        if (XNNPACK_M != -1 || XNNPACK_N != -1 || XNNPACK_K != -1) {
+            printf("Error: M, N, and K are only applicable for XNNPACK!\n");
+            exit(-1);
+        }
+    }
 
     benchmark_runner(library.c_str(), kernel.c_str(), rounds, execute, lane_num);
     return 0;

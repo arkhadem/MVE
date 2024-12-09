@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdio>
+#include <cstring>
 
 void register_kernels();
 
@@ -39,7 +40,11 @@ void benchmark_runner(const char *library, const char *kernel, int rounds, bool 
     output_s **output = nullptr;
     init_func(0, LANE_NUM, config, input, output);
     char graph_name[100];
-    sprintf(graph_name, "%s_%s_%d", library, kernel, LANE_NUM);
+    if (strcmp(library, "xnnpack") == 0) {
+        sprintf(graph_name, "%s_%s_%d_%d_%d_%d", library, kernel, LANE_NUM, XNNPACK_M, XNNPACK_N, XNNPACK_K);
+    } else {
+        sprintf(graph_name, "%s_%s_%d", library, kernel, LANE_NUM);
+    }
     mve_initializer(graph_name, LANE_NUM);
     mve_func(LANE_NUM, config, input[0], output[0]);
     mve_finisher();

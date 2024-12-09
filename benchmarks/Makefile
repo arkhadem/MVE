@@ -13,6 +13,7 @@ PHONE_OBJ_DIR = $(OBJ_DIR)/phone_obj
 MVE_OBJ_DIR = $(OBJ_DIR)/mve_obj
 LIB_SRC_DIR = $(SRC_DIR)/libraries
 UNAME_P := $(shell uname -p)
+FUNCSIM_LIB = $(OBJ_DIR)/funcsim.so
 
 INIT_KERNELS := $(wildcard $(LIB_SRC_DIR)/*/*/init.cpp) $(BENCH_DIR)/init.cpp
 LOCAL_INIT_OBJS = $(INIT_KERNELS:%.cpp=$(LOCAL_OBJ_DIR)/%.o)
@@ -40,7 +41,6 @@ SIM_KERNELS := $(BENCH_DIR)/sim_runner.cpp
 LOCAL_SIM_OBJS = $(SIM_KERNELS:%.cpp=$(LOCAL_OBJ_DIR)/%.o)
 FUNCSIM_KERNELS := $(wildcard $(FUNC_DIR)/*.cpp)
 FAKE_FUNCSIM_KERNELS := $(wildcard $(FAKEFUNC_DIR)/*.cpp)
-LOCAL_FUNCSIM_OBJS = $(FUNCSIM_KERNELS:%.cpp=$(LOCAL_OBJ_DIR)/%.o)
 PHONE_FAKE_FUNCSIM_OBJS = $(FAKE_FUNCSIM_KERNELS:%.cpp=$(PHONE_OBJ_DIR)/%.o)
 
 INC_PARAMS := $(foreach d, $(dir $(wildcard $(BENCH_DIR)/*.hpp)), -I$d)
@@ -87,6 +87,11 @@ $(PHONE_OBJ_DIR)/%.o: %.S
 	@mkdir -p '$(@D)'
 	@$(PHONE_CPP) -c $(PHONE_CFLAGS) $< -o $@
 
+$(FUNCSIM_LIB): $(FUNCSIM_KERNELS)
+	$(info BUILDING SHARED LIBRARY $(green)funcsim.so$(reset))
+	@mkdir -p $(OBJ_DIR)
+	@$(LOCAL_CPP) $(LOCAL_CFLAGS) -shared -fPIC $^ -o $@
+
 all: local
 
 local_scalar: $(LOCAL_INIT_OBJS) $(LOCAL_SCALAR_OBJS) $(LOCAL_EXE_OBJS) $(BENCH_DIR)/main.cpp
@@ -95,11 +100,11 @@ local_scalar: $(LOCAL_INIT_OBJS) $(LOCAL_SCALAR_OBJS) $(LOCAL_EXE_OBJS) $(BENCH_
 local_neon: $(LOCAL_INIT_OBJS) $(LOCAL_NEON_OBJS) $(LOCAL_EXE_OBJS) $(BENCH_DIR)/main.cpp
 	$(LOCAL_CPP) $(LOCAL_CFLAGS) -o benchmark_$@ $?
 
-local_mve: $(LOCAL_INIT_OBJS) $(LOCAL_FUNCSIM_OBJS) $(LOCAL_MVE_OBJS) $(LOCAL_SIM_OBJS) $(BENCH_DIR)/main.cpp
-	$(LOCAL_CPP) $(LOCAL_CFLAGS) -o benchmark_$@ $?
+local_mve: $(LOCAL_INIT_OBJS) $(FUNCSIM_LIB) $(LOCAL_MVE_OBJS) $(LOCAL_SIM_OBJS) $(BENCH_DIR)/main.cpp
+	$(LOCAL_CPP) $(LOCAL_CFLAGS) -o benchmark_$@ $? -L$(OBJ_DIR) -l:funcsim.so
 
-local_rvv: $(LOCAL_INIT_OBJS) $(LOCAL_FUNCSIM_OBJS) $(LOCAL_RVV_OBJS) $(LOCAL_SIM_OBJS) $(BENCH_DIR)/main.cpp
-	$(LOCAL_CPP) $(LOCAL_CFLAGS) -o benchmark_$@ $?
+local_rvv: $(LOCAL_INIT_OBJS) $(FUNCSIM_LIB) $(LOCAL_RVV_OBJS) $(LOCAL_SIM_OBJS) $(BENCH_DIR)/main.cpp
+	$(LOCAL_CPP) $(LOCAL_CFLAGS) -o benchmark_$@ $? -L$(OBJ_DIR) -l:funcsim.so
 
 phone_scalar: $(PHONE_INIT_OBJS) $(PHONE_SCALAR_OBJS) $(PHONE_EXE_OBJS) $(BENCH_DIR)/main.cpp
 	$(PHONE_CPP) $(PHONE_CFLAGS) -o benchmark_$@ $?

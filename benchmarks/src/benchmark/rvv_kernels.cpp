@@ -17,4 +17,9 @@ void register_kernels() {
     kernel_functions["kvazaar"]["satd"] = satd_rvv;
 
     kernel_functions["linpack"]["lpack"] = lpack_rvv;
+
+    kernel_functions["optroutines"]["csum"] = csum_rvv;
+
+    kernel_functions["xnnpack"]["gemm"] = gemm_rvv;
+    kernel_functions["xnnpack"]["spmm"] = spmm_rvv;
 }

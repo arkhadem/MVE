@@ -47,6 +47,7 @@ void register_inits() {
     init_functions["optroutines"]["memcmp"] = memcmp_init;
     init_functions["optroutines"]["memset"] = memset_init;
     init_functions["optroutines"]["strlen"] = strlen_init;
+    init_functions["optroutines"]["csum"] = csum_init;
 
     init_functions["cmsisdsp"]["fir"] = fir_init;
     init_functions["cmsisdsp"]["fir_lattice"] = fir_lattice_init;
@@ -58,4 +59,7 @@ void register_inits() {
     init_functions["kvazaar"]["intra"] = intra_init;
 
     init_functions["linpack"]["lpack"] = lpack_init;
+
+    init_functions["xnnpack"]["gemm"] = gemm_init;
+    init_functions["xnnpack"]["spmm"] = spmm_init;
 }

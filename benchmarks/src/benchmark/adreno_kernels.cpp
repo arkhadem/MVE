@@ -20,6 +20,11 @@ void register_kernels() {
 
     adreno_kernel_functions["linpack"]["lpack"] = lpack_adreno;
 
+    adreno_kernel_functions["optroutines"]["csum"] = csum_adreno;
+
+    adreno_kernel_functions["xnnpack"]["gemm"] = gemm_adreno;
+    adreno_kernel_functions["xnnpack"]["spmm"] = spmm_adreno;
+
     adreno_init_functions["cmsisdsp"]["fir"] = fir_InitGPU;
     adreno_init_functions["cmsisdsp"]["fir_lattice"] = fir_lattice_InitGPU;
     adreno_init_functions["cmsisdsp"]["fir_sparse"] = fir_sparse_InitGPU;
@@ -31,6 +36,11 @@ void register_kernels() {
 
     adreno_init_functions["linpack"]["lpack"] = lpack_InitGPU;
 
+    adreno_init_functions["optroutines"]["csum"] = csum_InitGPU;
+
+    adreno_init_functions["xnnpack"]["gemm"] = gemm_InitGPU;
+    adreno_init_functions["xnnpack"]["spmm"] = spmm_InitGPU;
+
     adreno_destroy_functions["cmsisdsp"]["fir"] = fir_DestroyGPU;
     adreno_destroy_functions["cmsisdsp"]["fir_lattice"] = fir_lattice_DestroyGPU;
     adreno_destroy_functions["cmsisdsp"]["fir_sparse"] = fir_sparse_DestroyGPU;
@@ -41,4 +51,9 @@ void register_kernels() {
     adreno_destroy_functions["kvazaar"]["satd"] = satd_DestroyGPU;
 
     adreno_destroy_functions["linpack"]["lpack"] = lpack_DestroyGPU;
+
+    adreno_destroy_functions["optroutines"]["csum"] = csum_DestroyGPU;
+
+    adreno_destroy_functions["xnnpack"]["gemm"] = gemm_DestroyGPU;
+    adreno_destroy_functions["xnnpack"]["spmm"] = spmm_DestroyGPU;
 }

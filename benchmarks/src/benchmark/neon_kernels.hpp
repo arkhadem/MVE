@@ -43,6 +43,7 @@ void memchr_neon(int, config_t *, input_t *, output_t *);
 void memcmp_neon(int, config_t *, input_t *, output_t *);
 void memset_neon(int, config_t *, input_t *, output_t *);
 void strlen_neon(int, config_t *, input_t *, output_t *);
+void csum_neon(int, config_t *, input_t *, output_t *);
 
 void fir_neon(int, config_t *, input_t *, output_t *);
 void fir_lattice_neon(int, config_t *, input_t *, output_t *);
@@ -54,5 +55,8 @@ void intra_neon(int, config_t *, input_t *, output_t *);
 void satd_neon(int, config_t *, input_t *, output_t *);
 
 void lpack_neon(int, config_t *, input_t *, output_t *);
+
+void gemm_neon(int, config_t *, input_t *, output_t *);
+void spmm_neon(int, config_t *, input_t *, output_t *);
 
 #endif /* FC597AA3_5A1C_4BCC_B0A0_18F269E78F27 */
