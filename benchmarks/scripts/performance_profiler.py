@@ -2,14 +2,17 @@ import time
 import general
 import mask
 
-def get_performance_run_command(KERNEL_DIR, platform, library, kernel, core = None):
+def get_performance_run_command(KERNEL_DIR, platform, library, kernel, core = None, M = None, N = None, K = None):
 	mask_str = mask.get_mask(core)
-	return f"cd {KERNEL_DIR} && {mask_str} ./benchmark_phone_{platform} -l {library} -k {kernel}"
+	if M != None and N != None and K != None:
+		return f"cd {KERNEL_DIR} && {mask_str} ./benchmark_phone_{platform} -l {library} -k {kernel} -xm {M} -xn {N} -xk {K}"
+	else:
+		return f"cd {KERNEL_DIR} && {mask_str} ./benchmark_phone_{platform} -l {library} -k {kernel}"
 
-def run_perf_process(KERNEL_DIR, platform, library, kernel, core = None):
+def run_perf_process(KERNEL_DIR, platform, library, kernel, core = None, M = None, N = None, K = None):
 	mask.init_mask()
 	while True:
-		logs = general.run_shell_command(get_performance_run_command(KERNEL_DIR, platform, library, kernel, core))
+		logs = general.run_shell_command(get_performance_run_command(KERNEL_DIR, platform, library, kernel, core, M, N, K))
 		if "Successfully" in logs:
 			break
 	mask.finish_mask(core)
@@ -64,10 +67,10 @@ def parse_performance_logs_adreno(logs):
 			kernel_execute_time = float(log_phrases[1])
 	return iterations, total_time, iteration_time, create_buffer_time, map_buffer_time, memcpy_time, kernel_launch_time, kernel_execute_time
 
-def get_performance_scalar_neon(KERNEL_DIR, platform, library, kernel, mask):
-	logs = run_perf_process(KERNEL_DIR, platform, library, kernel, mask)
+def get_performance_scalar_neon(KERNEL_DIR, platform, library, kernel, mask, M = None, N = None, K = None):
+	logs = run_perf_process(KERNEL_DIR, platform, library, kernel, mask, M, N, K)
 	return parse_performance_logs_scalar_neon(logs)
 
-def get_performance_adreno(KERNEL_DIR, platform, library, kernel, mask):
-	logs = run_perf_process(KERNEL_DIR, platform, library, kernel, mask)
+def get_performance_adreno(KERNEL_DIR, platform, library, kernel, mask, M = None, N = None, K = None):
+	logs = run_perf_process(KERNEL_DIR, platform, library, kernel, mask, M, N, K)
 	return parse_performance_logs(logs)

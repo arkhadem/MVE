@@ -11,23 +11,48 @@ def run_power_profile(CSV_file, KERNEL_DIR, platform, libraries, kernels, core =
 	CSV_file.write("Platform,Library,Kernel,Pre-current (mA),Pre-Voltage (mV),Post-Current (mA),Post-Voltage (mV),Power (W)\n")
 	for library in libraries:
 		for kernel in kernels[library]:
-			pre_current, pre_voltage, post_current, post_voltage = power_profiler.get_power(KERNEL_DIR, platform, library, kernel, core)
-			power = (pre_voltage + post_voltage) * (pre_current - post_current) / 2.0000 / 1000000.0000
-			CSV_file.write(f"{platform},{library},{kernel},{pre_current},{pre_voltage},{post_current},{post_voltage},{power}\n")
+			if library == "xnnpack":
+				for layer in tests.xnnpack_layers:
+					M = layer["M"]
+					N = layer["N"]
+					K = layer["K"]
+					pre_current, pre_voltage, post_current, post_voltage = power_profiler.get_power(KERNEL_DIR, platform, library, kernel, core, M, N, K)
+					power = (pre_voltage + post_voltage) * (pre_current - post_current) / 2.0000 / 1000000.0000
+					CSV_file.write(f"{platform},{library},{kernel}_{M}_{N}_{K},{pre_current},{pre_voltage},{post_current},{post_voltage},{power}\n")
+			else:
+				pre_current, pre_voltage, post_current, post_voltage = power_profiler.get_power(KERNEL_DIR, platform, library, kernel, core)
+				power = (pre_voltage + post_voltage) * (pre_current - post_current) / 2.0000 / 1000000.0000
+				CSV_file.write(f"{platform},{library},{kernel},{pre_current},{pre_voltage},{post_current},{post_voltage},{power}\n")
 
 def run_performance_profile_scalar_neon(CSV_file, KERNEL_DIR, platform, libraries, kernels, core = None):
 	CSV_file.write("Platform,Library,Kernel,Iterations,Total Time (us),Iteration Time (us)\n")
 	for library in libraries:
 		for kernel in kernels[library]:
-			iterations, total_time, iteration_time = performance_profiler.get_performance_scalar_neon(KERNEL_DIR, platform, library, kernel, core)
-			CSV_file.write(f"{platform},{library},{kernel},{iterations},{total_time},{iteration_time}\n")
+			if library == "xnnpack":
+				for layer in tests.xnnpack_layers:
+					M = layer["M"]
+					N = layer["N"]
+					K = layer["K"]
+					iterations, total_time, iteration_time = performance_profiler.get_performance_scalar_neon(KERNEL_DIR, platform, library, kernel, core, M, N, K)
+					CSV_file.write(f"{platform},{library},{kernel}_{M}_{N}_{K},{iterations},{total_time},{iteration_time}\n")
+			else:
+				iterations, total_time, iteration_time = performance_profiler.get_performance_scalar_neon(KERNEL_DIR, platform, library, kernel, core)
+				CSV_file.write(f"{platform},{library},{kernel},{iterations},{total_time},{iteration_time}\n")
 
 def run_performance_profile_adreno(CSV_file, KERNEL_DIR, platform, libraries, kernels, core = None):
 	CSV_file.write("Platform,Library,Kernel,Iterations,Total Time (us),Iteration Time (us), Create Buffer Time (us), Map Buffer Time (us), MemCpy Time (us), Kernel Launch Time (us), Kernel Execute Time (us)\n")
 	for library in libraries:
 		for kernel in kernels[library]:
-			iterations, total_time, iteration_time, create_buffer_time, map_buffer_time, memcpy_time, kernel_launch_time, kernel_execute_time = performance_profiler.get_performance_adreno(KERNEL_DIR, platform, library, kernel, core)
-			CSV_file.write(f"{platform},{library},{kernel},{iterations},{total_time},{iteration_time},{create_buffer_time},{map_buffer_time},{memcpy_time},{kernel_launch_time},{kernel_execute_time}\n")
+			if library == "xnnpack":
+				for layer in tests.xnnpack_layers:
+					M = layer["M"]
+					N = layer["N"]
+					K = layer["K"]
+					iterations, total_time, iteration_time, create_buffer_time, map_buffer_time, memcpy_time, kernel_launch_time, kernel_execute_time = performance_profiler.get_performance_adreno(KERNEL_DIR, platform, library, kernel, core, M, N, K)
+					CSV_file.write(f"{platform},{library},{kernel}_{M}_{N}_{K},{iterations},{total_time},{iteration_time},{create_buffer_time},{map_buffer_time},{memcpy_time},{kernel_launch_time},{kernel_execute_time}\n")
+			else:
+				iterations, total_time, iteration_time, create_buffer_time, map_buffer_time, memcpy_time, kernel_launch_time, kernel_execute_time = performance_profiler.get_performance_adreno(KERNEL_DIR, platform, library, kernel, core)
+				CSV_file.write(f"{platform},{library},{kernel},{iterations},{total_time},{iteration_time},{create_buffer_time},{map_buffer_time},{memcpy_time},{kernel_launch_time},{kernel_execute_time}\n")
 
 def main():
 	parser = argparse.ArgumentParser(description="MVE phone utility script.")
@@ -47,14 +72,12 @@ def main():
 	platform = args.platform
 	libraries = None
 	if platform in ["adreno"]:
-		libraries = tests.selected_library_list
-		if args.library != "all":
-			assert args.library in libraries, f"library \"{args.library}\" is not supported for platform \"{platform}\"!"
-			libraries = [args.library]
+		libraries = tests.init_selected_tests()
 	else:
-		libraries = tests.all_library_list
-		if args.library != "all":
-			libraries = [args.library]
+		libraries = tests.init_all_tests()
+	if args.library != "all":
+		assert args.library in libraries, f"library \"{args.library}\" is not supported for platform \"{platform}\"!"
+		libraries = [args.library]
 	kernels = tests.tests_bench
 	if args.kernel != "all":
 		assert args.library != "all", "please also specify the library name of your specific kernel"
