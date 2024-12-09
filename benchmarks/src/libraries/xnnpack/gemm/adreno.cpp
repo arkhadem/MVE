@@ -11,16 +11,16 @@
 #include <vector>
 
 #define MAX_SOURCE_SIZE (0x100000)
-#define GEMMK 1                 // Kernel to choose: 0 regular, 1 with 2D register tiling
-#define MWG 8                   // Tile-size in dimension M (e.g. 64, 128)
-#define NWG 8                   // Tile-size in dimension N (e.g. 64, 128)
-#define KWG 8                   // Tile-size in dimension K (e.g. 8, 16)
-#define MDIMC 8                 // Threads per workgroup in M-dimension (e.g. 8, 16, 32)
-#define NDIMC 8                 // Threads per workgroup in N-dimension (e.g. 8, 16, 32)
-#define MDIMA 8                 // Re-shaped tile dimension of matrix A: KDIMA * MDIMA (kernel 0 only)
-#define NDIMB 8                 // Re-shaped tile dimension of matrix B: KDIMB * NDIMB (kernel 0 only)
-#define KWI 1                   // Unroll factor of the KWG loop (smaller or equal than KWG)
-#define KREG 1                  // Amount of register tiling in second dimension, multiple of 1 (kernel 1 only) \
+#define GEMMK 1 // Kernel to choose: 0 regular, 1 with 2D register tiling
+#define MWG 8   // Tile-size in dimension M (e.g. 64, 128)
+#define NWG 8   // Tile-size in dimension N (e.g. 64, 128)
+#define KWG 8   // Tile-size in dimension K (e.g. 8, 16)
+#define MDIMC 8 // Threads per workgroup in M-dimension (e.g. 8, 16, 32)
+#define NDIMC 8 // Threads per workgroup in N-dimension (e.g. 8, 16, 32)
+#define MDIMA 8 // Re-shaped tile dimension of matrix A: KDIMA * MDIMA (kernel 0 only)
+#define NDIMB 8 // Re-shaped tile dimension of matrix B: KDIMB * NDIMB (kernel 0 only)
+#define KWI 1   // Unroll factor of the KWG loop (smaller or equal than KWG)
+#define KREG 1  // Amount of register tiling in second dimension, multiple of 1 (kernel 1 only)
 
 cl_platform_id gemm_cpPlatform; // OpenCL platform
 cl_device_id gemm_device_id;    // device ID

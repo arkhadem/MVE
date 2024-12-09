@@ -5,15 +5,9 @@
 #include <stdio.h>
 #include <time.h>
 
-void printErrorString(int pointer, cl_int error);
+#include "benchmark.hpp"
 
-typedef struct timing_t {
-    double create_buffer;
-    double map_buffer;
-    double memcpy;
-    double kernel_launch;
-    double kernel_execute;
-} timing_t;
+void printErrorString(int pointer, cl_int error);
 
 #define CLOCK_START() \
     start = clock();

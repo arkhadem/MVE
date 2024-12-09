@@ -6,7 +6,13 @@
 
 #define CACHE_SIZE 2097152
 
-struct timing_t;
+typedef struct timing_t {
+    double create_buffer;
+    double map_buffer;
+    double memcpy;
+    double kernel_launch;
+    double kernel_execute;
+} timing_t;
 
 void benchmark_runner(const char *library, const char *kernel, int rounds, bool execute, int LANE_NUM);
 long *pollute_cache(size_t size);

@@ -20,7 +20,7 @@ cl_command_queue csum_queue;    // command csum_queue
 cl_program csum_program;        // csum_program
 cl_kernel csum_kernel;          // csum_kernel
 
-void InitGPU() {
+void csum_InitGPU(config_t *config) {
     FILE *fp;
     char *source_str;
     size_t source_size;
@@ -79,7 +79,7 @@ void InitGPU() {
     printErrorString(9, err);
 }
 
-void DestroyGPU() {
+void csum_DestroyGPU(config_t *config) {
     clReleaseProgram(csum_program);
     clReleaseKernel(csum_kernel);
     clReleaseCommandQueue(csum_queue);

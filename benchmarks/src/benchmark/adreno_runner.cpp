@@ -1,5 +1,5 @@
 #include "benchmark.hpp"
-
+#include "clutil.hpp"
 #include "init.hpp"
 #include "runner.hpp"
 #include <cstddef>
