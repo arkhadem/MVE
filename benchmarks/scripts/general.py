@@ -4,6 +4,9 @@ import os
 import os.path
 import time
 import subprocess
+from threading import Thread, Lock
+
+NUM_PARALLEL_THREADS = 32
 
 VERBOSE = False
 device_serial_number = None

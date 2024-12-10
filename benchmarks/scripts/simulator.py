@@ -84,7 +84,7 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 					instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}_{M}_{N}_{K}.instr"
 					ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}_{M}_{N}_{K}.ram"
 					command = f"{RAMULATOR_ROOT}/ramulator_{isa}_{scheme} "
-					command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=mve --core=1 prime "
+					command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 					command += f"--stats {ram_file} "
 					command += instr_file + " "
 					command = command.replace("(", "\(")
@@ -94,7 +94,7 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 				instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.instr"
 				ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.ram"
 				command = f"{RAMULATOR_ROOT}/ramulator_{isa}_{scheme} "
-				command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=mve --core=1 prime "
+				command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 				command += f"--stats {ram_file} "
 				command += instr_file + " "
 				command = command.replace("(", "\(")
