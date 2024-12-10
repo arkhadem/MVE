@@ -21,6 +21,8 @@ void intra_mve(int LANE_NUM,
     kvz_pixel *ref_left = intra_input->ref_left;
     kvz_pixel *dst = intra_output->dst;
 
+    _mve_set_dim_count(3);
+
     // First Dim: Row
     _mve_set_dim_length(0, width);
 
