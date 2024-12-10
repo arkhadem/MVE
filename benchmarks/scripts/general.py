@@ -11,6 +11,9 @@ NUM_PARALLEL_THREADS = 32
 VERBOSE = False
 device_serial_number = None
 
+tasks = []
+lock = Lock()
+
 def debug(string):
 	if VERBOSE:
 		print(string)
@@ -76,3 +79,32 @@ def check_device(device):
 		device_serial_number = device
 	else:
 		device_serial_number = serial_numbers[0]
+
+def workerthread(my_tid):
+	global lock
+	global tasks
+	task = None
+	while True:
+		selected_task = None
+		with lock:
+			if len(tasks) > 0:
+				selected_task = tasks.pop(0)	
+		if selected_task == None:
+			print("T[{}]: tasks finished, bye!".format(my_tid))
+			break
+		else:
+			print("T[{}]: executing a new task: {}".format(my_tid, selected_task))
+			run_command(selected_task)
+
+def add_run_command(command):
+	tasks.append(command)
+
+def run_parallel_commands():
+	threads = []
+	for i in range(NUM_PARALLEL_THREADS):
+		threads.append(Thread(target=workerthread, args=(i,)))
+	for tid in range(NUM_PARALLEL_THREADS):
+		threads[tid].start()
+	for tid in range(NUM_PARALLEL_THREADS):
+		print("Waiting for thread {} to finish".format(tid))
+		threads[tid].join()

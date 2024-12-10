@@ -70,11 +70,11 @@ def main():
 	CSV_file = open(args.output, 'w')
 	KERNEL_DIR = args.directory
 	platform = args.platform
-	libraries = None
+	libraries = tests.library_list
 	if platform in ["adreno"]:
-		libraries = tests.init_selected_tests()
+		tests.init_selected_tests()
 	else:
-		libraries = tests.init_all_tests()
+		tests.init_all_tests()
 	if args.library != "all":
 		assert args.library in libraries, f"library \"{args.library}\" is not supported for platform \"{platform}\"!"
 		libraries = [args.library]

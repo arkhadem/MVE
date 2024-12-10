@@ -89,7 +89,7 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 					command += instr_file + " "
 					command = command.replace("(", "\(")
 					command = command.replace(")", "\)")
-					general.run_command(command)
+					general.add_run_command(command)
 			else:
 				instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.instr"
 				ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.ram"
@@ -99,7 +99,8 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 				command += instr_file + " "
 				command = command.replace("(", "\(")
 				command = command.replace(")", "\)")
-				general.run_command(command)
+				general.add_run_command(command)
+	general.run_parallel_commands()
 
 def parse_simulation(directory, scheme, isa, libraries, kernels):
 	CSV_file.write("Scheme,ISA,Library,Kernel,Idle Time (us),Compute Time (us),Data Access Time (us),Total Time (us),Compute Energy (mJ),Data Access Energy (mJ),Total Energy (mJ)\n")
