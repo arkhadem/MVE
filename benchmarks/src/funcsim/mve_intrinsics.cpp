@@ -2986,6 +2986,7 @@ __mdvdw _mve_mulmodp_dw(__mdvdw a, __mdvdw b) {
     __mdv_var a_var = mve::get_value(a.id);
     __mdv_var b_var = mve::get_value(b.id);
     uint32_t m;
+#ifdef MVE_COMPARE
     for (int dim3 = 0; dim3 < mve::dims[3].length; dim3++) {
         if (mve::dims[3].mask[dim3])
             for (int dim2 = 0; dim2 < mve::dims[2].length; dim2++) {
@@ -3001,6 +3002,7 @@ __mdvdw _mve_mulmodp_dw(__mdvdw a, __mdvdw b) {
                     }
             }
     }
+#endif
     o.id = mve::new_operation("_mve_mulmodp_dw", a.id, b.id, o_var);
     return o;
 }

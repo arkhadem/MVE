@@ -13,7 +13,7 @@ using namespace std;
 
 #include "mve_variables.hpp"
 
-#define MVE_COMPARE
+// #define MVE_COMPARE
 
 class operation {
 public:
