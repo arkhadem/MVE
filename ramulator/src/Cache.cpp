@@ -293,8 +293,8 @@ void Cache::instrinsic_decoder(Request req) {
 
     hint("Decoding %s\n", req.c_str());
 
-    req.vector_mask = new bool[VL_reg[0]];
-    memcpy(req.vector_mask, VM_reg[0], VL_reg[0] * sizeof(bool));
+    req.vector_mask.resize(VL_reg[0]);
+    std::copy(VM_reg[0], VM_reg[0] + VL_reg[0], req.vector_mask.begin());
 
     if ((req.opcode.find("load") != string::npos) || (req.opcode.find("store") != string::npos)) {
 
@@ -393,6 +393,9 @@ void Cache::instrinsic_decoder(Request req) {
 
         if (MVE_vop_to_num_sop[req] == 0) {
             hint("20- Calling back %s to core\n", req.c_str());
+            if (MVE_vop_to_num_sop.count(req) > 0) {
+                MVE_vop_to_num_sop.erase(req);
+            }
             req.callback(req);
         }
     } else {
@@ -441,6 +444,9 @@ void Cache::instrinsic_decoder(Request req) {
 
         if (MVE_vop_to_num_sop[req] == 0) {
             hint("20- Calling back %s to core\n", req.c_str());
+            if (MVE_vop_to_num_sop.count(req) > 0) {
+                MVE_vop_to_num_sop.erase(req);
+            }
             req.callback(req);
         }
     }
@@ -1311,6 +1317,7 @@ void Cache::callbacker(Request &req) {
     if (MVE_vop_to_num_sop[req] == 0) {
         hint("19- Calling back %s to core\n", req.c_str());
         req.callback(req);
+        MVE_vop_to_num_sop.erase(req);
     }
 }
 
