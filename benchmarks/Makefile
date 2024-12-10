@@ -6,7 +6,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 BENCH_DIR = $(SRC_DIR)/benchmark
-FUNC_DIR = $(SRC_DIR)/fake_funcsim
+FUNC_DIR = $(SRC_DIR)/funcsim
 FAKEFUNC_DIR = $(SRC_DIR)/fake_funcsim
 LOCAL_OBJ_DIR = $(OBJ_DIR)/local_obj
 PHONE_OBJ_DIR = $(OBJ_DIR)/phone_obj
