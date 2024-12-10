@@ -1065,8 +1065,6 @@ bool Window::check_send(Request &req, int location) {
                 hint("2- CORE sending %s to cache\n", req.c_str());
                 if (!core->MVE_send(req)) {
                     retry_list.push_back(req);
-                } else {
-                    op_trace << core->clk << " core controller " << req.opcode << " " << req.dst << endl;
                 }
                 return true;
             } else {
@@ -1098,8 +1096,6 @@ bool Window::check_send(Request &req, int location) {
                     hint("3- CORE sending %s to cache\n", req.c_str());
                     if (!core->MVE_send(req)) {
                         retry_list.push_back(req);
-                    } else {
-                        op_trace << core->clk << " core controller " << req.opcode << " " << req.dst << endl;
                     }
                     return true;
                 }
@@ -1109,8 +1105,6 @@ bool Window::check_send(Request &req, int location) {
                 hint("4- CORE sending %s to cache\n", req.c_str());
                 if (!core->MVE_send(req)) {
                     retry_list.push_back(req);
-                } else {
-                    op_trace << core->clk << " core controller " << req.opcode << " " << req.dst << endl;
                 }
                 return true;
             }
@@ -1196,15 +1190,6 @@ long Window::tick() {
         hint("6- CORE sending %s to cache\n", retry_list.at(0).c_str());
         if (retry_list.at(0).type == Request::Type::MVE) {
             if (core->MVE_send(retry_list.at(0))) {
-                op_trace << core->clk << " core controller " << retry_list.at(0).opcode << " ";
-                if (retry_list.at(0).dst != -1) {
-                    op_trace << retry_list.at(0).dst;
-                } else if (retry_list.at(0).addr != -1) {
-                    op_trace << retry_list.at(0).addr;
-                } else {
-                    op_trace << "-1";
-                }
-                op_trace << endl;
                 retry_list.erase(retry_list.begin());
             } else {
                 break;
@@ -1233,16 +1218,6 @@ long Window::tick() {
             if (req.type == Request::Type::MVE) {
                 if (!core->MVE_send(req)) {
                     retry_list.push_back(req);
-                } else {
-                    op_trace << core->clk << " core controller " << req.opcode << " ";
-                    if (req.dst != -1) {
-                        op_trace << req.dst;
-                    } else if (req.addr != -1) {
-                        op_trace << req.addr;
-                    } else {
-                        op_trace << "-1";
-                    }
-                    op_trace << endl;
                 }
             } else {
                 assert((req.type == Request::Type::READ) || (req.type == Request::Type::WRITE));

@@ -5,6 +5,7 @@ import time
 import tests
 import general
 import compiler
+import parser
 
 DYNAMORIO_ROOT = "../tools/DynamoRIO"
 RAMULATOR_ROOT = "../ramulator"
@@ -87,8 +88,6 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 					command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 					command += f"--stats {ram_file} "
 					command += instr_file + " "
-					command = command.replace("(", "\(")
-					command = command.replace(")", "\)")
 					general.add_run_command(command)
 			else:
 				instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.instr"
@@ -97,12 +96,11 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 				command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 				command += f"--stats {ram_file} "
 				command += instr_file + " "
-				command = command.replace("(", "\(")
-				command = command.replace(")", "\)")
 				general.add_run_command(command)
 	general.run_parallel_commands()
 
-def parse_simulation(directory, scheme, isa, libraries, kernels):
+def parse_simulation(directory, scheme, isa, libraries, kernels, output):
+	CSV_file = open(output, "w")
 	CSV_file.write("Scheme,ISA,Library,Kernel,Idle Time (us),Compute Time (us),Data Access Time (us),Total Time (us),Compute Energy (mJ),Data Access Energy (mJ),Total Energy (mJ)\n")
 	for library in libraries:
 		for kernel in kernels[library]:
@@ -112,12 +110,13 @@ def parse_simulation(directory, scheme, isa, libraries, kernels):
 					N = layer["N"]
 					K = layer["K"]
 					ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}_{M}_{N}_{K}.ram"
-					idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy = parser.parse()
+					idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy = parser.parse(ram_file)
 					CSV_file.write(f"{scheme},{isa},{library},{kernel}_{M}_{N}_{K},{idle_time},{compute_time},{data_access_time},{total_time},{compute_energy},{data_access_energy},{total_energy}\n")
 			else:
 				ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.ram"
-				idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy = parser.parse()
+				idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy = parser.parse(ram_file)
 				CSV_file.write(f"{scheme},{isa},{library},{kernel},{idle_time},{compute_time},{data_access_time},{total_time},{compute_energy},{data_access_energy},{total_energy}\n")
+	CSV_file.close()
 
 def main():
 	parser = argparse.ArgumentParser(description="MVE phone utility script.")
@@ -132,8 +131,10 @@ def main():
 	args = parser.parse_args()
 
 	action = args.action
+	output = None
 	if action == "parse":
 		assert args.output != None, "please specify the output CSV file for parsing the simulation!"
+		output = args.output
 	else:
 		assert args.output == None, "output CSV file is only for parsing the simulation!"
 	directory = args.directory
@@ -162,7 +163,7 @@ def main():
 	elif action == "simulate":
 		run_simulator(directory, scheme, isa, libraries, kernels)
 	elif action == "parse":
-		parse_simulation(directory, scheme, isa, libraries, kernels)
+		parse_simulation(directory, scheme, isa, libraries, kernels, output)
 	else:
 		print(f"Error: action \"{action}\" is not supported!")
 		exit(-1)

@@ -54,17 +54,21 @@ def parse(ram_addr):
 	assert CB_NUM1 == CB_NUM2
 	assert CB_NUM1 == CB_NUM0
 
+	if CB_NUM0 == 0:
+		print(f"[PARSER] Error in file: {ram_addr}")
+		return 0, 0, 0, 0, 0, 0, 0
+
 	idle_time = idle_time * MEGA / float(CB_NUM1) / float(FREQ)
 	compute_time = compute_time * MEGA / float(CB_NUM1) / float(FREQ)
 	data_access_time = data_access_time * MEGA / float(CB_NUM1) / float(FREQ)
-    total_time = idle_time + compute_time + data_access_time
+	total_time = idle_time + compute_time + data_access_time
 
-    compute_energy = compute_energy / float(GIGA)
-    data_access_energy = data_access_energy / float(GIGA)
-    total_energy = compute_energy + data_access_energy
+	compute_energy = compute_energy / float(GIGA)
+	data_access_energy = data_access_energy / float(GIGA)
+	total_energy = compute_energy + data_access_energy
 
 	if total_time == 0:
 		print(f"[PARSER] Error in file: {ram_addr}")
 		return 0, 0, 0, 0, 0, 0, 0
-    
+	
 	return idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy

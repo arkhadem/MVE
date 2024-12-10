@@ -1265,7 +1265,6 @@ void Cache::callback(Request &req) {
                 }
             }
             if (MVE_op_to_mem_ops[CB_id][MVE_req].size() == 0) {
-                op_trace << cachesys->clk << " " << CB_id << " F " << MVE_req.opcode << endl;
                 hint("18- %s: calling back %s\n", level_string.c_str(), MVE_req.c_str());
                 callbacker(MVE_req);
                 MVE_op_to_mem_ops[CB_id].erase(MVE_req);
@@ -1426,7 +1425,6 @@ void Cache::tick() {
                     last_MVE_instruction_sent[CB_id] = true;
 
                     if (MVE_op_to_mem_ops[CB_id][req].size() == 0) {
-                        op_trace << cachesys->clk << " " << CB_id << " F " << req.opcode << endl;
                         hint("17- %s: calling back %s\n", level_string.c_str(), req.c_str());
                         callbacker(req);
                         MVE_op_to_mem_ops[CB_id].erase(req);
@@ -1458,7 +1456,6 @@ void Cache::tick() {
 
                 } else {
                     // Otherwise, we are ready to send the call back
-                    op_trace << cachesys->clk << " " << CB_id << " F " << req.opcode << endl;
 
                     hint("16- %s instruction %s completed\n", level_string.c_str(), req.c_str());
                     if (req.opcode.find("dict") != string::npos) {
@@ -1497,7 +1494,6 @@ void Cache::tick() {
                     assert(CB_id_dst != -1);
 
                     if (CB_id_src == CB_id_dst) {
-                        op_trace << cachesys->clk << " " << CB_id << " S " << MVE_compute_queue[CB_id].at(0).second.opcode << endl;
                         hint("Computing %s at %ld, %zu instructions in compute queue\n", MVE_compute_queue[CB_id].at(0).second.c_str(), cachesys->clk, MVE_compute_queue[CB_id].size());
                         last_MVE_instruction_compute_clk[CB_id] = cachesys->clk;
                         last_MVE_instruction_computed[CB_id] = true;
@@ -1516,8 +1512,6 @@ void Cache::tick() {
                                 if (MVE_compute_queue[CB_id].at(0).second == MVE_compute_queue[CB_id_dst].at(0).second) {
 
                                     // Compute both
-                                    op_trace << cachesys->clk << " " << CB_id << " S " << MVE_compute_queue[CB_id].at(0).second.opcode << endl;
-                                    op_trace << cachesys->clk << " " << CB_id_dst << " S " << MVE_compute_queue[CB_id].at(0).second.opcode << endl;
                                     hint("Computing %s at %ld, %zu instructions in compute queue\n", MVE_compute_queue[CB_id].at(0).second.c_str(), cachesys->clk, MVE_compute_queue[CB_id].size());
                                     hint("Computing %s at %ld, %zu instructions in compute queue\n", MVE_compute_queue[CB_id_dst].at(0).second.c_str(), cachesys->clk, MVE_compute_queue[CB_id_dst].size());
                                     last_MVE_instruction_compute_clk[CB_id] = cachesys->clk;
@@ -1543,7 +1537,6 @@ void Cache::tick() {
                             hint("SID#%d blocks Crossbar for dictionary\n", CB_id);
                         }
                     }
-                    op_trace << cachesys->clk << " " << CB_id << " S " << MVE_compute_queue[CB_id].at(0).second.opcode << endl;
                     hint("Computing %s at %ld, %zu instructions in compute queue\n", MVE_compute_queue[CB_id].at(0).second.c_str(), cachesys->clk, MVE_compute_queue[CB_id].size());
                     last_MVE_instruction_compute_clk[CB_id] = cachesys->clk;
                     last_MVE_instruction_computed[CB_id] = true;

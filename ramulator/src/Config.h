@@ -77,8 +77,6 @@ struct core_config_t {
     cache_config_t l2_cache_config;
 };
 
-extern std::ofstream op_trace;
-
 class Config {
 
 private:

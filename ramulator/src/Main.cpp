@@ -99,8 +99,6 @@ void declare_configuration(const Config &configs) {
     ramulator::core_configs[core_type_t::PRIME].out_of_order = true;
 }
 
-std::ofstream ramulator::op_trace;
-
 template <typename T>
 void run_dramtrace(const Config &configs, Memory<T, Controller> &memory, const std::vector<const char *> &files) {
 
@@ -313,7 +311,6 @@ void dc_receive(Request &req) {
         while (req_it != dc_block_sent_requests[block_idx].end()) {
             if (dc_l2->align(req.addr) == dc_l2->align(req_it->addr)) {
                 hint("Block [%d]: %s hitted with %s, removing from sent list\n", block_idx, req.c_str(), req_it->c_str());
-                op_trace << dc_clks << " " << block_idx << " Received 0x" << std::hex << req.addr << std::dec << endl;
                 req_it = dc_block_sent_requests[block_idx].erase(req_it);
                 hit = true;
             } else {
@@ -322,7 +319,6 @@ void dc_receive(Request &req) {
         }
         if (hit && (dc_block_sent_requests[block_idx].size() == 0) && (dc_block_tosend_instrs[block_idx][0].size() == 0)) {
             dc_block_tosend_instrs[block_idx].erase(dc_block_tosend_instrs[block_idx].begin());
-            op_trace << dc_clks << " " << block_idx << " Finished " << dc_current_block_num[block_idx] << endl;
         }
     }
 }
@@ -338,7 +334,6 @@ void get_new_block(int block) {
             if (type == Request::Type::DC_BLOCK) {
                 if (read_new_block) {
                     dc_current_block_num[block] = addr - 1;
-                    op_trace << dc_clks << " " << block << " Started " << dc_current_block_num[block] << endl;
                     break;
                 }
                 read_new_block = true;
@@ -394,13 +389,11 @@ void dc_blocks_clock(int block) {
         } else {
             if (dc_l2->send(req) == false) {
                 hint("Block [%d]: Mem addr failed to be sent (%s)\n", block, req.c_str());
-                op_trace << dc_clks << " " << block << " Failed  0x" << std::hex << req.addr << std::dec << endl;
                 break;
             } else {
                 hint("Block [%d]: Mem addr sent, removed from tosend and added to sent (%s)\n", block, req.c_str());
                 dc_block_sent_requests[block].push_back(req);
                 dc_block_tosend_instrs[block][0].erase(dc_block_tosend_instrs[block][0].begin());
-                op_trace << dc_clks << " " << block << " Sent 0x" << std::hex << req.addr << std::dec << endl;
             }
         }
     }
@@ -579,12 +572,6 @@ int main(int argc, const char *argv[]) {
         stats_out = standard + string(".stats");
     }
 
-    op_trace.open(stats_out + ".map");
-    if (!op_trace.is_open()) {
-        printf("Could not open %s.map\n", (stats_out + ".map").c_str());
-        return -1;
-    }
-
     // A separate file defines mapping for easy config.
     if (strcmp(argv[trace_start], "--mapping") == 0) {
         configs.add("mapping", argv[trace_start + 1]);
@@ -655,7 +642,6 @@ int main(int argc, const char *argv[]) {
         start_run(configs, tldram, files);
     }
 
-    op_trace.close();
     printf("Simulation done. Statistics written to %s\n", stats_out.c_str());
 
     return 0;
