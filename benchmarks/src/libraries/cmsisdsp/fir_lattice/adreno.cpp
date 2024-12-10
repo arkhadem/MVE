@@ -219,9 +219,16 @@ timing_t fir_lattice_adreno(config_t *config,
         err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[itr], dimention, NULL, fm_global_item_size, fm_local_item_size, 0, NULL, NULL);
     }
     err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[iteration - 1], dimention, NULL, l_global_item_size, l_local_item_size, 0, NULL, &event2);
-
     clFinish(fir_lattice_queue);
-    CLOCK_FINISH(timing.kernel_execute)
+    cl_ulong time_submit;
+    cl_ulong time_start;
+    cl_ulong time_end;
+    err = clGetEventProfilingInfo(event1, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong), &time_submit, NULL);
+    err |= clGetEventProfilingInfo(event1, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &time_start, NULL);
+    err |= clGetEventProfilingInfo(event2, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &time_end, NULL);
+    printErrorString(2, err);
+    timing.kernel_execute = (double)(time_end - time_start) * 1.0e-9f;
+    timing.kernel_launch = (double)(time_start - time_submit) * 1.0e-9f;
 
     CLOCK_START()
     for (int itr = 0; itr < iteration; itr++) {

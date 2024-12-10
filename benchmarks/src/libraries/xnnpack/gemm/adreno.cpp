@@ -138,18 +138,18 @@ timing_t gemm_adreno(config_t *config,
     size_t output_size = N * M * sizeof(float);
 
     CLOCK_START()
-    cl_mem d_input = clCreateBuffer(gemm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, input_size, NULL, NULL);
+    cl_mem d_in = clCreateBuffer(gemm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, input_size, NULL, NULL);
     cl_mem d_bias = clCreateBuffer(gemm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, bias_size, NULL, NULL);
     cl_mem d_weights = clCreateBuffer(gemm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, weights_size, NULL, NULL);
-    cl_mem d_output = clCreateBuffer(gemm_context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, output_size, NULL, NULL);
+    cl_mem d_out = clCreateBuffer(gemm_context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, output_size, NULL, NULL);
     CLOCK_FINISH(timing.create_buffer)
 
     // Write our data set into the input array in device memory
     CLOCK_START()
-    float *h_input = (float *)clEnqueueMapBuffer(gemm_queue, d_input, CL_FALSE, CL_MAP_READ, 0, input_size, 0, NULL, NULL, &err);
+    float *h_in = (float *)clEnqueueMapBuffer(gemm_queue, d_in, CL_FALSE, CL_MAP_READ, 0, input_size, 0, NULL, NULL, &err);
     float *h_bias = (float *)clEnqueueMapBuffer(gemm_queue, d_bias, CL_FALSE, CL_MAP_READ, 0, bias_size, 0, NULL, NULL, &err);
     float *h_weights = (float *)clEnqueueMapBuffer(gemm_queue, d_weights, CL_FALSE, CL_MAP_READ, 0, weights_size, 0, NULL, NULL, &err);
-    float *h_output = (float *)clEnqueueMapBuffer(gemm_queue, d_output, CL_FALSE, CL_MAP_WRITE, 0, output_size, 0, NULL, NULL, &err);
+    float *h_out = (float *)clEnqueueMapBuffer(gemm_queue, d_out, CL_FALSE, CL_MAP_WRITE, 0, output_size, 0, NULL, NULL, &err);
     clFinish(gemm_queue);
     CLOCK_FINISH(timing.map_buffer)
 
@@ -159,17 +159,17 @@ timing_t gemm_adreno(config_t *config,
     err = clSetKernelArg(gemm_kernel, 0, sizeof(int), &N);
     err |= clSetKernelArg(gemm_kernel, 1, sizeof(int), &M);
     err |= clSetKernelArg(gemm_kernel, 2, sizeof(int), &K);
-    err |= clSetKernelArg(gemm_kernel, 3, sizeof(cl_mem), &d_input);
+    err |= clSetKernelArg(gemm_kernel, 3, sizeof(cl_mem), &d_in);
     err |= clSetKernelArg(gemm_kernel, 4, sizeof(cl_mem), &d_bias);
     err |= clSetKernelArg(gemm_kernel, 5, sizeof(cl_mem), &d_weights);
-    err |= clSetKernelArg(gemm_kernel, 6, sizeof(cl_mem), &d_output);
+    err |= clSetKernelArg(gemm_kernel, 6, sizeof(cl_mem), &d_out);
     err |= clSetKernelArg(gemm_kernel, 7, sizeof(float), &min);
     err |= clSetKernelArg(gemm_kernel, 8, sizeof(float), &max);
     printErrorString(0, err);
 
     // Copy from host memory to pinned host memory which copies to the card automatically
     CLOCK_START()
-    memcpy(h_input, input, input_size);
+    memcpy(h_in, in, input_size);
     memcpy(h_bias, bias, bias_size);
     memcpy(h_weights, weights, weights_size);
     CLOCK_FINISH(timing.memcpy)
@@ -185,14 +185,14 @@ timing_t gemm_adreno(config_t *config,
     PROF_FINISH(gemm_queue)
 
     CLOCK_START()
-    memcpy(output, h_output, output_size);
+    memcpy(out, h_out, output_size);
     CLOCK_FINISH(timing.memcpy)
 
     // release OpenCL resources
-    clReleaseMemObject(d_input);
+    clReleaseMemObject(d_in);
     clReleaseMemObject(d_bias);
     clReleaseMemObject(d_weights);
-    clReleaseMemObject(d_output);
+    clReleaseMemObject(d_out);
 
     return timing;
 }

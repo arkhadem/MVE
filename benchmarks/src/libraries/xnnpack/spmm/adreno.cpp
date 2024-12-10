@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <string>
+#include <thread>
 
 #define MAX_SOURCE_SIZE (0x100000)
 #define TILE_SIZE_M 32
@@ -106,7 +107,7 @@ timing_t spmm_adreno(config_t *config,
     CLOCK_INIT(timing)
 
     // Device input buffers
-    cl_mem d_input;
+    cl_mem d_in;
     size_t input_size = K * M * sizeof(int32_t);
     cl_mem d_bias;
     size_t bias_size = N * sizeof(int32_t);
@@ -118,7 +119,7 @@ timing_t spmm_adreno(config_t *config,
     size_t NNZ_size = (N + 1) * sizeof(uint32_t);
 
     // Device output buffer
-    cl_mem d_output;
+    cl_mem d_out;
     size_t output_size = N * M * sizeof(int32_t);
 
     int dimention = 3;
@@ -130,22 +131,22 @@ timing_t spmm_adreno(config_t *config,
 
     // Create the input and output arrays in device memory for our calculation
     CLOCK_START()
-    d_input = clCreateBuffer(spmm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, input_size, NULL, NULL);
+    d_in = clCreateBuffer(spmm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, input_size, NULL, NULL);
     d_bias = clCreateBuffer(spmm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, bias_size, NULL, NULL);
     d_weights = clCreateBuffer(spmm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, weights_size, NULL, NULL);
     d_IDX = clCreateBuffer(spmm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, IDX_size, NULL, NULL);
     d_NNZ = clCreateBuffer(spmm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, NNZ_size, NULL, NULL);
-    d_output = clCreateBuffer(spmm_context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, output_size, NULL, NULL);
+    d_out = clCreateBuffer(spmm_context, CL_MEM_WRITE_ONLY | CL_MEM_ALLOC_HOST_PTR, output_size, NULL, NULL);
     CLOCK_FINISH(timing.create_buffer)
 
     // Write our data set into the input array in device memory
     CLOCK_START()
-    int32_t *h_input = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_input, CL_FALSE, CL_MAP_READ, 0, input_size, 0, NULL, NULL, &err);
+    int32_t *h_in = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_in, CL_FALSE, CL_MAP_READ, 0, input_size, 0, NULL, NULL, &err);
     int32_t *h_bias = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_bias, CL_FALSE, CL_MAP_READ, 0, bias_size, 0, NULL, NULL, &err);
     int32_t *h_weights = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_weights, CL_FALSE, CL_MAP_READ, 0, weights_size, 0, NULL, NULL, &err);
     int32_t *h_IDX = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_IDX, CL_FALSE, CL_MAP_READ, 0, IDX_size, 0, NULL, NULL, &err);
     uint32_t *h_NNZ = (uint32_t *)clEnqueueMapBuffer(spmm_queue, d_NNZ, CL_FALSE, CL_MAP_READ, 0, NNZ_size, 0, NULL, NULL, &err);
-    int32_t *h_output = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_output, CL_FALSE, CL_MAP_WRITE, 0, output_size, 0, NULL, NULL, &err);
+    int32_t *h_out = (int32_t *)clEnqueueMapBuffer(spmm_queue, d_out, CL_FALSE, CL_MAP_WRITE, 0, output_size, 0, NULL, NULL, &err);
     clFinish(spmm_queue);
     CLOCK_FINISH(timing.map_buffer)
     printErrorString(0, err);
@@ -153,19 +154,19 @@ timing_t spmm_adreno(config_t *config,
     // Set the arguments to our compute spmm_kernel
     err = clSetKernelArg(spmm_kernel, 0, sizeof(int), &M);
     err |= clSetKernelArg(spmm_kernel, 1, sizeof(int), &N);
-    err |= clSetKernelArg(spmm_kernel, 2, sizeof(cl_mem), &d_input);
+    err |= clSetKernelArg(spmm_kernel, 2, sizeof(cl_mem), &d_in);
     err |= clSetKernelArg(spmm_kernel, 3, sizeof(cl_mem), &d_bias);
     err |= clSetKernelArg(spmm_kernel, 4, sizeof(cl_mem), &d_weights);
     err |= clSetKernelArg(spmm_kernel, 5, sizeof(cl_mem), &d_IDX);
     err |= clSetKernelArg(spmm_kernel, 6, sizeof(cl_mem), &d_NNZ);
-    err |= clSetKernelArg(spmm_kernel, 7, sizeof(cl_mem), &d_output);
+    err |= clSetKernelArg(spmm_kernel, 7, sizeof(cl_mem), &d_out);
     err |= clSetKernelArg(spmm_kernel, 8, sizeof(int32_t), &min);
     err |= clSetKernelArg(spmm_kernel, 9, sizeof(int32_t), &max);
     printErrorString(1, err);
 
     // Copy from host memory to pinned host memory which copies to the card automatically
     CLOCK_START()
-    memcpy(h_input, input, input_size);
+    memcpy(h_in, in, input_size);
     memcpy(h_bias, bias, bias_size);
     memcpy(h_weights, weights, weights_size);
     memcpy(h_IDX, IDX, IDX_size);
@@ -183,16 +184,16 @@ timing_t spmm_adreno(config_t *config,
     PROF_FINISH(spmm_queue)
 
     CLOCK_START()
-    memcpy(output, h_output, output_size);
+    memcpy(out, h_out, output_size);
     CLOCK_FINISH(timing.memcpy)
 
     // release OpenCL resources
-    clReleaseMemObject(d_input);
+    clReleaseMemObject(d_in);
     clReleaseMemObject(d_bias);
     clReleaseMemObject(d_weights);
     clReleaseMemObject(d_IDX);
     clReleaseMemObject(d_NNZ);
-    clReleaseMemObject(d_output);
+    clReleaseMemObject(d_out);
 
     return timing;
 }
