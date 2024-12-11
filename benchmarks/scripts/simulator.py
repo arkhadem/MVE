@@ -82,7 +82,7 @@ def run_compiler(directory, schemes, isas, args):
 	for scheme in schemes:
 		for isa in isas:
 			output = f"{isa}_{scheme}_compile.csv"
-			print(f"Compiling ISA {isa} and scheme {scheme} results into {output}...")
+			print(f"Compiling ISA {isa} and scheme {scheme} files, writing instruction summary to {output}...")
 			CSV_file = open(output, "w")
 			CSV_file.write("Scheme,ISA,Library,Kernel,Config,Move,Mem Access,Arithmetic,Scalar\n")
 			libraries, kernels = get_libraries_kernels(scheme, isa, args)
@@ -103,7 +103,7 @@ def run_compiler(directory, schemes, isas, args):
 						asm_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.asm"
 						instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.instr"
 						Config, Move, Mem_Access, Arithmetic, Scalar = compiler.compile(dfg_file, asm_file, instr_file)
-						CSV_file.write(f"{scheme},{isa},{library},{kernel}_{M}_{N}_{K},{Config},{Move},{Mem_Access},{Arithmetic},{Scalar}\n")
+						CSV_file.write(f"{scheme},{isa},{library},{kernel},{Config},{Move},{Mem_Access},{Arithmetic},{Scalar}\n")
 			CSV_file.close()
 
 def run_simulator(directory, schemes, isas, args):
