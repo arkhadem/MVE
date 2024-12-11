@@ -39,7 +39,6 @@ def init_all_tests():
     libjpeg_test.append("huffman_encode")
     libpng_test.append("read_sub")
     libpng_test.append("read_up")
-    libpng_test.append("expand_palette")
     libwebp_test.append("sharp_update_rgb")
     libwebp_test.append("sharp_filter_row")
     libwebp_test.append("apply_alpha_multiply")

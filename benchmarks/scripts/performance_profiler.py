@@ -55,15 +55,15 @@ def parse_performance_logs_adreno(logs):
 			total_time = float(log_phrases[1])
 		elif log_phrases[0] == "iteration_time:":
 			iteration_time = float(log_phrases[1])
-		elif log_phrases[0] == "create_buffer_time":
+		elif log_phrases[0] == "create_buffer_time:":
 			create_buffer_time = float(log_phrases[1])
-		elif log_phrases[0] == "map_buffer_time":
+		elif log_phrases[0] == "map_buffer_time:":
 			map_buffer_time = float(log_phrases[1])
-		elif log_phrases[0] == "memcpy_time":
+		elif log_phrases[0] == "memcpy_time:":
 			memcpy_time = float(log_phrases[1])
-		elif log_phrases[0] == "kernel_launch_time":
+		elif log_phrases[0] == "kernel_launch_time:":
 			kernel_launch_time = float(log_phrases[1])
-		elif log_phrases[0] == "kernel_execute_time":
+		elif log_phrases[0] == "kernel_execute_time:":
 			kernel_execute_time = float(log_phrases[1])
 	return iterations, total_time, iteration_time, create_buffer_time, map_buffer_time, memcpy_time, kernel_launch_time, kernel_execute_time
 
@@ -73,4 +73,4 @@ def get_performance_scalar_neon(KERNEL_DIR, platform, library, kernel, mask, M =
 
 def get_performance_adreno(KERNEL_DIR, platform, library, kernel, mask, M = None, N = None, K = None):
 	logs = run_perf_process(KERNEL_DIR, platform, library, kernel, mask, M, N, K)
-	return parse_performance_logs(logs)
+	return parse_performance_logs_adreno(logs)

@@ -97,7 +97,13 @@ def main():
 			exit(-1)
 		run_power_profile(CSV_file, KERNEL_DIR, platform, libraries, kernels, core)
 	else:
-		run_performance_profile_scalar_neon(CSV_file, KERNEL_DIR, platform, libraries, kernels, core)
+		if platform == "adreno":
+			run_performance_profile_adreno(CSV_file, KERNEL_DIR, platform, libraries, kernels, core)
+		elif platform == "neon":
+			run_performance_profile_scalar_neon(CSV_file, KERNEL_DIR, platform, libraries, kernels, core)
+		else:
+			print(f"Error: platform \"{platform}\" is not supported for performance measurements!")
+			exit(-1)
 	CSV_file.close()
 
 if __name__ == "__main__":
