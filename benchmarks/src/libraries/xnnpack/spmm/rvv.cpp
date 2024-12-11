@@ -162,8 +162,8 @@ void spmm_rvv(int LANE_NUM,
 
             int curr_m_per_iter = (M - m) < 4096 ? (M - m) : 4096;
 
-            int V_per_SA = curr_m_per_iter < 256 ? (256 / curr_m_per_iter) : 1;
-            int SA_per_V = curr_m_per_iter > 256 ? (((curr_m_per_iter - 1) / 256) + 1) : 1;
+            int V_per_SA = curr_m_per_iter < 128 ? (128 / curr_m_per_iter) : 1;
+            int SA_per_V = curr_m_per_iter > 128 ? (((curr_m_per_iter - 1) / 128) + 1) : 1;
             int n_per_iter = 32 * V_per_SA / SA_per_V;
 
             _mve_set_dim_length(0, curr_m_per_iter);
@@ -263,8 +263,8 @@ void spmm_rvv(int LANE_NUM,
 
             int curr_m_per_iter = (M - m) < 2048 ? (M - m) : 2048;
 
-            int V_per_SA = curr_m_per_iter < 256 ? (256 / curr_m_per_iter) : 1;
-            int SA_per_V = curr_m_per_iter > 256 ? (((curr_m_per_iter - 1) / 256) + 1) : 1;
+            int V_per_SA = curr_m_per_iter < 64 ? (64 / curr_m_per_iter) : 1;
+            int SA_per_V = curr_m_per_iter > 64 ? (((curr_m_per_iter - 1) / 64) + 1) : 1;
             int n_per_iter = 32 * V_per_SA / SA_per_V;
 
             _mve_set_dim_length(0, curr_m_per_iter);
@@ -364,8 +364,8 @@ void spmm_rvv(int LANE_NUM,
 
             int curr_m_per_iter = (M - m) < 1024 ? (M - m) : 1024;
 
-            int V_per_SA = curr_m_per_iter < 256 ? (256 / curr_m_per_iter) : 1;
-            int SA_per_V = curr_m_per_iter > 256 ? (((curr_m_per_iter - 1) / 256) + 1) : 1;
+            int V_per_SA = curr_m_per_iter < 32 ? (32 / curr_m_per_iter) : 1;
+            int SA_per_V = curr_m_per_iter > 32 ? (((curr_m_per_iter - 1) / 32) + 1) : 1;
             int n_per_iter = 32 * V_per_SA / SA_per_V;
 
             _mve_set_dim_length(0, curr_m_per_iter);
@@ -465,8 +465,8 @@ void spmm_rvv(int LANE_NUM,
 
             int curr_m_per_iter = (M - m) < 512 ? (M - m) : 512;
 
-            int V_per_SA = curr_m_per_iter < 256 ? (256 / curr_m_per_iter) : 1;
-            int SA_per_V = curr_m_per_iter > 256 ? (((curr_m_per_iter - 1) / 256) + 1) : 1;
+            int V_per_SA = curr_m_per_iter < 16 ? (16 / curr_m_per_iter) : 1;
+            int SA_per_V = curr_m_per_iter > 16 ? (((curr_m_per_iter - 1) / 16) + 1) : 1;
             int n_per_iter = 32 * V_per_SA / SA_per_V;
 
             _mve_set_dim_length(0, curr_m_per_iter);
@@ -566,8 +566,8 @@ void spmm_rvv(int LANE_NUM,
 
             int curr_m_per_iter = (M - m) < 256 ? (M - m) : 256;
 
-            int V_per_SA = curr_m_per_iter < 256 ? (256 / curr_m_per_iter) : 1;
-            int SA_per_V = curr_m_per_iter > 256 ? (((curr_m_per_iter - 1) / 256) + 1) : 1;
+            int V_per_SA = curr_m_per_iter < 8 ? (8 / curr_m_per_iter) : 1;
+            int SA_per_V = curr_m_per_iter > 8 ? (((curr_m_per_iter - 1) / 8) + 1) : 1;
             int n_per_iter = 32 * V_per_SA / SA_per_V;
 
             _mve_set_dim_length(0, curr_m_per_iter);

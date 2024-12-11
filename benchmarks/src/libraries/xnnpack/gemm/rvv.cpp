@@ -9453,7 +9453,7 @@ void gemm_rvv(int LANE_NUM,
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 32 * 256 / (M - m);
+            int n_per_iter = 32 * (int)(256 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -9528,7 +9528,6 @@ void gemm_rvv(int LANE_NUM,
             // First Dim: M
             _mve_set_dim_length(0, 4096);
         }
-
         while (m + 4096 <= M) {
 
             bias_addr = bias;
@@ -9596,12 +9595,10 @@ void gemm_rvv(int LANE_NUM,
             out += 4096;
             m += 4096;
         }
-
         if (m + 2048 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 2048);
         }
-
         while (m + 2048 <= M) {
 
             bias_addr = bias;
@@ -9731,12 +9728,10 @@ void gemm_rvv(int LANE_NUM,
             out += 2048;
             m += 2048;
         }
-
         if (m + 1024 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 1024);
         }
-
         while (m + 1024 <= M) {
 
             bias_addr = bias;
@@ -9942,12 +9937,10 @@ void gemm_rvv(int LANE_NUM,
             out += 1024;
             m += 1024;
         }
-
         if (m + 512 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 512);
         }
-
         while (m + 512 <= M) {
 
             bias_addr = bias;
@@ -10257,12 +10250,10 @@ void gemm_rvv(int LANE_NUM,
             out += 512;
             m += 512;
         }
-
         if (m + 256 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 256);
         }
-
         while (m + 256 <= M) {
 
             bias_addr = bias;
@@ -10732,12 +10723,10 @@ void gemm_rvv(int LANE_NUM,
             out += 256;
             m += 256;
         }
-
         if (m + 128 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 128);
         }
-
         while (m + 128 <= M) {
 
             bias_addr = bias;
@@ -11479,12 +11468,10 @@ void gemm_rvv(int LANE_NUM,
             out += 128;
             m += 128;
         }
-
         if (m + 64 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 64);
         }
-
         while (m + 64 <= M) {
 
             bias_addr = bias;
@@ -12722,12 +12709,10 @@ void gemm_rvv(int LANE_NUM,
             out += 64;
             m += 64;
         }
-
         if (m + 32 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 32);
         }
-
         while (m + 32 <= M) {
 
             bias_addr = bias;
@@ -14909,11 +14894,10 @@ void gemm_rvv(int LANE_NUM,
             out += 32;
             m += 32;
         }
-
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 16 * 256 / (M - m);
+            int n_per_iter = 32 * (int)(128 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -14988,7 +14972,6 @@ void gemm_rvv(int LANE_NUM,
             // First Dim: M
             _mve_set_dim_length(0, 2048);
         }
-
         while (m + 2048 <= M) {
 
             bias_addr = bias;
@@ -15056,12 +15039,10 @@ void gemm_rvv(int LANE_NUM,
             out += 2048;
             m += 2048;
         }
-
         if (m + 1024 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 1024);
         }
-
         while (m + 1024 <= M) {
 
             bias_addr = bias;
@@ -15191,12 +15172,10 @@ void gemm_rvv(int LANE_NUM,
             out += 1024;
             m += 1024;
         }
-
         if (m + 512 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 512);
         }
-
         while (m + 512 <= M) {
 
             bias_addr = bias;
@@ -15402,12 +15381,10 @@ void gemm_rvv(int LANE_NUM,
             out += 512;
             m += 512;
         }
-
         if (m + 256 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 256);
         }
-
         while (m + 256 <= M) {
 
             bias_addr = bias;
@@ -15717,12 +15694,10 @@ void gemm_rvv(int LANE_NUM,
             out += 256;
             m += 256;
         }
-
         if (m + 128 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 128);
         }
-
         while (m + 128 <= M) {
 
             bias_addr = bias;
@@ -16192,12 +16167,10 @@ void gemm_rvv(int LANE_NUM,
             out += 128;
             m += 128;
         }
-
         if (m + 64 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 64);
         }
-
         while (m + 64 <= M) {
 
             bias_addr = bias;
@@ -16939,12 +16912,10 @@ void gemm_rvv(int LANE_NUM,
             out += 64;
             m += 64;
         }
-
         if (m + 32 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 32);
         }
-
         while (m + 32 <= M) {
 
             bias_addr = bias;
@@ -18182,11 +18153,10 @@ void gemm_rvv(int LANE_NUM,
             out += 32;
             m += 32;
         }
-
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 8 * 256 / (M - m);
+            int n_per_iter = 32 * (int)(64 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -18261,7 +18231,6 @@ void gemm_rvv(int LANE_NUM,
             // First Dim: M
             _mve_set_dim_length(0, 1024);
         }
-
         while (m + 1024 <= M) {
 
             bias_addr = bias;
@@ -18329,12 +18298,10 @@ void gemm_rvv(int LANE_NUM,
             out += 1024;
             m += 1024;
         }
-
         if (m + 512 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 512);
         }
-
         while (m + 512 <= M) {
 
             bias_addr = bias;
@@ -18464,12 +18431,10 @@ void gemm_rvv(int LANE_NUM,
             out += 512;
             m += 512;
         }
-
         if (m + 256 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 256);
         }
-
         while (m + 256 <= M) {
 
             bias_addr = bias;
@@ -18675,12 +18640,10 @@ void gemm_rvv(int LANE_NUM,
             out += 256;
             m += 256;
         }
-
         if (m + 128 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 128);
         }
-
         while (m + 128 <= M) {
 
             bias_addr = bias;
@@ -18990,12 +18953,10 @@ void gemm_rvv(int LANE_NUM,
             out += 128;
             m += 128;
         }
-
         if (m + 64 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 64);
         }
-
         while (m + 64 <= M) {
 
             bias_addr = bias;
@@ -19465,12 +19426,10 @@ void gemm_rvv(int LANE_NUM,
             out += 64;
             m += 64;
         }
-
         if (m + 32 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 32);
         }
-
         while (m + 32 <= M) {
 
             bias_addr = bias;
@@ -20212,11 +20171,3436 @@ void gemm_rvv(int LANE_NUM,
             out += 32;
             m += 32;
         }
+        if (m + 16 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 16);
+        }
+        while (m + 16 <= M) {
 
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 64 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 64);
+            }
+
+            while (n + 64 <= N) {
+
+                // Loading bias - Dim1.length = 64 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 32);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 33);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 34);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 35);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 36);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 37);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 38);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 39);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 40);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 41);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 42);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 43);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 44);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 45);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 46);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 47);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 48);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 49);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 50);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 51);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 52);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 53);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 54);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 55);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 56);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 57);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 58);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 59);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 60);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 61);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 62);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 63);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 64;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 64 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 64 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 64 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 32);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 33);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 34);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 35);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 36);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 37);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 38);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 39);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 40);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 41);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 42);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 43);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 44);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 45);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 46);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 47);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 48);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 49);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 50);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 51);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 52);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 53);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 54);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 55);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 56);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 57);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 58);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 59);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 60);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 61);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 62);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 63);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 32);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 33);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 34);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 35);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 36);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 37);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 38);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 39);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 40);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 41);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 42);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 43);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 44);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 45);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 46);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 47);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 48);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 49);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 50);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 51);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 52);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 53);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 54);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 55);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 56);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 57);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 58);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 59);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 60);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 61);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 62);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 63);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 64 * M;
+
+                mve_flusher();
+                n += 64;
+            }
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // Loading bias - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 32 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // Loading bias - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 16 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // Loading bias - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 8 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // Loading bias - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 4 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // Loading bias - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 2 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // Loading bias - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 1 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 16;
+            out += 16;
+            m += 16;
+        }
+        if (m + 8 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 8);
+        }
+        while (m + 8 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 128 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 128);
+            }
+
+            while (n + 128 <= N) {
+
+                // Loading bias - Dim1.length = 128 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 32);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 33);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 34);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 35);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 36);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 37);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 38);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 39);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 40);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 41);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 42);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 43);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 44);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 45);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 46);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 47);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 48);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 49);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 50);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 51);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 52);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 53);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 54);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 55);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 56);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 57);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 58);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 59);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 60);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 61);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 62);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 63);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 64);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 65);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 66);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 67);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 68);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 69);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 70);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 71);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 72);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 73);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 74);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 75);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 76);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 77);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 78);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 79);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 80);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 81);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 82);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 83);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 84);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 85);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 86);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 87);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 88);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 89);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 90);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 91);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 92);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 93);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 94);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 95);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 96);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 97);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 98);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 99);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 100);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 101);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 102);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 103);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 104);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 105);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 106);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 107);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 108);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 109);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 110);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 111);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 112);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 113);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 114);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 115);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 116);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 117);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 118);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 119);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 120);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 121);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 122);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 123);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 124);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 125);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 126);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 127);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 128;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 128 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 128 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 128 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 32);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 33);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 34);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 35);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 36);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 37);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 38);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 39);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 40);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 41);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 42);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 43);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 44);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 45);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 46);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 47);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 48);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 49);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 50);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 51);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 52);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 53);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 54);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 55);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 56);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 57);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 58);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 59);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 60);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 61);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 62);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 63);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 64);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 65);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 66);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 67);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 68);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 69);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 70);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 71);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 72);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 73);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 74);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 75);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 76);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 77);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 78);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 79);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 80);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 81);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 82);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 83);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 84);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 85);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 86);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 87);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 88);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 89);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 90);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 91);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 92);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 93);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 94);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 95);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 96);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 97);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 98);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 99);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 100);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 101);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 102);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 103);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 104);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 105);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 106);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 107);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 108);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 109);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 110);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 111);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 112);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 113);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 114);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 115);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 116);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 117);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 118);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 119);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 120);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 121);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 122);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 123);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 124);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 125);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 126);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 127);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 32);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 33);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 34);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 35);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 36);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 37);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 38);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 39);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 40);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 41);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 42);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 43);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 44);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 45);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 46);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 47);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 48);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 49);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 50);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 51);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 52);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 53);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 54);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 55);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 56);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 57);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 58);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 59);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 60);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 61);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 62);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 63);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 64);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 65);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 66);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 67);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 68);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 69);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 70);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 71);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 72);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 73);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 74);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 75);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 76);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 77);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 78);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 79);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 80);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 81);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 82);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 83);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 84);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 85);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 86);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 87);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 88);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 89);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 90);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 91);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 92);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 93);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 94);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 95);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 96);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 97);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 98);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 99);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 100);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 101);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 102);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 103);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 104);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 105);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 106);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 107);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 108);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 109);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 110);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 111);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 112);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 113);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 114);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 115);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 116);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 117);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 118);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 119);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 120);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 121);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 122);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 123);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 124);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 125);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 126);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 127);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 128 * M;
+
+                mve_flusher();
+                n += 128;
+            }
+
+            if (n + 64 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 64);
+            }
+
+            while (n + 64 <= N) {
+
+                // Loading bias - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 32);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 33);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 34);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 35);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 36);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 37);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 38);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 39);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 40);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 41);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 42);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 43);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 44);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 45);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 46);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 47);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 48);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 49);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 50);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 51);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 52);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 53);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 54);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 55);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 56);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 57);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 58);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 59);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 60);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 61);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 62);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 63);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 64;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 64 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 64 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 32);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 33);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 34);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 35);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 36);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 37);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 38);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 39);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 40);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 41);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 42);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 43);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 44);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 45);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 46);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 47);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 48);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 49);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 50);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 51);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 52);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 53);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 54);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 55);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 56);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 57);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 58);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 59);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 60);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 61);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 62);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 63);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 32);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 33);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 34);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 35);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 36);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 37);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 38);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 39);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 40);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 41);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 42);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 43);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 44);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 45);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 46);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 47);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 48);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 49);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 50);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 51);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 52);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 53);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 54);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 55);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 56);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 57);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 58);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 59);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 60);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 61);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 62);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 63);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 64 * M;
+
+                mve_flusher();
+                n += 64;
+            }
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // Loading bias - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 32 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // Loading bias - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 16 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // Loading bias - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 8 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // Loading bias - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 4 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // Loading bias - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 2 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // Loading bias - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 1 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 8;
+            out += 8;
+            m += 8;
+        }
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 4 * 256 / (M - m);
+            int n_per_iter = 32 * (int)(32 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -20291,7 +23675,6 @@ void gemm_rvv(int LANE_NUM,
             // First Dim: M
             _mve_set_dim_length(0, 512);
         }
-
         while (m + 512 <= M) {
 
             bias_addr = bias;
@@ -20359,12 +23742,10 @@ void gemm_rvv(int LANE_NUM,
             out += 512;
             m += 512;
         }
-
         if (m + 256 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 256);
         }
-
         while (m + 256 <= M) {
 
             bias_addr = bias;
@@ -20494,12 +23875,10 @@ void gemm_rvv(int LANE_NUM,
             out += 256;
             m += 256;
         }
-
         if (m + 128 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 128);
         }
-
         while (m + 128 <= M) {
 
             bias_addr = bias;
@@ -20705,12 +24084,10 @@ void gemm_rvv(int LANE_NUM,
             out += 128;
             m += 128;
         }
-
         if (m + 64 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 64);
         }
-
         while (m + 64 <= M) {
 
             bias_addr = bias;
@@ -21020,12 +24397,10 @@ void gemm_rvv(int LANE_NUM,
             out += 64;
             m += 64;
         }
-
         if (m + 32 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 32);
         }
-
         while (m + 32 <= M) {
 
             bias_addr = bias;
@@ -21495,11 +24870,1996 @@ void gemm_rvv(int LANE_NUM,
             out += 32;
             m += 32;
         }
+        if (m + 16 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 16);
+        }
+        while (m + 16 <= M) {
 
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // Loading bias - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 32 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // Loading bias - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 16 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // Loading bias - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 8 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // Loading bias - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 4 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // Loading bias - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 2 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // Loading bias - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 1 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 16;
+            out += 16;
+            m += 16;
+        }
+        if (m + 8 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 8);
+        }
+        while (m + 8 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 64 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 64);
+            }
+
+            while (n + 64 <= N) {
+
+                // Loading bias - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 32);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 33);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 34);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 35);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 36);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 37);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 38);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 39);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 40);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 41);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 42);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 43);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 44);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 45);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 46);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 47);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 48);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 49);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 50);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 51);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 52);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 53);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 54);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 55);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 56);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 57);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 58);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 59);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 60);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 61);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 62);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 63);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 64;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 64 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 64 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 32);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 33);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 34);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 35);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 36);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 37);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 38);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 39);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 40);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 41);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 42);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 43);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 44);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 45);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 46);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 47);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 48);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 49);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 50);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 51);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 52);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 53);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 54);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 55);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 56);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 57);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 58);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 59);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 60);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 61);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 62);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 63);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 32);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 33);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 34);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 35);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 36);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 37);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 38);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 39);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 40);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 41);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 42);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 43);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 44);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 45);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 46);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 47);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 48);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 49);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 50);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 51);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 52);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 53);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 54);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 55);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 56);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 57);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 58);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 59);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 60);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 61);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 62);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 63);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 64 * M;
+
+                mve_flusher();
+                n += 64;
+            }
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // Loading bias - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 32 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // Loading bias - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 16 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // Loading bias - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 8 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // Loading bias - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 4 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // Loading bias - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 2 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // Loading bias - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 1 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 8;
+            out += 8;
+            m += 8;
+        }
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 2 * 256 / (M - m);
+            int n_per_iter = 32 * (int)(16 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -21574,7 +26934,6 @@ void gemm_rvv(int LANE_NUM,
             // First Dim: M
             _mve_set_dim_length(0, 256);
         }
-
         while (m + 256 <= M) {
 
             bias_addr = bias;
@@ -21642,12 +27001,10 @@ void gemm_rvv(int LANE_NUM,
             out += 256;
             m += 256;
         }
-
         if (m + 128 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 128);
         }
-
         while (m + 128 <= M) {
 
             bias_addr = bias;
@@ -21777,12 +27134,10 @@ void gemm_rvv(int LANE_NUM,
             out += 128;
             m += 128;
         }
-
         if (m + 64 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 64);
         }
-
         while (m + 64 <= M) {
 
             bias_addr = bias;
@@ -21988,12 +27343,10 @@ void gemm_rvv(int LANE_NUM,
             out += 64;
             m += 64;
         }
-
         if (m + 32 <= M) {
             // First Dim: M
             _mve_set_dim_length(0, 32);
         }
-
         while (m + 32 <= M) {
 
             bias_addr = bias;
@@ -22303,11 +27656,1228 @@ void gemm_rvv(int LANE_NUM,
             out += 32;
             m += 32;
         }
+        if (m + 16 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 16);
+        }
+        while (m + 16 <= M) {
 
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // Loading bias - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 16 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // Loading bias - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 8 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // Loading bias - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 4 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // Loading bias - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 2 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // Loading bias - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 1 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 16;
+            out += 16;
+            m += 16;
+        }
+        if (m + 8 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 8);
+        }
+        while (m + 8 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // Loading bias - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 16);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 17);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 18);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 19);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 20);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 21);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 22);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 23);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 24);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 25);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 26);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 27);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 28);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 29);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 30);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 31);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 32 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 16);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 17);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 18);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 19);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 20);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 21);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 22);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 23);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 24);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 25);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 26);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 27);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 28);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 29);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 30);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 31);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 16);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 17);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 18);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 19);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 20);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 21);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 22);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 23);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 24);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 25);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 26);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 27);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 28);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 29);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 30);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 31);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // Loading bias - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 8);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 9);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 10);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 11);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 12);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 13);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 14);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 15);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 16 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 8);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 9);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 10);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 11);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 12);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 13);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 14);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 15);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 8);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 9);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 10);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 11);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 12);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 13);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 14);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 15);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // Loading bias - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 4);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 5);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 6);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 7);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 8 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 4);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 5);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 6);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 7);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 4);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 5);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 6);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 7);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // Loading bias - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 2);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 3);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 4 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 2);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 3);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 2);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 3);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // Loading bias - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_only_element(1, 1);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 2 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_only_element(1, 1);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_only_element(1, 1);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // Loading bias - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_set1_dw(0);
+                _mve_set_only_element(1, 0);
+                acc_v = _mve_assign_dw(acc_v, _mve_load_dw(bias_addr, bias_stride));
+                _mve_set_all_elements(1);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // Loading input - Dim1.length = 1 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    // Loading weight - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw input_v = _mve_set1_dw(0);
+                    __mdvdw weight_v = _mve_set1_dw(0);
+                    _mve_set_only_element(1, 0);
+                    input_v = _mve_assign_dw(input_v, _mve_load_dw(input_addr, input_stride));
+                    weight_v = _mve_assign_dw(weight_v, _mve_load_dw(weight_addr_tmp, weight_stride));
+                    _mve_set_all_elements(1);
+
+                    input_addr += M;
+                    weight_addr_tmp += 1;
+
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_set_only_element(1, 0);
+                _mve_store_dw(output_addr, acc_v, output_stride);
+                _mve_set_all_elements(1);
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 8;
+            out += 8;
+            m += 8;
+        }
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 1 * 256 / (M - m);
+            int n_per_iter = 32 * (int)(8 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;

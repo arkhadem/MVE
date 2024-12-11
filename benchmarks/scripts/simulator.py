@@ -6,6 +6,7 @@ import tests
 import general
 import compiler
 import parser
+import os
 
 DYNAMORIO_ROOT = "../tools/DynamoRIO"
 RAMULATOR_ROOT = "../ramulator"
@@ -84,6 +85,14 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 					K = layer["K"]
 					instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}_{M}_{N}_{K}.instr"
 					ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}_{M}_{N}_{K}.ram"
+					exists = False
+					if os.path.isfile(ram_file):
+						with open(ram_file, "r") as f:
+							if "ramulator.active_cycles" in f.read():
+								exists = True
+					if exists:
+						print(f"Skipping {ram_file} as it is already simulated!")
+						continue
 					command = f"{RAMULATOR_ROOT}/ramulator_{isa}_{scheme} "
 					command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 					command += f"--stats {ram_file} "
@@ -92,6 +101,14 @@ def run_simulator(directory, scheme, isa, libraries, kernels):
 			else:
 				instr_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.instr"
 				ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.ram"
+				exists = False
+				if os.path.isfile(ram_file):
+					with open(ram_file, "r") as f:
+						if "ramulator.active_cycles" in f.read():
+							exists = True
+				if exists:
+					print(f"Skipping {ram_file} as it is already simulated!")
+					continue
 				command = f"{RAMULATOR_ROOT}/ramulator_{isa}_{scheme} "
 				command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 				command += f"--stats {ram_file} "

@@ -3265,7 +3265,7 @@ void gemm_mve(int LANE_NUM,
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 32 * (256 / (M - m));
+            int n_per_iter = 32 * (int)(256 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -5920,7 +5920,7 @@ void gemm_mve(int LANE_NUM,
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 16 * (256 / (M - m));
+            int n_per_iter = 32 * (int)(128 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -8015,7 +8015,7 @@ void gemm_mve(int LANE_NUM,
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 8 * (256 / (M - m));
+            int n_per_iter = 32 * (int)(64 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -9615,10 +9615,1062 @@ void gemm_mve(int LANE_NUM,
             out += 32;
             m += 32;
         }
+        if (m + 16 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 16);
+        }
+        while (m + 16 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 64 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 64);
+            }
+
+            while (n + 64 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 64 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 64;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 64 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 64 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 64 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 64 * M;
+
+                mve_flusher();
+                n += 64;
+            }
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 32 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 16 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 8 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 4 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 2 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 1 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 16;
+            out += 16;
+            m += 16;
+        }
+        if (m + 8 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 8);
+        }
+        while (m + 8 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 128 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 128);
+            }
+
+            while (n + 128 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 128 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 128;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 128 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 128 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 128 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 128 * M;
+
+                mve_flusher();
+                n += 128;
+            }
+
+            if (n + 64 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 64);
+            }
+
+            while (n + 64 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 64;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 64 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 64 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 64 * M;
+
+                mve_flusher();
+                n += 64;
+            }
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 32 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 16 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 8 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 4 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 2 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 1 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 8;
+            out += 8;
+            m += 8;
+        }
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 4 * (256 / (M - m));
+            int n_per_iter = 32 * (int)(32 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -10794,10 +11846,926 @@ void gemm_mve(int LANE_NUM,
             out += 32;
             m += 32;
         }
+        if (m + 16 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 16);
+        }
+        while (m + 16 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 32 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 32 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 16 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 8 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 4 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 2 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 1 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 16;
+            out += 16;
+            m += 16;
+        }
+        if (m + 8 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 8);
+        }
+        while (m + 8 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 64 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 64);
+            }
+
+            while (n + 64 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 64;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 64 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 64 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 64 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 64 * M;
+
+                mve_flusher();
+                n += 64;
+            }
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 32 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 16 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 8 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 4 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 2 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 1 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 8;
+            out += 8;
+            m += 8;
+        }
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 2 * (256 / (M - m));
+            int n_per_iter = 32 * (int)(16 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
@@ -11617,10 +13585,790 @@ void gemm_mve(int LANE_NUM,
             out += 32;
             m += 32;
         }
+        if (m + 16 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 16);
+        }
+        while (m + 16 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 16 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 16 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 8 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 8 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 4 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 4 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 2 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 2 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 1 - Dim0.length = 16, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 1 - Dim0.length = 16, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 16;
+            out += 16;
+            m += 16;
+        }
+        if (m + 8 <= M) {
+            // First Dim: M
+            _mve_set_dim_length(0, 8);
+        }
+        while (m + 8 <= M) {
+
+            bias_addr = bias;
+            weight_addr = weights;
+            output_addr = out;
+
+            int n = 0;
+
+            if (n + 32 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 32);
+            }
+
+            while (n + 32 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 32;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 32 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 32 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 32 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 32 * M;
+
+                mve_flusher();
+                n += 32;
+            }
+
+            if (n + 16 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 16);
+            }
+
+            while (n + 16 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 16;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 16 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 16 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 16 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 16 * M;
+
+                mve_flusher();
+                n += 16;
+            }
+
+            if (n + 8 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 8);
+            }
+
+            while (n + 8 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 8;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 8 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 8 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 8 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 8 * M;
+
+                mve_flusher();
+                n += 8;
+            }
+
+            if (n + 4 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 4);
+            }
+
+            while (n + 4 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 4;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 4 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 4 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 4 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 4 * M;
+
+                mve_flusher();
+                n += 4;
+            }
+
+            if (n + 2 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 2);
+            }
+
+            while (n + 2 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 2;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 2 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 2 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 2 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 2 * M;
+
+                mve_flusher();
+                n += 2;
+            }
+
+            if (n + 1 <= N) {
+                // Second Dim: N
+                _mve_set_dim_length(1, 1);
+            }
+
+            while (n + 1 <= N) {
+
+                // R2 - Loading bias - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 1 (dim1)
+                __mdvdw acc_v = _mve_load_dw(bias_addr, bias_stride);
+
+                bias_addr += 1;
+
+                input_addr = in;
+                int32_t *weight_addr_tmp = weight_addr;
+                weight_addr += 1 * K;
+
+                for (int k = 0; k < K; k++) {
+
+                    // R3 - Loading input - Dim1.length = 1 - Dim0.length = 8, Stride: 1 (dim0) and 0 (dim1)
+                    __mdvdw input_v = _mve_load_dw(input_addr, input_stride);
+
+                    input_addr += M;
+
+                    // R4 - Loading weight - Dim1.length = 1 - Dim0.length = 8, Stride: 0 (dim0) and 3 (K) (dim1)
+                    __mdvdw weight_v = _mve_load_dw(weight_addr_tmp, weight_stride);
+                    weight_addr_tmp += 1;
+
+                    // R5
+                    __mdvdw mult_v = _mve_mul_dw(input_v, weight_v);
+                    // free input_v (R3) and weight_v (R4)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // R3
+                    acc_v = _mve_add_dw(acc_v, mult_v);
+                    // free acc_v (R2) and mult_v (R5)
+                    _mve_free_dw();
+                    _mve_free_dw();
+
+                    // replace R3 and R2 for acc_v
+                }
+
+                // Caculating Min and Max
+
+                // R4 = R2 min R1
+                acc_v = _mve_min_dw(acc_v, max_v);
+
+                // Free R2
+                _mve_free_dw();
+
+                // R5 = R4 min R0
+                acc_v = _mve_max_dw(acc_v, min_v);
+
+                // Free R4
+                _mve_free_dw();
+
+                // Storing the results, Stride: 1 (dim0) and 3 (M) (dim1)
+                _mve_store_dw(output_addr, acc_v, output_stride);
+
+                // Free R5
+                _mve_free_dw();
+
+                output_addr += 1 * M;
+
+                mve_flusher();
+                n += 1;
+            }
+
+            in += 8;
+            out += 8;
+            m += 8;
+        }
         if (M > m) {
             _mve_set_dim_length(0, M - m);
 
-            int n_per_iter = 1 * (256 / (M - m));
+            int n_per_iter = 32 * (int)(8 / (M - m));
 
             bias_addr = bias;
             weight_addr = weights;
