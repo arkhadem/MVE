@@ -6,6 +6,165 @@ import os
 
 WRITE_EN = 1
 
+CONFIG = 0
+MOVE = 1
+MEMORY = 2
+ARITHMETIC = 3
+SCALAR = 4
+MAX = 5
+
+instruction_dict = {
+	"_mve_set_load_stride": CONFIG,
+	"_mve_set_store_stride": CONFIG,
+	"_mve_set_dim_count": CONFIG,
+	"_mve_set_dim_length": CONFIG,
+	"_mve_set_mask": CONFIG,
+	"_mve_set_active_element": CONFIG,
+	"_mve_unset_active_element": CONFIG,
+	"_mve_set_only_element": CONFIG,
+	"_mve_unset_only_element": CONFIG,
+	"_mve_set_all_elements": CONFIG,
+	"_mve_unset_all_elements": CONFIG,
+	"_mve_shirs_b": ARITHMETIC,
+	"_mve_shirs_w": ARITHMETIC,
+	"_mve_shirs_dw": ARITHMETIC,
+	"_mve_shirs_qw": ARITHMETIC,
+	"_mve_shiru_b": ARITHMETIC,
+	"_mve_shiru_w": ARITHMETIC,
+	"_mve_shiru_dw": ARITHMETIC,
+	"_mve_shiru_qw": ARITHMETIC,
+	"_mve_shil_b": ARITHMETIC,
+	"_mve_shil_w": ARITHMETIC,
+	"_mve_shil_dw": ARITHMETIC,
+	"_mve_shil_qw": ARITHMETIC,
+	"_mve_shrrs_b": ARITHMETIC,
+	"_mve_shrrs_w": ARITHMETIC,
+	"_mve_shrrs_dw": ARITHMETIC,
+	"_mve_shrrs_qw": ARITHMETIC,
+	"_mve_shrru_b": ARITHMETIC,
+	"_mve_shrru_w": ARITHMETIC,
+	"_mve_shrru_dw": ARITHMETIC,
+	"_mve_shrru_qw": ARITHMETIC,
+	"_mve_shrl_b": ARITHMETIC,
+	"_mve_shrl_w": ARITHMETIC,
+	"_mve_shrl_dw": ARITHMETIC,
+	"_mve_shrl_qw": ARITHMETIC,
+	"_mve_set1_b": ARITHMETIC,
+	"_mve_set1_w": ARITHMETIC,
+	"_mve_set1_dw": ARITHMETIC,
+	"_mve_set1_qw": ARITHMETIC,
+	"_mve_set1_hf": ARITHMETIC,
+	"_mve_set1_f": ARITHMETIC,
+	"_mve_set1_df": ARITHMETIC,
+	"_mve_load_b": MEMORY,
+	"_mve_load_w": MEMORY,
+	"_mve_load_dw": MEMORY,
+	"_mve_load_qw": MEMORY,
+	"_mve_load_hf": MEMORY,
+	"_mve_load_f": MEMORY,
+	"_mve_load_df": MEMORY,
+	"_mve_dict_b": MEMORY,
+	"_mve_dict_w": MEMORY,
+	"_mve_dict_dw": MEMORY,
+	"_mve_dict_qw": MEMORY,
+	"_mve_store_b": MEMORY,
+	"_mve_store_w": MEMORY,
+	"_mve_store_dw": MEMORY,
+	"_mve_store_qw": MEMORY,
+	"_mve_store_hf": MEMORY,
+	"_mve_store_f": MEMORY,
+	"_mve_store_df": MEMORY,
+	"_mve_loadr_b": MEMORY,
+	"_mve_loadr_w": MEMORY,
+	"_mve_loadr_dw": MEMORY,
+	"_mve_loadr_qw": MEMORY,
+	"_mve_loadr_hf": MEMORY,
+	"_mve_loadr_f": MEMORY,
+	"_mve_loadr_df": MEMORY,
+	"_mve_storer_b": MEMORY,
+	"_mve_storer_w": MEMORY,
+	"_mve_storer_dw": MEMORY,
+	"_mve_storer_qw": MEMORY,
+	"_mve_storer_hf": MEMORY,
+	"_mve_storer_f": MEMORY,
+	"_mve_storer_df": MEMORY,
+	"_mve_add_b": ARITHMETIC,
+	"_mve_add_w": ARITHMETIC,
+	"_mve_add_dw": ARITHMETIC,
+	"_mve_add_qw": ARITHMETIC,
+	"_mve_add_hf": ARITHMETIC,
+	"_mve_add_f": ARITHMETIC,
+	"_mve_add_df": ARITHMETIC,
+	"_mve_sub_b": ARITHMETIC,
+	"_mve_sub_w": ARITHMETIC,
+	"_mve_sub_dw": ARITHMETIC,
+	"_mve_sub_qw": ARITHMETIC,
+	"_mve_sub_hf": ARITHMETIC,
+	"_mve_sub_f": ARITHMETIC,
+	"_mve_sub_df": ARITHMETIC,
+	"_mve_mul_b": ARITHMETIC,
+	"_mve_mul_w": ARITHMETIC,
+	"_mve_mul_dw": ARITHMETIC,
+	"_mve_mul_qw": ARITHMETIC,
+	"_mve_mul_hf": ARITHMETIC,
+	"_mve_mul_f": ARITHMETIC,
+	"_mve_mul_df": ARITHMETIC,
+	"_mve_min_b": ARITHMETIC,
+	"_mve_min_w": ARITHMETIC,
+	"_mve_min_dw": ARITHMETIC,
+	"_mve_min_qw": ARITHMETIC,
+	"_mve_min_hf": ARITHMETIC,
+	"_mve_min_f": ARITHMETIC,
+	"_mve_min_df": ARITHMETIC,
+	"_mve_max_b": ARITHMETIC,
+	"_mve_max_w": ARITHMETIC,
+	"_mve_max_dw": ARITHMETIC,
+	"_mve_max_qw": ARITHMETIC,
+	"_mve_max_hf": ARITHMETIC,
+	"_mve_max_f": ARITHMETIC,
+	"_mve_max_df": ARITHMETIC,
+	"_mve_xor_b": ARITHMETIC,
+	"_mve_xor_w": ARITHMETIC,
+	"_mve_xor_dw": ARITHMETIC,
+	"_mve_xor_qw": ARITHMETIC,
+	"_mve_cmpeq_b": ARITHMETIC,
+	"_mve_cmpeq_w": ARITHMETIC,
+	"_mve_cmpeq_dw": ARITHMETIC,
+	"_mve_cmpeq_qw": ARITHMETIC,
+	"_mve_cmpeq_hf": ARITHMETIC,
+	"_mve_cmpeq_f": ARITHMETIC,
+	"_mve_cmpeq_df": ARITHMETIC,
+	"_mve_cmpgte_b": ARITHMETIC,
+	"_mve_cmpgte_w": ARITHMETIC,
+	"_mve_cmpgte_dw": ARITHMETIC,
+	"_mve_cmpgte_qw": ARITHMETIC,
+	"_mve_cmpgte_hf": ARITHMETIC,
+	"_mve_cmpgte_f": ARITHMETIC,
+	"_mve_cmpgte_df": ARITHMETIC,
+	"_mve_cvt_wtob": ARITHMETIC,
+	"_mve_cvt_dwtow": MOVE,
+	"_mve_cvtu_btow": MOVE,
+	"_mve_cvts_btow": MOVE,
+	"_mve_cvtu_btodw": MOVE,
+	"_mve_cvts_btodw": MOVE,
+	"_mve_cvtu_wtodw": MOVE,
+	"_mve_cvts_wtodw": MOVE,
+	"_mve_cvts_dwtoqw": MOVE,
+	"_mve_assign_b": MOVE,
+	"_mve_assign_w": MOVE,
+	"_mve_assign_dw": MOVE,
+	"_mve_assign_qw": MOVE,
+	"_mve_assign_hf": MOVE,
+	"_mve_assign_f": MOVE,
+	"_mve_assign_df": MOVE,
+	"_mve_copy_b": MOVE,
+	"_mve_copy_w": MOVE,
+	"_mve_copy_dw": MOVE,
+	"_mve_copy_qw": MOVE,
+	"_mve_copy_hf": MOVE,
+	"_mve_copy_f": MOVE,
+	"_mve_copy_df": MOVE}
+
 def writer(fh, str):
 	if WRITE_EN:
 		fh.write(str)
@@ -40,6 +199,8 @@ def compile(dfg_addr, asm_addr, instr_addr):
 	last_asm_idx = 0
 	dfg_line_idx = 0
 	num_CPU_instr = 0
+
+	instruction_count = [0] * MAX
 
 	while (dfg_line_idx < len(dfg_lines)):
 
@@ -113,6 +274,7 @@ def compile(dfg_addr, asm_addr, instr_addr):
 				assert (("load" == asm_split[0]) or ("store" == asm_split[0])), f"[COMPILER]: error in line \"{last_asm_idx}\" of \"{asm_addr}\": \"{asm_line}\""
 				num_CPU_instr += int(asm_lines[last_asm_idx].split()[2])
 				writer(instr_file, f"{asm_split[0]} {asm_split[1]} {num_CPU_instr}\n")
+				instruction_count[SCALAR] += (num_CPU_instr + 1)
 				num_CPU_instr = 0
 			last_asm_idx += 1
 
@@ -125,6 +287,8 @@ def compile(dfg_addr, asm_addr, instr_addr):
 				writer(instr_file, f"{dfg_opc}\n")
 			else:
 				writer(instr_file, f"{dfg_opc} {dfg_dst} {dfg_src1} {dfg_src2} {dfg_config} {dfg_val} {num_CPU_instr}\n")
+				instruction_count[instruction_dict[dfg_opc]] += 1
+				instruction_count[SCALAR] += num_CPU_instr
 				num_CPU_instr = 0
 		else:
 			# it's a memory-based instr
@@ -132,6 +296,8 @@ def compile(dfg_addr, asm_addr, instr_addr):
 			for dfg_mem_addr in dfg_mem_addrs:
 				writer(instr_file, f" {dfg_mem_addr}")
 			writer(instr_file, "\n")
+			instruction_count[instruction_dict[dfg_opc]] += 1
+			instruction_count[SCALAR] += num_CPU_instr
 			num_CPU_instr = 0
 
 		dfg_line_idx += 1
@@ -149,7 +315,9 @@ def compile(dfg_addr, asm_addr, instr_addr):
 			assert (("load" == asm_split[0]) or ("store" == asm_split[0])), f"[COMPILER]: error in line \"{last_asm_idx}\" \"{asm_line}\""
 			num_CPU_instr += int(asm_lines[last_asm_idx].split()[2])
 			writer(instr_file, f"{asm_split[0]} {asm_split[1]} {num_CPU_instr}\n")
+			instruction_count[SCALAR] += (num_CPU_instr + 1)
 			num_CPU_instr = 0
 		last_asm_idx += 1
 	last_asm_idx += 1
+	return instruction_count[CONFIG], instruction_count[MOVE], instruction_count[MEMORY], instruction_count[ARITHMETIC], instruction_count[SCALAR]
 

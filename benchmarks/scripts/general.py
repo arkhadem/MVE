@@ -97,6 +97,7 @@ def workerthread(my_tid):
 			run_command(selected_task)
 
 def add_run_command(command):
+	debug(f"[LOG]: {command} added for run!")
 	tasks.append(command)
 
 def run_parallel_commands():
