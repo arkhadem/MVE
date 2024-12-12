@@ -127,7 +127,7 @@ def run_simulator(directory, schemes, isas, args):
 							if exists:
 								print(f"Skipping {ram_file} as it is already simulated!")
 								continue
-							command = f"{RAMULATOR_ROOT}/ramulator_{isa}_{scheme} "
+							command = f"{RAMULATOR_ROOT}/ramulator_{scheme} "
 							command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 							command += f"--stats {ram_file} "
 							command += instr_file + " "
@@ -143,7 +143,7 @@ def run_simulator(directory, schemes, isas, args):
 						if exists:
 							print(f"Skipping {ram_file} as it is already simulated!")
 							continue
-						command = f"{RAMULATOR_ROOT}/ramulator_{isa}_{scheme} "
+						command = f"{RAMULATOR_ROOT}/ramulator_{scheme} "
 						command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 						command += f"--stats {ram_file} "
 						command += instr_file + " "
