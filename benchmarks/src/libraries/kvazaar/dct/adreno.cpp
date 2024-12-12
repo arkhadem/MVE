@@ -51,7 +51,7 @@ void dct_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command dct_queue
-    dct_queue = clCreateCommandQueue(dct_context, dct_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    dct_queue = clCreateCommandQueue(dct_context, dct_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute dct_program from the source buffer
@@ -112,7 +112,6 @@ timing_t dct_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -164,11 +163,10 @@ timing_t dct_adreno(config_t *config,
     clFinish(dct_queue);
 
     // Execute the dct_kernel over the entire range of the data set
-    // CLOCK_START()
-    err = clEnqueueNDRangeKernel(dct_queue, dct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    // clFinish(dct_queue);
-    // CLOCK_FINISH(timing.kernel_execute)
-    PROF_FINISH(dct_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(dct_queue, dct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(dct_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     memcpy(out, h_out, inout_size);

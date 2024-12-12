@@ -50,7 +50,7 @@ void intra_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command intra_queue
-    intra_queue = clCreateCommandQueue(intra_context, intra_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    intra_queue = clCreateCommandQueue(intra_context, intra_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute intra_program from the source buffer
@@ -102,7 +102,6 @@ timing_t intra_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -142,13 +141,14 @@ timing_t intra_adreno(config_t *config,
     memcpy(h_ref_left, ref_left, ref_size);
     CLOCK_FINISH(timing.memcpy)
 
-    err = clEnqueueNDRangeKernel(intra_queue, intra_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    clWaitForEvents(1, &event);
+    err = clEnqueueNDRangeKernel(intra_queue, intra_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
     clFinish(intra_queue);
 
     // Execute the intra_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(intra_queue, intra_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    PROF_FINISH(intra_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(intra_queue, intra_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(intra_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     // Read the dsts from the device
     CLOCK_START()

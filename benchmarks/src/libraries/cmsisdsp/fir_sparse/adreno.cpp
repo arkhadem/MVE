@@ -50,7 +50,7 @@ void fir_sparse_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command fir_sparse_queue
-    fir_sparse_queue = clCreateCommandQueue(fir_sparse_context, fir_sparse_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    fir_sparse_queue = clCreateCommandQueue(fir_sparse_context, fir_sparse_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute fir_sparse_program from the source buffer
@@ -99,7 +99,6 @@ timing_t fir_sparse_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -150,11 +149,10 @@ timing_t fir_sparse_adreno(config_t *config,
     clFinish(fir_sparse_queue);
 
     // Execute the fir_sparse_kernel over the entire range of the data set
-    // CLOCK_START()
-    err = clEnqueueNDRangeKernel(fir_sparse_queue, fir_sparse_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    // clFinish(fir_sparse_queue);
-    // CLOCK_FINISH(timing.kernel_execute)
-    PROF_FINISH(fir_sparse_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(fir_sparse_queue, fir_sparse_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(fir_sparse_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     clEnqueueUnmapMemObject(fir_sparse_queue, d_src, h_src, 0, NULL, NULL);

@@ -49,7 +49,7 @@ void fir_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command fir_queue
-    fir_queue = clCreateCommandQueue(fir_context, fir_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    fir_queue = clCreateCommandQueue(fir_context, fir_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute fir_program from the source buffer
@@ -95,7 +95,6 @@ timing_t fir_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -148,11 +147,10 @@ timing_t fir_adreno(config_t *config,
     clFinish(fir_queue);
 
     // Execute the fir_kernel over the entire range of the data set
-    // CLOCK_START()
-    err = clEnqueueNDRangeKernel(fir_queue, fir_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    // clFinish(fir_queue);
-    // CLOCK_FINISH(timing.kernel_execute)
-    PROF_FINISH(fir_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(fir_queue, fir_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(fir_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     clEnqueueUnmapMemObject(fir_queue, d_src, h_src, 0, NULL, NULL);

@@ -63,7 +63,6 @@ void benchmark_runner(const char *library, const char *kernel, int rounds, bool 
     int iterations = 0;
     // in us
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
     while (rounds != 0) {
 

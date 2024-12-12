@@ -50,7 +50,7 @@ void spmm_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command spmm_queue
-    spmm_queue = clCreateCommandQueue(spmm_context, spmm_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    spmm_queue = clCreateCommandQueue(spmm_context, spmm_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute spmm_program from the source buffer
@@ -103,7 +103,6 @@ timing_t spmm_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Device input buffers
@@ -174,14 +173,15 @@ timing_t spmm_adreno(config_t *config,
     CLOCK_FINISH(timing.memcpy)
 
     // Execute the spmm_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(spmm_queue, spmm_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    printErrorString(2, err);
-    // Wait for the command spmm_queue to get serviced before reading back results
+    err = clEnqueueNDRangeKernel(spmm_queue, spmm_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
     clFinish(spmm_queue);
+    printErrorString(2, err);
 
     // Execute the spmm_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(spmm_queue, spmm_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    PROF_FINISH(spmm_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(spmm_queue, spmm_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(spmm_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     memcpy(out, h_out, output_size);

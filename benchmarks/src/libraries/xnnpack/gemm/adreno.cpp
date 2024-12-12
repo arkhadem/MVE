@@ -59,7 +59,7 @@ void gemm_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command gemm_queue
-    gemm_queue = clCreateCommandQueue(gemm_context, gemm_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    gemm_queue = clCreateCommandQueue(gemm_context, gemm_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute gemm_program from the source buffer
@@ -114,7 +114,6 @@ timing_t gemm_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -176,13 +175,15 @@ timing_t gemm_adreno(config_t *config,
 
     // Execute the kernel over the entire range of the data set
     err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
-    printErrorString(2, err);
     // Wait for the command gemm_queue to get serviced before reading back results
     clFinish(gemm_queue);
+    printErrorString(2, err);
 
     // Execute the kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, &event);
-    PROF_FINISH(gemm_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    clFinish(gemm_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     memcpy(out, h_out, output_size);

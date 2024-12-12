@@ -50,7 +50,7 @@ void satd_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command satd_queue
-    satd_queue = clCreateCommandQueue(satd_context, satd_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    satd_queue = clCreateCommandQueue(satd_context, satd_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute satd_program from the source buffer
@@ -100,7 +100,6 @@ timing_t satd_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -155,12 +154,14 @@ timing_t satd_adreno(config_t *config,
     CLOCK_FINISH(timing.memcpy)
 
     // Execute the satd_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(satd_queue, satd_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
+    err = clEnqueueNDRangeKernel(satd_queue, satd_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
     clFinish(satd_queue);
 
     // Execute the satd_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(satd_queue, satd_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    PROF_FINISH(satd_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(satd_queue, satd_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(satd_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     // Read the results from the device
     CLOCK_START()

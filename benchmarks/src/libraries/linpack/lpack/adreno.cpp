@@ -50,7 +50,7 @@ void lpack_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command lpack_queue
-    lpack_queue = clCreateCommandQueue(lpack_context, lpack_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    lpack_queue = clCreateCommandQueue(lpack_context, lpack_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute lpack_program from the source buffer
@@ -91,7 +91,6 @@ timing_t lpack_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -132,8 +131,10 @@ timing_t lpack_adreno(config_t *config,
     err = clEnqueueNDRangeKernel(lpack_queue, lpack_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
     clFinish(lpack_queue);
 
-    err = clEnqueueNDRangeKernel(lpack_queue, lpack_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, &event);
-    PROF_FINISH(lpack_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(lpack_queue, lpack_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    clFinish(lpack_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     // Copy from host memory to pinned host memory which copies to the card automatically
     CLOCK_START()

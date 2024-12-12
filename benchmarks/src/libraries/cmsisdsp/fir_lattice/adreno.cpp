@@ -54,7 +54,7 @@ void fir_lattice_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command fir_lattice_queue
-    fir_lattice_queue = clCreateCommandQueue(fir_lattice_context, fir_lattice_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    fir_lattice_queue = clCreateCommandQueue(fir_lattice_context, fir_lattice_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute fir_lattice_program from the source buffer
@@ -115,7 +115,6 @@ timing_t fir_lattice_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event1, event2;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -214,21 +213,13 @@ timing_t fir_lattice_adreno(config_t *config,
 
     // Execute the kernel over the entire range of the data set
     CLOCK_START()
-    err = clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[0], dimention, NULL, fm_global_item_size, fm_local_item_size, 0, NULL, &event1);
+    err = clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[0], dimention, NULL, fm_global_item_size, fm_local_item_size, 0, NULL, NULL);
     for (int itr = 1; itr < iteration - 1; itr++) {
         err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[itr], dimention, NULL, fm_global_item_size, fm_local_item_size, 0, NULL, NULL);
     }
-    err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[iteration - 1], dimention, NULL, l_global_item_size, l_local_item_size, 0, NULL, &event2);
+    err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[iteration - 1], dimention, NULL, l_global_item_size, l_local_item_size, 0, NULL, NULL);
     clFinish(fir_lattice_queue);
-    cl_ulong time_submit;
-    cl_ulong time_start;
-    cl_ulong time_end;
-    err = clGetEventProfilingInfo(event1, CL_PROFILING_COMMAND_QUEUED, sizeof(cl_ulong), &time_submit, NULL);
-    err |= clGetEventProfilingInfo(event1, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &time_start, NULL);
-    err |= clGetEventProfilingInfo(event2, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &time_end, NULL);
-    printErrorString(2, err);
-    timing.kernel_execute = (double)(time_end - time_start) * 1.0e-9f;
-    timing.kernel_launch = (double)(time_start - time_submit) * 1.0e-9f;
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     for (int itr = 0; itr < iteration; itr++) {

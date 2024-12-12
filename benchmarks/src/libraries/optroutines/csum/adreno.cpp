@@ -51,7 +51,7 @@ void csum_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command csum_queue
-    csum_queue = clCreateCommandQueue(csum_context, csum_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    csum_queue = clCreateCommandQueue(csum_context, csum_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute csum_program from the source buffer
@@ -100,7 +100,6 @@ timing_t csum_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -139,8 +138,10 @@ timing_t csum_adreno(config_t *config,
     clFinish(csum_queue);
 
     // Execute the csum_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(csum_queue, csum_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, &event);
-    PROF_FINISH(csum_queue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(csum_queue, csum_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    clFinish(csum_queue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     memcpy(sum, h_sum, sum_size);

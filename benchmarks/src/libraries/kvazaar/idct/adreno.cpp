@@ -50,7 +50,7 @@ void idct_InitGPU(config_t *config) {
     printErrorString(5, err);
 
     // Create a command idc_tqueue
-    idc_tqueue = clCreateCommandQueue(idct_context, idct_device_id, CL_QUEUE_PROFILING_ENABLE, &err);
+    idc_tqueue = clCreateCommandQueue(idct_context, idct_device_id, 0, &err);
     printErrorString(6, err);
 
     // Create the compute idct_program from the source buffer
@@ -110,7 +110,6 @@ timing_t idct_adreno(config_t *config,
     cl_int err;
     clock_t start, end;
     timing_t timing;
-    cl_event event;
     CLOCK_INIT(timing)
 
     // Computes the global and local thread sizes
@@ -161,11 +160,10 @@ timing_t idct_adreno(config_t *config,
     clFinish(idc_tqueue);
 
     // Execute the idct_kernel over the entire range of the data set
-    // CLOCK_START()
-    err = clEnqueueNDRangeKernel(idc_tqueue, idct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, &event);
-    // clFinish(idc_tqueue);
-    // CLOCK_FINISH(timing.kernel_execute)
-    PROF_FINISH(idc_tqueue)
+    CLOCK_START()
+    err = clEnqueueNDRangeKernel(idc_tqueue, idct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(idc_tqueue);
+    CLOCK_FINISH(timing.kernel_execute)
 
     CLOCK_START()
     memcpy(out, h_out, inout_size);
