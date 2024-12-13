@@ -167,11 +167,11 @@ def parse_simulation(directory, schemes, isas, args):
 							K = layer["K"]
 							ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}_{M}_{N}_{K}.ram"
 							idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy = parser.parse(ram_file)
-							CSV_file.write(f"{scheme},{isa},{library},{kernel}_{M}_{N}_{K},{idle_time},{compute_time},{data_access_time},{total_time},{compute_energy},{data_access_energy},{total_energy}\n")
+							CSV_file.write(f"{scheme},{isa},{library},{kernel}_{M}_{N}_{K},{float(idle_time):0.8f},{float(compute_time):0.8f},{float(data_access_time):0.8f},{float(total_time):0.8f},{float(compute_energy):0.8f},{float(data_access_energy):0.8f},{float(total_energy):0.8f}\n")
 					else:
 						ram_file = f"{directory}/{scheme}/{isa}/{library}/{kernel}.ram"
 						idle_time, compute_time, data_access_time, total_time, compute_energy, data_access_energy, total_energy = parser.parse(ram_file)
-						CSV_file.write(f"{scheme},{isa},{library},{kernel},{idle_time},{compute_time},{data_access_time},{total_time},{compute_energy},{data_access_energy},{total_energy}\n")
+						CSV_file.write(f"{scheme},{isa},{library},{kernel},{float(idle_time):0.8f},{float(compute_time):0.8f},{float(data_access_time):0.8f},{float(total_time):0.8f},{float(compute_energy):0.8f},{float(data_access_energy):0.8f},{float(total_energy):0.8f}\n")
 			CSV_file.close()
 
 def main():
