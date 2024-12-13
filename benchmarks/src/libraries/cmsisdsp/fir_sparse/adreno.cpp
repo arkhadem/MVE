@@ -145,8 +145,8 @@ timing_t fir_sparse_adreno(config_t *config,
     memcpy(h_delay, delay, delay_size);
     CLOCK_FINISH(timing.memcpy)
 
-    err = clEnqueueNDRangeKernel(fir_sparse_queue, fir_sparse_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
-    clFinish(fir_sparse_queue);
+    // err = clEnqueueNDRangeKernel(fir_sparse_queue, fir_sparse_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    // clFinish(fir_sparse_queue);
 
     // Execute the fir_sparse_kernel over the entire range of the data set
     CLOCK_START()

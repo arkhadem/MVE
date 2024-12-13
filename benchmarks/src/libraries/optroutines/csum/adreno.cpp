@@ -134,8 +134,8 @@ timing_t csum_adreno(config_t *config,
     memcpy(h_ptr, ptr, ptr_size);
     CLOCK_FINISH(timing.memcpy)
 
-    err = clEnqueueNDRangeKernel(csum_queue, csum_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
-    clFinish(csum_queue);
+    // err = clEnqueueNDRangeKernel(csum_queue, csum_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    // clFinish(csum_queue);
 
     // Execute the csum_kernel over the entire range of the data set
     CLOCK_START()

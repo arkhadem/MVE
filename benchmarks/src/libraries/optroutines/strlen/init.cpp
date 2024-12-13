@@ -19,7 +19,7 @@ int strlen_init(size_t cache_size,
     strlen_output_t **strlen_output = (strlen_output_t **)output;
 
     // configuration
-    int size = 65536;
+    int size = 128 * 1024;
 
     init_1D<strlen_config_t>(1, strlen_config);
     strlen_config->size = size;

@@ -18,7 +18,7 @@ int lpack_init(size_t cache_size,
 
     // configuration
     init_1D<lpack_config_t>(1, lpack_config);
-    lpack_config->n = 65536;
+    lpack_config->n = 512 * 1024 * 1024;
     int count = cache_size / (lpack_config->n * 3 * sizeof(int32_t)) + 1;
 
     // initializing in/output

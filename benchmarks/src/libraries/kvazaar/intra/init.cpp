@@ -18,7 +18,7 @@ int intra_init(size_t cache_size,
 
     // configuration
     init_1D<intra_config_t>(1, intra_config);
-    intra_config->count = 8192;
+    intra_config->count = 14400;
     intra_config->log2_width = 3;
     intra_config->width = 1 << intra_config->log2_width;
     int input_count = intra_config->count * 17;

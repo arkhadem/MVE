@@ -16,7 +16,7 @@ int fir_init(size_t cache_size,
 
     // configuration
     init_1D<fir_config_t>(1, fir_config);
-    fir_config->sample_count = 65536;
+    fir_config->sample_count = 192 * 1024 * 1024;
     fir_config->coeff_count = 32;
     int input_count = fir_config->sample_count + fir_config->coeff_count - 1;
     int count = cache_size / ((input_count + fir_config->coeff_count + fir_config->sample_count) * sizeof(int32_t)) + 1;

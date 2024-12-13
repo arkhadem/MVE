@@ -172,10 +172,10 @@ timing_t spmm_adreno(config_t *config,
     memcpy(h_NNZ, NNZ, NNZ_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // Execute the spmm_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(spmm_queue, spmm_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
-    clFinish(spmm_queue);
-    printErrorString(2, err);
+    // // Execute the spmm_kernel over the entire range of the data set
+    // err = clEnqueueNDRangeKernel(spmm_queue, spmm_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    // clFinish(spmm_queue);
+    // printErrorString(2, err);
 
     // Execute the spmm_kernel over the entire range of the data set
     CLOCK_START()

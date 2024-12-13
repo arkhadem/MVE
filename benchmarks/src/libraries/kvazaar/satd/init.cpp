@@ -18,7 +18,7 @@ int satd_init(size_t cache_size,
 
     // configuration
     init_1D<satd_config_t>(1, satd_config);
-    satd_config->count = 8192;
+    satd_config->count = 14400;
     int count = cache_size / (satd_config->count * 64 * 2 * sizeof(uint8_t) + satd_config->count * 64 * sizeof(int32_t)) + 1;
 
     // initializing in/output

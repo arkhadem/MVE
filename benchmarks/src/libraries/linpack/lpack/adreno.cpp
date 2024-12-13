@@ -128,8 +128,8 @@ timing_t lpack_adreno(config_t *config,
     memcpy(h_dyin, dyin, d_size);
     CLOCK_FINISH(timing.memcpy)
 
-    err = clEnqueueNDRangeKernel(lpack_queue, lpack_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
-    clFinish(lpack_queue);
+    // err = clEnqueueNDRangeKernel(lpack_queue, lpack_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    // clFinish(lpack_queue);
 
     CLOCK_START()
     err = clEnqueueNDRangeKernel(lpack_queue, lpack_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);

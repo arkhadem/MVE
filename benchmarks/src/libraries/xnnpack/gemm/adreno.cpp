@@ -131,10 +131,10 @@ timing_t gemm_adreno(config_t *config,
     size_t local_item_size[] = {MDIMC, NDIMC, 1};
 
     // Create the input and output arrays in device memory for our calculation
-    size_t input_size = K * M * sizeof(float);
-    size_t bias_size = N * sizeof(float);
-    size_t weights_size = N * K * sizeof(float);
-    size_t output_size = N * M * sizeof(float);
+    size_t input_size = K * M * sizeof(int32_t);
+    size_t bias_size = N * sizeof(int32_t);
+    size_t weights_size = N * K * sizeof(int32_t);
+    size_t output_size = N * M * sizeof(int32_t);
 
     CLOCK_START()
     cl_mem d_in = clCreateBuffer(gemm_context, CL_MEM_READ_ONLY | CL_MEM_ALLOC_HOST_PTR, input_size, NULL, NULL);
@@ -145,10 +145,10 @@ timing_t gemm_adreno(config_t *config,
 
     // Write our data set into the input array in device memory
     CLOCK_START()
-    float *h_in = (float *)clEnqueueMapBuffer(gemm_queue, d_in, CL_FALSE, CL_MAP_READ, 0, input_size, 0, NULL, NULL, &err);
-    float *h_bias = (float *)clEnqueueMapBuffer(gemm_queue, d_bias, CL_FALSE, CL_MAP_READ, 0, bias_size, 0, NULL, NULL, &err);
-    float *h_weights = (float *)clEnqueueMapBuffer(gemm_queue, d_weights, CL_FALSE, CL_MAP_READ, 0, weights_size, 0, NULL, NULL, &err);
-    float *h_out = (float *)clEnqueueMapBuffer(gemm_queue, d_out, CL_FALSE, CL_MAP_WRITE, 0, output_size, 0, NULL, NULL, &err);
+    int32_t *h_in = (int32_t *)clEnqueueMapBuffer(gemm_queue, d_in, CL_FALSE, CL_MAP_READ, 0, input_size, 0, NULL, NULL, &err);
+    int32_t *h_bias = (int32_t *)clEnqueueMapBuffer(gemm_queue, d_bias, CL_FALSE, CL_MAP_READ, 0, bias_size, 0, NULL, NULL, &err);
+    int32_t *h_weights = (int32_t *)clEnqueueMapBuffer(gemm_queue, d_weights, CL_FALSE, CL_MAP_READ, 0, weights_size, 0, NULL, NULL, &err);
+    int32_t *h_out = (int32_t *)clEnqueueMapBuffer(gemm_queue, d_out, CL_FALSE, CL_MAP_WRITE, 0, output_size, 0, NULL, NULL, &err);
     clFinish(gemm_queue);
     CLOCK_FINISH(timing.map_buffer)
 
@@ -162,8 +162,8 @@ timing_t gemm_adreno(config_t *config,
     err |= clSetKernelArg(gemm_kernel, 4, sizeof(cl_mem), &d_bias);
     err |= clSetKernelArg(gemm_kernel, 5, sizeof(cl_mem), &d_weights);
     err |= clSetKernelArg(gemm_kernel, 6, sizeof(cl_mem), &d_out);
-    err |= clSetKernelArg(gemm_kernel, 7, sizeof(float), &min);
-    err |= clSetKernelArg(gemm_kernel, 8, sizeof(float), &max);
+    err |= clSetKernelArg(gemm_kernel, 7, sizeof(int32_t), &min);
+    err |= clSetKernelArg(gemm_kernel, 8, sizeof(int32_t), &max);
     printErrorString(0, err);
 
     // Copy from host memory to pinned host memory which copies to the card automatically
@@ -173,11 +173,11 @@ timing_t gemm_adreno(config_t *config,
     memcpy(h_weights, weights, weights_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // Execute the kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
-    // Wait for the command gemm_queue to get serviced before reading back results
-    clFinish(gemm_queue);
-    printErrorString(2, err);
+    // // Execute the kernel over the entire range of the data set
+    // err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    // // Wait for the command gemm_queue to get serviced before reading back results
+    // clFinish(gemm_queue);
+    // printErrorString(2, err);
 
     // Execute the kernel over the entire range of the data set
     CLOCK_START()

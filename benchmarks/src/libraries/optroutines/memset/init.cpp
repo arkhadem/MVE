@@ -17,7 +17,7 @@ int memset_init(size_t cache_size,
     memset_output_t **memset_output = (memset_output_t **)output;
 
     // configuration
-    int size = 65536;
+    int size = 128 * 1024;
 
     init_1D<memset_config_t>(1, memset_config);
     memset_config->size = size;

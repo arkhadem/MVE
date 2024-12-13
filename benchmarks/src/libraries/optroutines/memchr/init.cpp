@@ -20,7 +20,7 @@ int memchr_init(size_t cache_size,
     memchr_output_t **memchr_output = (memchr_output_t **)output;
 
     // configuration
-    int size = 65536;
+    int size = 128 * 1024;
 
     init_1D<memchr_config_t>(1, memchr_config);
     memchr_config->size = size;

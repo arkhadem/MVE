@@ -45,7 +45,7 @@
 #endif
 
 #ifndef BLOCK_SIZE
-#define BLOCK_SIZE BLOCK_512
+#define BLOCK_SIZE BLOCK_1K
 #endif
 
 typedef short int16_t;
@@ -62,7 +62,7 @@ __kernel void csum_adreno_kernel(
     int g_id = get_global_id(1);
 
     __global int32_t *my_ptr = ptr + g_id * BLOCK_16K + l_id;
-    __local int64_t* my_state_l = state_l + l_id;
+    __local int64_t *my_state_l = state_l + l_id;
 
     int64_t l_checksum = 0;
     for (int load = 0; load < BLOCK_16K; load += BLOCK_SIZE) {

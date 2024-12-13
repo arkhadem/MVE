@@ -18,7 +18,7 @@ int dct_init(size_t cache_size,
 
     // configuration
     init_1D<dct_config_t>(1, dct_config);
-    dct_config->count = 8192;
+    dct_config->count = 14400;
     init_1D<int8_t>(dct_config->count, dct_config->bitdepth);
     for (int i = 0; i < dct_config->count; i++) {
         dct_config->bitdepth[i] = 12;

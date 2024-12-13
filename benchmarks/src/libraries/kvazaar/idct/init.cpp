@@ -18,7 +18,7 @@ int idct_init(size_t cache_size,
 
     // configuration
     init_1D<idct_config_t>(1, idct_config);
-    idct_config->count = 8192;
+    idct_config->count = 14400;
     init_1D<int8_t>(idct_config->count, idct_config->bitdepth);
     for (int i = 0; i < idct_config->count; i++) {
         idct_config->bitdepth[i] = 12;

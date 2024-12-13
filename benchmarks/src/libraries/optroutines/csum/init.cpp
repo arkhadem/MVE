@@ -18,7 +18,7 @@ int csum_init(size_t cache_size,
 
     // configuration
     init_1D<csum_config_t>(1, csum_config);
-    csum_config->count = 64;
+    csum_config->count = 2;
     int n = csum_config->count * BLOCK_16K;
     int count = cache_size / (n * sizeof(int32_t) + csum_config->count * sizeof(int16_t)) + 1;
 

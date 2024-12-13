@@ -16,7 +16,7 @@ int fir_sparse_init(size_t cache_size,
 
     // configuration
     init_1D<fir_sparse_config_t>(1, fir_sparse_config);
-    fir_sparse_config->sample_count = 65536;
+    fir_sparse_config->sample_count = 192 * 1024 * 1024;
     fir_sparse_config->coeff_count = 32;
     fir_sparse_config->sparsity = 0.8;
     fir_sparse_config->input_count = fir_sparse_config->sample_count + fir_sparse_config->coeff_count - 1;

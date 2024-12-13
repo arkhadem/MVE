@@ -23,7 +23,7 @@ int memcmp_init(size_t cache_size,
     memcmp_output_t **memcmp_output = (memcmp_output_t **)output;
 
     // configuration
-    int size = 65536;
+    int size = 128 * 1024;
 
     init_1D<memcmp_config_t>(1, memcmp_config);
     memcmp_config->size = size;

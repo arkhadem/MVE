@@ -153,9 +153,9 @@ timing_t satd_adreno(config_t *config,
     memcpy(h_coeff, coeff, coeff_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // Execute the satd_kernel over the entire range of the data set
-    err = clEnqueueNDRangeKernel(satd_queue, satd_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
-    clFinish(satd_queue);
+    // // Execute the satd_kernel over the entire range of the data set
+    // err = clEnqueueNDRangeKernel(satd_queue, satd_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    // clFinish(satd_queue);
 
     // Execute the satd_kernel over the entire range of the data set
     CLOCK_START()
