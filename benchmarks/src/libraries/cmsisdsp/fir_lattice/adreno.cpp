@@ -201,15 +201,15 @@ timing_t fir_lattice_adreno(config_t *config,
     memcpy(h_coeff, coeff, coeff_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // // Dummy kernel launch
-    // err = CL_SUCCESS;
-    // for (int itr = 0; itr < iteration - 1; itr++) {
-    //     err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[itr], dimention, NULL, fm_global_item_size, fm_local_item_size, 0, NULL, NULL);
-    // }
-    // err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[iteration - 1], dimention, NULL, l_global_item_size, l_local_item_size, 0, NULL, NULL);
-    // printErrorString(2, err);
-    // // Wait for the command fir_lattice_queue to get serviced before reading back results
-    // clFinish(fir_lattice_queue);
+    // Dummy kernel launch
+    err = CL_SUCCESS;
+    for (int itr = 0; itr < iteration - 1; itr++) {
+        err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[itr], dimention, NULL, fm_global_item_size, fm_local_item_size, 0, NULL, NULL);
+    }
+    err |= clEnqueueNDRangeKernel(fir_lattice_queue, fir_lattice_kernels[iteration - 1], dimention, NULL, l_global_item_size, l_local_item_size, 0, NULL, NULL);
+    printErrorString(2, err);
+    // Wait for the command fir_lattice_queue to get serviced before reading back results
+    clFinish(fir_lattice_queue);
 
     // Execute the kernel over the entire range of the data set
     CLOCK_START()

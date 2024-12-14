@@ -141,8 +141,9 @@ timing_t intra_adreno(config_t *config,
     memcpy(h_ref_left, ref_left, ref_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // err = clEnqueueNDRangeKernel(intra_queue, intra_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
-    // clFinish(intra_queue);
+    // Execute the intra_kernel over the entire range of the data set
+    err = clEnqueueNDRangeKernel(intra_queue, intra_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(intra_queue);
 
     // Execute the intra_kernel over the entire range of the data set
     CLOCK_START()

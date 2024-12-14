@@ -173,11 +173,11 @@ timing_t gemm_adreno(config_t *config,
     memcpy(h_weights, weights, weights_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // // Execute the kernel over the entire range of the data set
-    // err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
-    // // Wait for the command gemm_queue to get serviced before reading back results
-    // clFinish(gemm_queue);
-    // printErrorString(2, err);
+    // Execute the gemm_kernel over the entire range of the data set
+    err = clEnqueueNDRangeKernel(gemm_queue, gemm_kernel, dimention, NULL, global_item_size_gemm, local_item_size, 0, NULL, NULL);
+    // Wait for the command gemm_queue to get serviced before reading back results
+    clFinish(gemm_queue);
+    printErrorString(2, err);
 
     // Execute the kernel over the entire range of the data set
     CLOCK_START()

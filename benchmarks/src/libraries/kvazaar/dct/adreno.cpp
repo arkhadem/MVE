@@ -158,9 +158,10 @@ timing_t dct_adreno(config_t *config,
     memcpy(h_coeff, coeff, coeff_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // err = clEnqueueNDRangeKernel(dct_queue, dct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
-    // printErrorString(3, err);
-    // clFinish(dct_queue);
+    // Execute the dct_kernel over the entire range of the data set
+    err = clEnqueueNDRangeKernel(dct_queue, dct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    printErrorString(3, err);
+    clFinish(dct_queue);
 
     // Execute the dct_kernel over the entire range of the data set
     CLOCK_START()

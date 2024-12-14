@@ -156,8 +156,9 @@ timing_t idct_adreno(config_t *config,
     memcpy(h_coeff, coeff, coeff_size);
     CLOCK_FINISH(timing.memcpy)
 
-    // err = clEnqueueNDRangeKernel(idc_tqueue, idct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
-    // clFinish(idc_tqueue);
+    // Execute the idct_kernel over the entire range of the data set
+    err = clEnqueueNDRangeKernel(idc_tqueue, idct_kernel, dimention, NULL, global_item_size, local_item_size, 0, NULL, NULL);
+    clFinish(idc_tqueue);
 
     // Execute the idct_kernel over the entire range of the data set
     CLOCK_START()
