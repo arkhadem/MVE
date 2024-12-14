@@ -1,6 +1,8 @@
-# MVE Simulator for Mobile In-Cache Computing
+# In-Cache Computing Simulator for MVE ISA Extension
 
-This repo provides **an in-cache computing simulator** on top of Ramulator \[1\] for data-parallel applications based on the Multi-Dimensional Vector ISA Extension *(MVE)* ISA extension.
+This directory provides **an in-cache computing simulator** on top of Ramulator \[1\] for data-parallel applications based on the Multi-Dimensional Vector ISA Extension *(MVE)* ISA extension.
+This simulator is trace-driven.
+To generate traces, you can use [our DynamoRIO client](/tools/DynamoRIO/samples/inscount.cpp) on Arm-based processors.
 
 ## Trace Format
 
@@ -71,39 +73,6 @@ To activate debugging logs, please compile ramulator with `DEBUG` flag:
 
 Refer to [this readme](MVE_README.md) for more information about the MVE implementation.
 
-## Citation
-
-If you use *MVE*, please cite this paper:
-
-> Alireza Khadem, Daichi Fujiki, Hilbert Chen, Yufeng Gu, Nishil Talati, Scott Mahlke, and Reetuparna Das.
-> *Multi-Dimensional Vector ISA Extension for Mobile In-Cache Computing*,
-> In 2025 IEEE International Symposium on High-Performance Computer Architecture (HPCA)
-
-```
-@inproceedings{mve,
-  title={Multi-Dimensional Vector ISA Extension for Mobile In-Cache Computing},
-  author={Khadem, Alireza and Fujiki, Daichi and Chen, Hilbert and Gu, Yufeng and Talati, Nishil and Mahlke, Scott and Das, Reetuparna},
-  booktitle={2025 IEEE International Symposium on High-Performance Computer Architecture (HPCA)}, 
-  year={2025}
-}
-```
-
-## Issues and bug reporting
-
-We appreciate any feedback and suggestions from the community.
-Feel free to raise an issue or submit a pull request on Github.
-For assistance in using Swan, please contact: Alireza Khadem (arkhadem@umich.edu)
-
-## Licensing
-
-*MVE* simulator is available under a [MIT license](/LICENSE).
-For Ramulator, please refer to their [GitHub repo](https://github.com/CMU-SAFARI/ramulator).
-
-## Acknowledgement
-
-This work was supported in part by the NSF under CAREER-1652294 and NSF-1908601 awards.
-
 ## References
 
-[\[1\] Kim et al. *Ramulator: A Fast and Extensible DRAM Simulator.* IEEE CAL
-2015.](https://people.inf.ethz.ch/omutlu/pub/ramulator_dram_simulator-ieee-cal15.pdf)
+\[1\] Y. Kim, W. Yang and O. Mutlu, "Ramulator: A Fast and Extensible DRAM Simulator," in *IEEE Computer Architecture Letters*, 2016.

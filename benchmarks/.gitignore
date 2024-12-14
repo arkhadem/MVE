@@ -2,4 +2,6 @@ obj
 benchmark_*
 *.dfg
 *.asm
+*.csv
+*.txt
 scripts/__pycache__/

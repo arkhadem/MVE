@@ -9,7 +9,7 @@ import parser
 import os
 
 DYNAMORIO_ROOT = "../tools/DynamoRIO"
-RAMULATOR_ROOT = "../ramulator"
+Simulator_ROOT = "../simulator"
 LANE_NUMS = {"bs": 8192, "bh": 2048, "bp": 256, "ac": 2048}
 
 all_schemes = ["bs", "bh", "bp", "ac"]
@@ -127,8 +127,8 @@ def run_simulator(directory, schemes, isas, args):
 							if exists:
 								print(f"Skipping {ram_file} as it is already simulated!")
 								continue
-							command = f"{RAMULATOR_ROOT}/ramulator_{scheme} "
-							command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
+							command = f"{Simulator_ROOT}/simulator_{scheme} "
+							command += f"{Simulator_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 							command += f"--stats {ram_file} "
 							command += instr_file + " "
 							general.add_run_command(command)
@@ -143,8 +143,8 @@ def run_simulator(directory, schemes, isas, args):
 						if exists:
 							print(f"Skipping {ram_file} as it is already simulated!")
 							continue
-						command = f"{RAMULATOR_ROOT}/ramulator_{scheme} "
-						command += f"{RAMULATOR_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
+						command = f"{Simulator_ROOT}/simulator_{scheme} "
+						command += f"{Simulator_ROOT}/configs/LPDDR4-config-MVE.cfg --mode=MVE --core=1 prime "
 						command += f"--stats {ram_file} "
 						command += instr_file + " "
 						general.add_run_command(command)
