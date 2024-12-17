@@ -1,3 +1,5 @@
+# Artifcat of the MVE Paper, HPCA 2025
+
 This repository provides the codes, tools, and scripts required for the artifact evaluation of the **MVE**, "Multi-Dimensional Vector ISA Extension for Mobile In-Cache Computing" paper published in HPCA 2025.
 
 This evaluation is based on Samsung Galaxy S10e device, equipped with Snapdragon 855 mobile SoC and Armv8.2-A ISA.
@@ -90,7 +92,7 @@ python scripts/simulator.py --action simulate --directory ./data
 python scripts/simulator.py --action parse --directory ./data
 ```
 
-Use `--verbose` to checkout the detail logs of every step.
+Use `--verbose` to check the detail logs of every step, and `-j [NUM_THREADS]` to set the number of concurrent simulations in step 3.
 
 ## Citation
 
@@ -117,8 +119,8 @@ For assistance in using MVE, please contact: Alireza Khadem (arkhadem@umich.edu)
 
 ## Licensing
 
-*MVE* simulator is available under a [MIT license](/LICENSE).
-For Ramulator, please refer to their [GitHub repo](https://github.com/CMU-SAFARI/ramulator).
+This repository is available under a [MIT license](/LICENSE).
+please refer to [Ramulator](https://github.com/CMU-SAFARI/ramulator), [Swan Benchmark Suite](https://github.com/arkhadem/Swan), and [DynamoRIO](https://github.com/DynamoRIO/dynamorio) for their corresponding licenses.
 
 ## References
 
@@ -126,4 +128,4 @@ For Ramulator, please refer to their [GitHub repo](https://github.com/CMU-SAFARI
 
 ## Acknowledgement
 
-This work was supported in part by the NSF under CAREER-1652294 and NSF-1908601 awards.
+This work was supported in part by the NSF under the CAREER-1652294 and NSF-1908601 awards and by JST PRESTO Grant Number JPMJPR22P7.

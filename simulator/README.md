@@ -38,10 +38,10 @@ For a list of available opcodes, refer to [data directory](/data).
 
 Compile the simulator using these commands:
 
-    $ cd ramulator
+    $ cd simulator
     $ bash make_all.sh
 
-The bash script generate various executables for different ISAs (RVV or MVE) and the following in-cache computing schemes:
+The bash script generate various executables for the following in-cache computing schemes:
 
   - Bit-Serial (bs)
   - Bit-Hybrid (bh)
@@ -50,7 +50,7 @@ The bash script generate various executables for different ISAs (RVV or MVE) and
 
 Run the simulator using this command:
 
-    $ ./ramulator_<ISA>_<SCHEME> <config-file> --mode=MVE --core=1 <core-type> --stats <stat-file> <trace-file>
+    $ ./simulator_<SCHEME> <config-file> --mode=MVE --core=1 <core-type> --stats <stat-file> <trace-file>
 
 where:
   - `<config-file>` contains DRAM config, proportional CPU and DRAM frequency, and in-cache computing level.
@@ -65,7 +65,7 @@ where:
 
 ## Debug
 
-To activate debugging logs, please compile ramulator with `DEBUG` flag:
+To activate debugging logs, please compile the simulator with `DEBUG` flag:
   
     $ bash make_all_verbose.sh
 

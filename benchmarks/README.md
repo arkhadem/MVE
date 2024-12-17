@@ -1,8 +1,10 @@
+# MVE Functional Simulator and Benchmarks
+
 This directory provides various implementations of the data-parallel mobile workloads of the Swan benchmark suite \[1\], **MVE** functional simulator, and scripts required for mobile measurements and simulations.
 
 ## Content
 
-We provide the following implementations for 52 data-parallel kernels of 12 frequently-used mobile libraries:
+We provide the following implementations for 44 data-parallel kernels of 12 frequently-used mobile libraries:
 
 1. **Scalar** implementations
 2. Vectorized using Arm **Neon** intrinsics
@@ -45,8 +47,18 @@ The following table shows the libraries, number of kernels, and their implementa
 
 Please refer to the [main README](/README) for instructions for building and performing measurements and simulations.
 
+## MVE Functional Simulator
+
+`src/funcsim` directory contains the functional simulator.
+To reduce the memory usage, the current version does not execute the instrinsics and only generates the data-flow graphs.
+Uncomment the `#define MVE_COMPARE` line in the [/src/funcsim/mve_funcsim.hpp](/src/funcsim/mve_funcsim.hpp) header file to enable instrinsic execution.
+Please refer to the MVE paper \[3\] for understanding the MVE programming model.
+We will provide a detailed programming guide in future.
+
 ## References
 
 \[1\] A. Khadem, D. Fujiki, N. Talati, S. Mahlke and R. Das, "Vector-Processing for Mobile Devices: Benchmark and Analysis," *2023 IEEE International Symposium on Workload Characterization (IISWC)*, Ghent, Belgium, 2023.
 
 \[2\] D. Fujiki, S. Mahlke, and R. Das, "Duality cache for data parallel acceleration," *In Proceedings of the 46th International Symposium on Computer Architecture (ISCA)*, New York, NY, USA, 2019.
+
+\[3\] A. Khadem, D. Fujiki, H. Chen, Y. Gu, N. Talati, S. Mahlke and R. Das, "Multi-Dimensional Vector ISA Extension for Mobile In-Cache Computing," *In 2025 IEEE International Symposium on High-Performance Computer Architecture (HPCA)*, Las Vegas, NV, USA, 2025.
