@@ -183,6 +183,7 @@ def main():
 	parser.add_argument("--library", help="experiment library (default: all)", default="all", choices=["all"] + tests.all_library_list)
 	parser.add_argument("--kernel", help="experiment kernel; choose specific kernel only when a specific library is selected (default: all)", default="all")
 	parser.add_argument("--verbose", help="print all executed commands and their logs", default=False, action='store_true')
+	parser.add_argument("-j", help="number of simulation threads", default=32, type=int)
 	args = parser.parse_args()
 
 	action = args.action
@@ -201,6 +202,7 @@ def main():
 	else:
 		assert args.isa in all_isas, f"isa \"{args.isa}\" is not supported!"
 		isas = [args.isa]
+	general.NUM_PARALLEL_THREADS = args.j
 	general.VERBOSE = args.verbose
 	general.run_command(f"mkdir {directory}/")
 	if action == "benchmark":

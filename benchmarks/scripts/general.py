@@ -102,6 +102,7 @@ def add_run_command(command):
 
 def run_parallel_commands():
 	threads = []
+	debug(f"[LOG]: Running {NUM_PARALLEL_THREADS} threads in parallel!")
 	for i in range(NUM_PARALLEL_THREADS):
 		threads.append(Thread(target=workerthread, args=(i,)))
 	for tid in range(NUM_PARALLEL_THREADS):
