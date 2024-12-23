@@ -1,6 +1,5 @@
 
 from ast import Pass
-from asyncore import write
 import sys
 import os
 
