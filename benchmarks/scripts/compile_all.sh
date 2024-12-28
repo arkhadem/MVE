@@ -1,1 +1,0 @@
-python -u scripts/simulator.py --action compile --directory ./data --verbose 2>&1 | tee compile_logs.txt

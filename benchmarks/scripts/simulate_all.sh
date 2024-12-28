@@ -1,1 +1,0 @@
-python -u scripts/simulator.py --action simulate --directory ./data --verbose 2>&1 | tee simulate_logs.txt

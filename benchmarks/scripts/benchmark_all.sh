@@ -1,1 +1,0 @@
-python -u scripts/simulator.py --action benchmark --directory ./data --verbose 2>&1 | tee benchmark_logs.txt

@@ -1,1 +1,0 @@
-python -u scripts/simulator.py --action parse --directory ./data --verbose 2>&1 | tee parse_logs.txt
