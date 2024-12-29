@@ -1,0 +1,4 @@
+data_ac.tar.gz filter=lfs diff=lfs merge=lfs -text
+data_bs.tar.gz filter=lfs diff=lfs merge=lfs -text
+data_bh.tar.gz filter=lfs diff=lfs merge=lfs -text
+data_bp.tar.gz filter=lfs diff=lfs merge=lfs -text
