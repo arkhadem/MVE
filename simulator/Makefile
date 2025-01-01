@@ -12,9 +12,9 @@ CXX := clang++
 UNAME_S := $(shell uname -s)
 CXXFLAGS := -O3 -std=c++11 -g3 -Wall
 ifeq ($(UNAME_S),Linux)
-	CXXFLAGS += -Wno-unused-lambda-capture -Wno-delete-non-virtual-dtor
+	CXXFLAGS += -Wno-unused-lambda-capture -Wno-delete-non-virtual-dtor -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unknown-warning-option
 else ifeq ($(UNAME_S),Darwin)
-	CXXFLAGS += -Wno-unused-lambda-capture -Wno-delete-non-abstract-non-virtual-dtor
+	CXXFLAGS += -Wno-unused-lambda-capture -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unknown-warning-option
 endif
 
 .PHONY: all clean depend

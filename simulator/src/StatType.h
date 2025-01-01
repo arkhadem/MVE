@@ -8,6 +8,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <cstdint>
 #include <cstdlib>
 
 namespace ramulator {
@@ -32,7 +33,7 @@ typedef std::vector<Result> VResult;
 typedef std::numeric_limits<Counter> CounterLimits;
 
 class StatBase;
-extern std::vector<StatBase*> all_stats;
+extern std::vector<StatBase *> all_stats;
 void reset_stats();
 
 // Flags
@@ -50,10 +51,9 @@ protected:
     uint16_t flags;
 
 public:
-    Flags() { }
+    Flags() {}
     Flags(uint16_t flags)
-        : flags(flags)
-    {
+        : flags(flags) {
     }
     void operator=(uint16_t _flags) { flags = _flags; }
     bool is_total() const { return flags & total; }
@@ -66,14 +66,13 @@ public:
 
 class StatBase {
 public:
-    StatBase()
-    {
+    StatBase() {
         all_stats.push_back(this);
     }
 
     // TODO implement print for Distribution, Histogram,
     // AverageDeviation, StandardDeviation
-    virtual void print(std::ofstream& file) = 0;
+    virtual void print(std::ofstream &file) = 0;
 
     virtual size_type size() const = 0;
     virtual bool zero() const = 0;
@@ -89,23 +88,20 @@ public:
 
 class StatList {
 protected:
-    std::vector<StatBase*> list;
+    std::vector<StatBase *> list;
     std::ofstream stat_output;
 
 public:
-    void add(StatBase* stat)
-    {
+    void add(StatBase *stat) {
         list.push_back(stat);
     }
-    void output(std::string filename)
-    {
+    void output(std::string filename) {
         stat_output.open(filename.c_str(), std::ios_base::out);
         if (!stat_output.good()) {
             assert(false && "!stat_output.good()");
         }
     }
-    void printall()
-    {
+    void printall() {
         for (off_type i = 0; i < list.size(); ++i) {
             if (!list[i]) {
                 continue;
@@ -119,8 +115,7 @@ public:
             }
         }
     }
-    ~StatList()
-    {
+    ~StatList() {
         stat_output.close();
     }
 };
@@ -137,70 +132,59 @@ protected:
     std::string separatorString;
 
 public:
-    Stat()
-    {
+    Stat() {
         statlist.add(selfptr());
     }
-    Derived& self() { return *static_cast<Derived*>(this); }
-    Derived* selfptr() { return static_cast<Derived*>(this); }
-    Derived& name(const std::string& __name)
-    {
+    Derived &self() { return *static_cast<Derived *>(this); }
+    Derived *selfptr() { return static_cast<Derived *>(this); }
+    Derived &name(const std::string &__name) {
         _name = __name;
         return self();
     };
-    Derived& desc(const std::string& __desc)
-    {
+    Derived &desc(const std::string &__desc) {
         _desc = __desc;
         return self();
     };
-    Derived& precision(int __precision)
-    {
+    Derived &precision(int __precision) {
         _precision = __precision;
         return self();
     };
-    Derived& flags(Flags __flags)
-    {
+    Derived &flags(Flags __flags) {
         _flags = __flags;
         return self();
     };
 
     template <class GenericStat>
-    Derived& prereq(const GenericStat& prereq)
-    {
+    Derived &prereq(const GenericStat &prereq) {
         // TODO deal with prereq;
         // only print the stat if the prereq is not zero.
         return self();
     }
 
-    Derived& setSeparator(std::string str)
-    {
+    Derived &setSeparator(std::string str) {
         separatorString = str;
         return self();
     }
-    const std::string& setSeparator() const { return separatorString; }
+    const std::string &setSeparator() const { return separatorString; }
 
     size_type size() const { return 0; }
 
-    virtual void print(std::ofstream& file) {};
-    virtual void printname(std::ofstream& file)
-    {
+    virtual void print(std::ofstream &file){};
+    virtual void printname(std::ofstream &file) {
         file.width(40);
         file << _name;
     }
 
-    virtual void printdesc(std::ofstream& file)
-    {
+    virtual void printdesc(std::ofstream &file) {
         file.width(40);
         file << "# " << _desc << std::endl;
     }
 
-    virtual bool is_display() const
-    {
+    virtual bool is_display() const {
         return _flags.is_display();
     }
 
-    virtual bool is_nozero() const
-    {
+    virtual bool is_nozero() const {
         return _flags.is_nozero();
     }
 };
@@ -215,8 +199,7 @@ public:
     size_type size() const { return 1; }
     VResult vresult() const { return VResult(1, result()); }
 
-    virtual void print(std::ofstream& file)
-    {
+    virtual void print(std::ofstream &file) {
         Stat<ScalarType>::printname(file);
         // TODO deal with flag
         file.precision(Stat<ScalarType>::_precision);
@@ -233,8 +216,7 @@ private:
 
 public:
     ConstValue(Counter __value)
-        : _value(__value)
-    {
+        : _value(__value) {
     }
 
     void operator++() { ++_value; }
@@ -243,20 +225,20 @@ public:
     void operator--(int) { _value--; }
 
     template <typename U>
-    void operator=(const U& v) { _value = v; }
+    void operator=(const U &v) { _value = v; }
 
     template <typename U>
-    void operator+=(const U& v) { _value += v; }
+    void operator+=(const U &v) { _value += v; }
 
     template <typename U>
-    void operator-=(const U& v) { _value -= v; }
+    void operator-=(const U &v) { _value -= v; }
 
     Counter value() const { return _value; }
     Result result() const { return (Result)_value; }
     Result total() const { return result(); }
     bool zero() const { return (fabs(_value) < eps); }
-    void prepare() { }
-    void reset() { }
+    void prepare() {}
+    void reset() {}
 };
 
 class Scalar : public ScalarBase<Scalar> {
@@ -265,8 +247,7 @@ private:
 
 public:
     Scalar()
-        : _value(0)
-    {
+        : _value(0) {
     }
     Counter value() const { return _value; }
     Result result() const { return (Result)_value; }
@@ -278,16 +259,16 @@ public:
     void operator--(int) { _value--; }
 
     template <typename U>
-    void operator=(const U& v) { _value = v; }
+    void operator=(const U &v) { _value = v; }
 
     template <typename U>
-    void operator+=(const U& v) { _value += v; }
+    void operator+=(const U &v) { _value += v; }
 
     template <typename U>
-    void operator-=(const U& v) { _value -= v; }
+    void operator-=(const U &v) { _value -= v; }
 
     virtual bool zero() const { return (fabs(_value) < eps); }
-    void prepare() { }
+    void prepare() {}
     void reset() { _value = Counter(); }
 };
 
@@ -302,25 +283,18 @@ private:
 
 public:
     Average()
-        : current(0)
-        , lastReset(0)
-        , total_val(0)
-        , last(0)
-    {
+        : current(0), lastReset(0), total_val(0), last(0) {
     }
 
-    void set(Counter val)
-    {
+    void set(Counter val) {
         total_val += current * (curTick - last);
         last = curTick;
         current = val;
     }
-    void inc(Counter val)
-    {
+    void inc(Counter val) {
         set(current + val);
     }
-    void dec(Counter val)
-    {
+    void dec(Counter val) {
         set(current - val);
     }
     void operator++() { inc(1); }
@@ -329,30 +303,27 @@ public:
     void operator--(int) { dec(1); }
 
     template <typename U>
-    void operator=(const U& v) { set(v); }
+    void operator=(const U &v) { set(v); }
 
     template <typename U>
-    void operator+=(const U& v) { inc(v); }
+    void operator+=(const U &v) { inc(v); }
 
     template <typename U>
-    void operator-=(const U& v) { dec(v); }
+    void operator-=(const U &v) { dec(v); }
 
     bool zero() const { return (fabs(total_val) < eps); }
-    void prepare()
-    {
+    void prepare() {
         total_val += current * (curTick - last);
         last = curTick;
     }
-    void reset()
-    {
+    void reset() {
         total_val = 0.0;
         last = curTick;
         lastReset = curTick;
     }
 
     Counter value() const { return current; }
-    Result result() const
-    {
+    Result result() const {
         assert(last == curTick);
         return (Result)(total_val + current) / (Result)(curTick - lastReset + 1);
     }
@@ -366,8 +337,7 @@ private:
     std::vector<Element> data;
 
 public:
-    void init(size_type __size)
-    {
+    void init(size_type __size) {
         _size = __size;
         data.resize(size());
         for (off_type i = 0; i < size(); ++i) {
@@ -376,24 +346,21 @@ public:
     }
     size_type size() const { return _size; }
     // Copy the values to a local vector and return a reference to it.
-    void value(VCounter& vec) const
-    {
+    void value(VCounter &vec) const {
         vec.resize(size());
         for (off_type i = 0; i < size(); ++i) {
             vec[i] = data[i].value();
         }
     }
     // Copy the results to a local vector and return a reference to it.
-    void result(VResult& vec) const
-    {
+    void result(VResult &vec) const {
         vec.resize(size());
         for (off_type i = 0; i < size(); ++i) {
             vec[i] = data[i].result();
         }
     }
 
-    Result total() const
-    {
+    Result total() const {
         Result sum = 0.0;
         for (off_type i = 0; i < size(); ++i) {
             sum += data[i].result();
@@ -401,8 +368,7 @@ public:
         return sum;
     }
 
-    VResult vresult() const
-    {
+    VResult vresult() const {
         VResult vres;
         for (off_type i = 0; i < size(); ++i) {
             vres[i] = data[i].result();
@@ -410,38 +376,32 @@ public:
         return vres;
     }
 
-    bool check() const
-    {
+    bool check() const {
         // We don't separate storage and access as gem5 does.
         // So here is always true.
         return true;
     }
 
-    Element& operator[](off_type index)
-    {
+    Element &operator[](off_type index) {
         assert(index >= 0 && index < size());
         return data[index];
     }
 
-    bool zero() const
-    {
+    bool zero() const {
         return (fabs(total()) < eps);
     }
 
-    void prepare()
-    {
+    void prepare() {
         for (off_type i = 0; i < size(); ++i) {
             data[i].prepare();
         }
     }
-    void reset()
-    {
+    void reset() {
         for (off_type i = 0; i < size(); ++i) {
             data[i].reset();
         }
     }
-    void print(std::ofstream& file)
-    {
+    void print(std::ofstream &file) {
         Stat<Derived>::printname(file);
         file.precision(Stat<Derived>::_precision);
         file.width(20);
@@ -491,14 +451,10 @@ private:
 
 public:
     Distribution()
-        : param_min(Counter())
-        , param_max(Counter())
-        , param_bucket_size(Counter())
-    {
+        : param_min(Counter()), param_max(Counter()), param_bucket_size(Counter()) {
         reset();
     }
-    void init(Counter min, Counter max, Counter bkt)
-    {
+    void init(Counter min, Counter max, Counter bkt) {
         param_min = min;
         param_max = max;
         param_bucket_size = bkt;
@@ -507,8 +463,7 @@ public:
 
         reset();
     }
-    void sample(Counter val, int number)
-    {
+    void sample(Counter val, int number) {
         if (val < min_track)
             underflow += number;
         else if (val > max_track)
@@ -531,13 +486,11 @@ public:
     }
 
     size_type size() const { return cvec.size(); }
-    bool zero() const
-    {
+    bool zero() const {
         return (fabs(samples) < eps);
     }
-    void prepare() {};
-    void reset()
-    {
+    void prepare(){};
+    void reset() {
         min_track = param_min;
         max_track = param_max;
         bucket_size = param_bucket_size;
@@ -556,8 +509,7 @@ public:
         squares = Counter();
         samples = Counter();
     };
-    void add(Distribution& d)
-    {
+    void add(Distribution &d) {
         size_type d_size = d.size();
         assert(size() == d_size);
         assert(min_track == d.min_track);
@@ -600,17 +552,14 @@ private:
 
 public:
     Histogram()
-        : param_buckets(0)
-    {
+        : param_buckets(0) {
         reset();
     }
     Histogram(size_type __buckets)
-        : cvec(__buckets)
-    {
+        : cvec(__buckets) {
         init(__buckets);
     }
-    void init(size_type __buckets)
-    {
+    void init(size_type __buckets) {
         cvec.resize(__buckets);
         param_buckets = __buckets;
         reset();
@@ -619,16 +568,14 @@ public:
     void grow_up();
     void grow_out();
     void grow_convert();
-    void add(Histogram& hs);
+    void add(Histogram &hs);
     void sample(Counter val, int number);
 
-    bool zero() const
-    {
+    bool zero() const {
         return (fabs(samples) < eps);
     }
-    void prepare() { }
-    void reset()
-    {
+    void prepare() {}
+    void reset() {
         min_bucket = 0;
         max_bucket = param_buckets - 1;
         bucket_size = 1;
@@ -655,13 +602,9 @@ private:
 
 public:
     StandardDeviation()
-        : sum(Counter())
-        , squares(Counter())
-        , samples(Counter())
-    {
+        : sum(Counter()), squares(Counter()), samples(Counter()) {
     }
-    void sample(Counter val, int number)
-    {
+    void sample(Counter val, int number) {
         Counter value = val * number;
         sum += value;
         squares += value * value;
@@ -669,15 +612,13 @@ public:
     }
     size_type size() const { return 1; }
     bool zero() const { return (fabs(samples) < eps); }
-    void prepare() { }
-    void reset()
-    {
+    void prepare() {}
+    void reset() {
         sum = Counter();
         squares = Counter();
         samples = Counter();
     }
-    void add(StandardDeviation& sd)
-    {
+    void add(StandardDeviation &sd) {
         sum += sd.sum;
         squares += sd.squares;
         samples += sd.samples;
@@ -691,26 +632,21 @@ private:
 
 public:
     AverageDeviation()
-        : sum(Counter())
-        , squares(Counter())
-    {
+        : sum(Counter()), squares(Counter()) {
     }
-    void sample(Counter val, int number)
-    {
+    void sample(Counter val, int number) {
         Counter value = val * number;
         sum += value;
         squares += value * value;
     }
     size_type size() const { return 1; }
     bool zero() const { return (fabs(sum) < eps); }
-    void prepare() { }
-    void reset()
-    {
+    void prepare() {}
+    void reset() {
         sum = Counter();
         squares = Counter();
     }
-    void add(AverageDeviation& ad)
-    {
+    void add(AverageDeviation &ad) {
         sum += ad.sum;
         squares += ad.squares;
     }
@@ -721,21 +657,18 @@ private:
     std::string opstring;
 
 public:
-    Op() { }
+    Op() {}
     Op(std::string __opstring)
-        : opstring(__opstring)
-    {
+        : opstring(__opstring) {
     }
-    Result operator()(Result r) const
-    {
+    Result operator()(Result r) const {
         if (opstring == "-") {
             return -r;
         } else {
             assert("Unary operation can only be unary negation." && false);
         }
     }
-    Result operator()(Result l, Result r) const
-    {
+    Result operator()(Result l, Result r) const {
         if (opstring == "+") {
             return l + r;
         } else if (opstring == "-") {
