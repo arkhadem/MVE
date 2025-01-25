@@ -364,13 +364,13 @@ bool Core::dispatch_MVE() {
         // it needs physical register allocation
         if (free_pr >= data_type) {
             free_pr -= data_type;
-            hint("%d registers allocated for request %s\n", data_type, request.c_str());
+            hint("%d registers allocated for request %s, remaining %ld\n", data_type, request.c_str(), free_pr);
             window.insert(request);
             dispatch_stalled = false;
             return true;
         } else {
             // we have to stall the dispatch
-            hint("No %d physical registers (%ld) for request %s, waiting...\n", data_type, free_pr, request.c_str());
+            hint("No %d physical registers (%ld) for request %s, remaining %ld, waiting...\n", data_type, free_pr, request.c_str(), free_pr);
             dispatch_stalled = true;
             stalled_cycs += 1;
             return false;
