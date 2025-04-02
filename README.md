@@ -19,6 +19,32 @@ Phone measurements and simulation infrastructure requires the folllowing tools:
   - Download [Android NDK r23c](https://github.com/android/ndk/wiki/Unsupported-Downloads) for cross compilation and extract it.
   - Use the provided [Adreno OpenCL SDK v1.5](/tools/opencl-sdk-1.5.zip) and [Adreno OpenCL shared library](/tools/libopencl) for Adreno mobile GPU evaluation.
   - Use the provided [DynamoRIO client](/tools/DynamoRIO/) for generating the simulation traces on an Arm machine.
+  
+## Cloning the Repository
+
+This repository contains large dynamic instruction and data flow graph files (~2.5GB) located in the [data](/data/) directory. These files allow you to skip Steps 1 and 2 of the [Simulation Workflow](#simulation-workflow).
+
+There are two recommended ways to clone the repository and access these files:
+
+**Git LFS:**  These files are stored as Git LFS objects. To ensure the large files are downloaded during cloning, please install [Git LFS](https://git-lfs.com/) before cloning the repository:
+
+```bash
+# Install Git LFS
+git clone https://github.com/arkhadem/MVE.git
+cd MVE
+export MVE_HOME=$(pwd)
+```
+
+**Manual Download:** The data files are also available on our local servers. You can use the script below to clone the repository and download the files manually:
+
+```bash
+# Set the following environment variable to disable Git LFS
+export GIT_LFS_SKIP_SMUDGE=1
+git clone https://github.com/arkhadem/MVE.git
+cd MVE
+export MVE_HOME=$(pwd)
+bash ./data/download.sh
+```
 
 ## Build
 
@@ -26,9 +52,9 @@ Run the following bash script to set up the cross-compilation infrastructure and
 
 ```bash
 export ANDROID_NDK_ROOT=path/to/android-ndk-r23c
-cp -r path/to/MVE/tools/opencl-sdk-1.5/inc/CL $ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/
-cp path/to/MVE/tools/libopencl/libOpenCL.so $ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/lib/
-cd path/to/MVE/benchmarks
+cp -r $MVE_HOME/tools/opencl-sdk-1.5/inc/CL $ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/
+cp $MVE_HOME/tools/libopencl/libOpenCL.so $ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/linux-x86_64/lib/
+cd $MVE_HOME/benchmarks
 make phone_neon -j
 make phone_adreno -j
 ```
@@ -36,7 +62,7 @@ make phone_adreno -j
 Install the DynamoRIO client on a machine with Armv8.2-A ISA using the following script:
 
 ```bash
-cd path/to/MVE/tools/DynamoRIO/samples
+cd $MVE_HOME/tools/DynamoRIO/samples
 mkdir build
 cd build
 cmake ..
@@ -46,7 +72,7 @@ make -j
 Build the simulator using the following script:
 
 ```bash
-cd path/to/MVE/simulator
+cd $MVE_HOME/simulator
 bash make_all.sh
 ```
 
@@ -55,7 +81,7 @@ bash make_all.sh
 Run the following provided scripts to automatically generate the single-core Arm Neon (`neon.csv`) and Adreno mobile GPU (`adreno.csv`) results:
 
 ```bash
-cd path/to/MVE/benchmarks
+cd $MVE_HOME/benchmarks
 python scripts/profiler.py --measurement performance --platform neon --core prime --output neon.csv
 python scripts/profiler.py --measurement performance --platform adreno --core prime --output adreno.csv
 ```
@@ -77,7 +103,7 @@ Finally, scripts are provided to parse the simulation results and generate the C
 Use the following bash script for these steps:
 
 ```bash
-cd path/to/MVE/benchmarks
+cd $MVE_HOME/benchmarks
 # Step 1: building the MVE and RVV kernels
 make local_mve -j
 make local_rvv -j
